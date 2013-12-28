@@ -34,7 +34,13 @@ namespace BeyondSearch
 			app.Shutdown();
 		}
 
-		public string SelectedImagePath
+    private void Menu_ResearchClick( object sender, RoutedEventArgs e )
+    {
+      var researchPage = new Research();
+      researchPage.Show();
+    }
+
+    public string SelectedImagePath
 		{
 			get;
 			set;
