@@ -20,7 +20,7 @@ namespace BeyondSearch
   /// </summary>
   public partial class Research : Window
   {
-    private bool ExactMatch = true;
+    private bool exactMatch = true;
     private KeywordFilter filter = new KeywordFilter();
 
     public Research()
@@ -32,19 +32,43 @@ namespace BeyondSearch
 
     private void InitializeKeywordList()
     {
-      ListBoxKeywords.Items.Add( "hotels with pools" );
-      ListBoxKeywords.Items.Add( "hotels without pools" );
-      ListBoxKeywords.Items.Add( "hotels in south chicago" );
-      ListBoxKeywords.Items.Add( "stores that sell adult toys" );
-      ListBoxKeywords.Items.Add( "adult toys" );
-      ListBoxKeywords.Items.Add( "restaurants with take out" );
-      ListBoxKeywords.Items.Add( "adult only restaurants" );
+      ListBoxKeywords.Items.Add( " hotels with pools " );
+      ListBoxKeywords.Items.Add( " hotels without pools " );
+      ListBoxKeywords.Items.Add( " hotels in south chicago red light " );
+      ListBoxKeywords.Items.Add( " stores that sell adult toys " );
+      ListBoxKeywords.Items.Add( " adult toys " );
+
+      ListBoxKeywords.Items.Add( " restaurants with take out " );
+      ListBoxKeywords.Items.Add( " adult only restaurants " );
+      ListBoxKeywords.Items.Add( " animal shelter dog " );
+      ListBoxKeywords.Items.Add( " animal shelter dogs " );
+      ListBoxKeywords.Items.Add( " animal shelter cat " );
+      
+      ListBoxKeywords.Items.Add( " animal shelter cats " );
+      ListBoxKeywords.Items.Add( " park zebra " );
+      ListBoxKeywords.Items.Add( " park zebras " );
+      ListBoxKeywords.Items.Add( " zoo animal zebra " );
+      ListBoxKeywords.Items.Add( " zoo animal zebras " );
+
+      ListBoxKeywords.Items.Add( " clothes young girls " );
+      ListBoxKeywords.Items.Add( " young girls " );
+      ListBoxKeywords.Items.Add( " zebra " );
+      ListBoxKeywords.Items.Add( " cat " );
+      ListBoxKeywords.Items.Add( " dog " );
+
+      ListBoxKeywords.Items.Add( " red light " );
+      ListBoxKeywords.Items.Add( " red lights " );
     }
 
     private void InitializeFilterList()
     {
       ListBoxFilters.Items.Add( "adult toys" );
-      ListBoxFilters.Items.Add( "adult" );
+      ListBoxFilters.Items.Add( "zebra" );
+      ListBoxFilters.Items.Add( "young girls" );
+      ListBoxFilters.Items.Add( "red light" );
+      ListBoxFilters.Items.Add( "cat" );
+      
+      ListBoxFilters.Items.Add( "dog" );
     }
 
     private void Menu_FileExitClick( object sender, RoutedEventArgs e )
@@ -81,16 +105,16 @@ namespace BeyondSearch
     private void FilterType_Checked( object sender, RoutedEventArgs e )
     {
       var button = sender as RadioButton;
-      ExactMatch = false || button != null && button.Content.ToString() == "Exact";
+      exactMatch = false || button != null && button.Content.ToString() == "Exact";
     }
 
     private void Filter_Click( object sender, RoutedEventArgs e )
     {
       ListBoxFilteredKeywords.Items.Clear();
 
-      if ( ExactMatch )
+      if ( exactMatch )
       {
-        filter.FillExactFilterList( ListBoxKeywords.Items );
+        filter.FillExactFilterList( ListBoxFilters.Items );
         if (ListBoxKeywords.Items.Count > 0)
         {
           var filteredItems = filter.Exact( ListBoxKeywords.Items );
