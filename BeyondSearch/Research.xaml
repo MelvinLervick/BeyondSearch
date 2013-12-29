@@ -58,10 +58,14 @@
         <ColumnDefinition Width="100" />
         <ColumnDefinition Width="100" />
         <ColumnDefinition Width="200" />
+        <ColumnDefinition Width="100" />
+        <ColumnDefinition Width="150" />
       </Grid.ColumnDefinitions>
       <RadioButton Grid.Column="0" Content="Exact" GroupName="FilterType" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="FilterType_Checked" IsChecked="True" />
       <RadioButton Grid.Column="1" Content="Contains" GroupName="FilterType" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="FilterType_Checked" />
       <Button Grid.Column="2" Height="30" VerticalAlignment="Center" Margin="10,2,0,3" Click="Filter_Click">Apply Filter</Button>
+      <Label Grid.Column="3" Width="90" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Elapsed</Label>
+      <TextBox Name="TextBoxElapsed" Grid.Column="4" Height="25" AcceptsReturn="True" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
     </Grid>
   </Grid>
 </Window>

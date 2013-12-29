@@ -7,11 +7,11 @@ namespace BeyondSearch
   {
     List<string> ExactFilterList { get; }
     List<string> ContainsFilterList { get; }
-    
-    List<string> Exact( ItemCollection keywords );
-    List<string> Contains( ItemCollection keywords );
 
-    void FillExactFilterList( ItemCollection filters );
-    void FillContainsFilterList( ItemCollection filters );
+    List<string> Exact( IEnumerable<string> keywords );
+    List<string> Contains( IEnumerable<string> keywords );
+
+    void FillExactFilterList( IEnumerable<string> filters );
+    void FillContainsFilterList( IEnumerable<string> filters );
   }
 }

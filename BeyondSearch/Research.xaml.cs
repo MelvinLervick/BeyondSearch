@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -80,7 +81,7 @@ namespace BeyondSearch
     {
       if ( TextBoxStringToAdd.Text.Length > 0 )
       {
-        ListBoxKeywords.Items.Add( TextBoxStringToAdd.Text );
+        ListBoxKeywords.Items.Add( " " + TextBoxStringToAdd.Text + " " );
       }
     }
 
@@ -110,30 +111,40 @@ namespace BeyondSearch
 
     private void Filter_Click( object sender, RoutedEventArgs e )
     {
+      var sw = new Stopwatch();
       ListBoxFilteredKeywords.Items.Clear();
+      var keywords = new List<string>();
 
       if ( exactMatch )
       {
-        filter.FillExactFilterList( ListBoxFilters.Items );
+        filter.FillExactFilterList( ListBoxFilters.Items.Cast<string>().ToList() );
         if (ListBoxKeywords.Items.Count > 0)
         {
-          var filteredItems = filter.Exact( ListBoxKeywords.Items );
+          keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+          sw.Start();
+          var filteredItems = filter.Exact( keywords );
+          sw.Stop();
           foreach (var filteredItem in filteredItems)
           {
             ListBoxFilteredKeywords.Items.Add( filteredItem );
           }
+          TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
         }
       }
       else
       {
-        filter.FillContainsFilterList( ListBoxFilters.Items );
+        filter.FillContainsFilterList( ListBoxFilters.Items.Cast<string>().ToList() );
         if (ListBoxKeywords.Items.Count > 0)
         {
-          var filteredItems = filter.Contains( ListBoxKeywords.Items );
+          keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+          sw.Start();
+          var filteredItems = filter.Contains( keywords );
+          sw.Stop();
           foreach (var filteredItem in filteredItems)
           {
             ListBoxFilteredKeywords.Items.Add( filteredItem );
           }
+          TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
         }
       }
     }

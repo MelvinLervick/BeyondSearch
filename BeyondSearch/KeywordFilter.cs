@@ -32,18 +32,18 @@ namespace BeyondSearch
       }
     }
 
-    public List<string> Exact( ItemCollection keywords )
+    public List<string> Exact( IEnumerable<string> keywords )
     {
-      var filteredKeywords = (from object keyword in keywords
-        join filter1 in exactFilterList.AsEnumerable() on keyword.ToString() equals filter1 into filterList
+      var filteredKeywords = (from keyword in keywords
+        join filter1 in exactFilterList.AsEnumerable() on keyword.Trim() equals filter1 into filterList
         from filter2 in filterList.DefaultIfEmpty()
         where filter2 == null
-        select keyword.ToString()).ToList();
+        select keyword).ToList();
 
       return filteredKeywords;
     }
 
-    public List<string> Contains( ItemCollection keywords )
+    public List<string> Contains( IEnumerable<string> keywords )
     {
       var filterCount = containsFilterList.Count;
 
@@ -56,7 +56,7 @@ namespace BeyondSearch
       //  .ToList()
       //  .Select( key => key.Key ).ToList();
 
-      var filteredKeywords = (keywords.Cast<string>()
+      var filteredKeywords = (keywords
         .SelectMany( keyword => containsFilterList, ( keyword, filter ) => new {keyword, filter} )
         .Where( @t => (!@t.keyword.Contains( " "+@t.filter+" " )) )
         .Select( @t => @t.keyword )).ToList()
@@ -68,23 +68,23 @@ namespace BeyondSearch
       return filteredKeywords;
     }
 
-    public void FillExactFilterList( ItemCollection filters )
+    public void FillExactFilterList( IEnumerable<string> filters )
     {
       exactFilterList = new List<string>();
 
       foreach ( var filter in filters )
       {
-        exactFilterList.Add( filter.ToString() );
+        exactFilterList.Add( filter );
       }
     }
 
-    public void FillContainsFilterList( ItemCollection filters )
+    public void FillContainsFilterList( IEnumerable<string> filters )
     {
       containsFilterList = new List<string>();
 
       foreach (var filter in filters)
       {
-        containsFilterList.Add( filter.ToString() );
+        containsFilterList.Add( filter );
       }
     }
 
