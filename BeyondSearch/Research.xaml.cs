@@ -34,29 +34,26 @@ namespace BeyondSearch
     private void InitializeKeywordList()
     {
       ListBoxKeywords.Items.Add( " hotels with pools " );
-      ListBoxKeywords.Items.Add( " hotels without pools " );
       ListBoxKeywords.Items.Add( " hotels in south chicago red light " );
       ListBoxKeywords.Items.Add( " stores that sell adult toys " );
       ListBoxKeywords.Items.Add( " adult toys " );
-
-      ListBoxKeywords.Items.Add( " restaurants with take out " );
       ListBoxKeywords.Items.Add( " adult only restaurants " );
+
       ListBoxKeywords.Items.Add( " animal shelter dog " );
       ListBoxKeywords.Items.Add( " animal shelter dogs " );
       ListBoxKeywords.Items.Add( " animal shelter cat " );
-      
       ListBoxKeywords.Items.Add( " animal shelter cats " );
       ListBoxKeywords.Items.Add( " park zebra " );
+
       ListBoxKeywords.Items.Add( " park zebras " );
       ListBoxKeywords.Items.Add( " zoo animal zebra " );
       ListBoxKeywords.Items.Add( " zoo animal zebras " );
-
       ListBoxKeywords.Items.Add( " clothes young girls " );
       ListBoxKeywords.Items.Add( " young girls " );
+
       ListBoxKeywords.Items.Add( " zebra " );
       ListBoxKeywords.Items.Add( " cat " );
       ListBoxKeywords.Items.Add( " dog " );
-
       ListBoxKeywords.Items.Add( " red light " );
       ListBoxKeywords.Items.Add( " red lights " );
     }
@@ -114,15 +111,17 @@ namespace BeyondSearch
       var sw = new Stopwatch();
       ListBoxFilteredKeywords.Items.Clear();
       var keywords = new List<string>();
+      var filters = new List<string>();
 
       if ( exactMatch )
       {
-        filter.FillExactFilterList( ListBoxFilters.Items.Cast<string>().ToList() );
+        filters = ListBoxFilters.Items.Cast<string>().ToList();
+        filter.FillExactFilterList( DuplicateList(filters,100) );
         if (ListBoxKeywords.Items.Count > 0)
         {
           keywords = ListBoxKeywords.Items.Cast<string>().ToList();
           sw.Start();
-          var filteredItems = filter.Exact( keywords );
+          var filteredItems = filter.Exact( DuplicateList( keywords, 500 ) );
           sw.Stop();
           foreach (var filteredItem in filteredItems)
           {
@@ -133,12 +132,13 @@ namespace BeyondSearch
       }
       else
       {
-        filter.FillContainsFilterList( ListBoxFilters.Items.Cast<string>().ToList() );
+        filters = ListBoxFilters.Items.Cast<string>().ToList();
+        filter.FillContainsFilterList( DuplicateList(filters,100) );
         if (ListBoxKeywords.Items.Count > 0)
         {
           keywords = ListBoxKeywords.Items.Cast<string>().ToList();
           sw.Start();
-          var filteredItems = filter.Contains( keywords );
+          var filteredItems = filter.Contains( DuplicateList(keywords,500) );
           sw.Stop();
           foreach (var filteredItem in filteredItems)
           {
@@ -148,5 +148,27 @@ namespace BeyondSearch
         }
       }
     }
+
+    private IEnumerable<string> DuplicateList( List<string> list, int noTimesToDuplicate )
+    {
+      var listToReturn = new List<string>();
+
+      for ( int i = 0; i < noTimesToDuplicate; i++ )
+      {
+        for ( int j = 0; j < list.Count; j++ )
+        {
+          if ( i > 0 )
+          {
+            listToReturn.Add( list[j] + i.ToString() + " " + j.ToString() + " " );
+          }
+          else
+          {
+            listToReturn.Add( list[j] );
+          }
+        }
+      }
+
+      return listToReturn;
+    } 
   }
 }
