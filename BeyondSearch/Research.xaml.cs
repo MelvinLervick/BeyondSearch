@@ -175,7 +175,9 @@ namespace BeyondSearch
         private void ButtonKeywordsFile_Click(object sender, RoutedEventArgs routedEventArgs)
         {
             // Create OpenFileDialog 
-            var dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".txt", Filter = "Text documents (.txt)|*.txt"};
+            var dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".cfs", Filter = "Index documents (.cfs)|*.cfs|*.txt|*.*"};
+            dlg.CheckPathExists = true;
+            dlg.CheckFileExists = true;
 
             // Display OpenFileDialog by calling ShowDialog method 
             var result = dlg.ShowDialog();
@@ -184,12 +186,28 @@ namespace BeyondSearch
             if (result == true)
             {
                 // Open document 
-                TextBoxKeywordFile.Text = dlg.FileName;
+                TextBoxKeywordFolder.Text = System.IO.Path.GetDirectoryName( dlg.FileName );
+                TextBoxKeywordFile.Text = dlg.SafeFileName;
             }
         }
 
         private void ButtonFilterFile_Click( object sender, RoutedEventArgs e )
         {
+            // Create OpenFileDialog 
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".cfs", Filter = "Index documents (.cfs)|*.cfs|*.txt|*.*" };
+            dlg.CheckPathExists = true;
+            dlg.CheckFileExists = true;
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            var result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                // Open document 
+                TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
+                TextBoxFilterFile.Text = dlg.SafeFileName;
+            }
         }
     }
 }
