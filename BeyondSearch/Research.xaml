@@ -4,68 +4,89 @@
         WindowStartupLocation="CenterScreen"
         FontSize="12pt"
         Background="#FFD4E4EE" WindowStyle="ThreeDBorderWindow" Topmost="False"
-        Title="Research" Height="600" Width="800">
-  <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="25" />
-      <RowDefinition Height="*" />
-      <RowDefinition Height="35" />
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*" />
-    </Grid.ColumnDefinitions>
-    <Menu FontSize="12pt" Grid.Row="0" IsMainMenu="True">
-      <MenuItem Header="_Exit" Click="Menu_FileExitClick" />
-      <MenuItem Header="_Help" />
-    </Menu>
-    <Grid Grid.Row="1" Margin="0 3 0 3">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="40" />
-        <RowDefinition Height="*" />
-      </Grid.RowDefinitions>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="100" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="125" />
-        <ColumnDefinition Width="75" />
-        <ColumnDefinition Width="125" />
-        <ColumnDefinition Width="75" />
-      </Grid.ColumnDefinitions>
-      <Border Grid.Row="0" Grid.ColumnSpan="6" BorderBrush="Blue" BorderThickness="0 0 0 2" />
-      <Label Grid.Row="0" Grid.Column="0" Width="100" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Text To Add</Label>
-      <TextBox Name="TextBoxStringToAdd" Grid.Row="0" Grid.Column="1" Height="25" AcceptsReturn="True" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
-      <Button Grid.Row="0" Grid.Column="2" Height="30" VerticalAlignment="Center" Margin="2,2,2,3" Click="AddKeyword_Click">Add Keyword</Button>
-      <Button Grid.Row="0" Grid.Column="3" Height="30" VerticalAlignment="Center" Margin="2,2,2,3" Click="ClearKeyword_Click">Clear K</Button>
-      <Button Grid.Row="0" Grid.Column="4" Height="30" VerticalAlignment="Center" Margin="2,2,2,3" Click="AddFilter_Click">Add Filter</Button>
-      <Button Grid.Row="0" Grid.Column="5" Height="30" VerticalAlignment="Center" Margin="2,2,2,3" Click="ClearFilter_Click">Clear F</Button>
-      <Grid Grid.Row="1" Grid.ColumnSpan="6" Grid.Column="0" Background="Beige">
+        Title="Research" Height="600" Width="800" MinHeight="600" MinWidth="800">
+    <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
         <Grid.RowDefinitions>
-          <RowDefinition Height="*" />
+            <RowDefinition Height="25" MaxHeight="25" MinHeight="25" />
+            <RowDefinition Height="*" MinHeight="500" />
+            <RowDefinition Height="35" MaxHeight="35" MinHeight="35" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*" MinWidth="200" />
-          <ColumnDefinition Width="*" MinWidth="200" />
-          <ColumnDefinition Width="*" MinWidth="150" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Border Grid.Row="0" Grid.ColumnSpan="3" BorderBrush="Blue" BorderThickness="0 0 0 2" />
-        <ListBox Grid.Column="0" Height="400" Name="ListBoxKeywords" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Top" VerticalContentAlignment="Top"></ListBox>
-        <ListBox Grid.Column="1" Height="400" Name="ListBoxFilters" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Top" VerticalContentAlignment="Top"></ListBox>
-        <ListBox Grid.Column="2" Height="400" Name="ListBoxFilteredKeywords" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Top" VerticalContentAlignment="Top"></ListBox>
-      </Grid>
+        <Menu FontSize="12pt" Grid.Row="0" IsMainMenu="True">
+            <MenuItem Header="_Exit" Click="Menu_FileExitClick" />
+            <MenuItem Header="_Help" />
+        </Menu>
+        <Grid Grid.Row="1" Margin="0 3 0 3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" MaxHeight="40" MinHeight="40" />
+                <RowDefinition Height="*" MinHeight="460" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="125" />
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="125" />
+                <ColumnDefinition Width="75" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Row="0" Grid.ColumnSpan="6" BorderBrush="Blue" BorderThickness="0 0 0 2" />
+            <Label Grid.Row="0" Grid.Column="0" Width="100" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Text To Add</Label>
+            <TextBox Name="TextBoxStringToAdd" Grid.Row="0" Grid.Column="1" Height="25" AcceptsReturn="True" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+            <Button Grid.Row="0" Grid.Column="2" Height="30" VerticalAlignment="Center" Margin="2,2,2,3" Click="AddKeyword_Click">Add Keyword</Button>
+            <Button Grid.Row="0" Grid.Column="3" Height="30" VerticalAlignment="Center" Margin="2,2,2,3" Click="ClearKeyword_Click">Clear K</Button>
+            <Button Grid.Row="0" Grid.Column="4" Height="30" VerticalAlignment="Center" Margin="2,2,2,3" Click="AddFilter_Click">Add Filter</Button>
+            <Button Grid.Row="0" Grid.Column="5" Height="30" VerticalAlignment="Center" Margin="2,2,2,3" Click="ClearFilter_Click">Clear F</Button>
+            <Grid Grid.Row="1" Grid.ColumnSpan="6" Grid.Column="0" Background="Beige">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" MinHeight="410" />
+                    <RowDefinition Height="*" MaxHeight="50" MinHeight="50" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="200" />
+                    <ColumnDefinition Width="*" MinWidth="200" />
+                    <ColumnDefinition Width="*" MinWidth="200" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Row="0" Grid.ColumnSpan="3" BorderBrush="Blue" BorderThickness="0 0 0 2" />
+                <ListBox Grid.Column="0" Name="ListBoxKeywords" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top"></ListBox>
+                <ListBox Grid.Column="1" Name="ListBoxFilters" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top"></ListBox>
+                <ListBox Grid.Column="2" Name="ListBoxFilteredKeywords" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top"></ListBox>
+                <Border Grid.Row="1" Grid.ColumnSpan="3" BorderBrush="Red" BorderThickness="0 0 0 2" />
+                <Grid Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" Background="Beige">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" MaxHeight="50" MinHeight="50" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="*" MinWidth="200" />
+                        <ColumnDefinition Width="115" />
+                        <ColumnDefinition Width="*" MinWidth="200" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" FontSize="12" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0">Select Keywords File</Label>
+                    <ComboBox Name="ComboBoxKeywords" Grid.Column="1" HorizontalAlignment="Stretch"  Margin="10,0,10,0" VerticalAlignment="Center"/>
+                    <Label Grid.Column="2" FontSize="12" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0">Select Filter File</Label>
+                    <ComboBox Name="ComboBoxFilterWords" Grid.Column="3" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2" Margin="10, 0, 10, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="150" />
+            </Grid.ColumnDefinitions>
+            <RadioButton Grid.Column="0" Content="Exact" GroupName="FilterType" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="FilterType_Checked" IsChecked="True" />
+            <RadioButton Grid.Column="1" Content="Contains" GroupName="FilterType" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="FilterType_Checked" />
+            <Button Grid.Column="2" Height="30" VerticalAlignment="Center" Margin="10,2,0,3" Click="Filter_Click">Apply Filter</Button>
+            <Label Grid.Column="3" Width="90" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Elapsed</Label>
+            <TextBox Name="TextBoxElapsed" Grid.Column="4" Height="25" AcceptsReturn="True" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+            <Label Grid.Column="5" Width="90" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Select Filter</Label>
+            <ComboBox Name="ComboBoxSelectFilters" Grid.Column="6" HorizontalAlignment="Left" Margin="0,3,0,0" VerticalAlignment="Top" Width="150"/>
+        </Grid>
     </Grid>
-    <Grid Grid.Row="2" Margin="10, 0, 10, 0">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="100" />
-        <ColumnDefinition Width="100" />
-        <ColumnDefinition Width="200" />
-        <ColumnDefinition Width="100" />
-        <ColumnDefinition Width="150" />
-      </Grid.ColumnDefinitions>
-      <RadioButton Grid.Column="0" Content="Exact" GroupName="FilterType" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="FilterType_Checked" IsChecked="True" />
-      <RadioButton Grid.Column="1" Content="Contains" GroupName="FilterType" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="FilterType_Checked" />
-      <Button Grid.Column="2" Height="30" VerticalAlignment="Center" Margin="10,2,0,3" Click="Filter_Click">Apply Filter</Button>
-      <Label Grid.Column="3" Width="90" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Elapsed</Label>
-      <TextBox Name="TextBoxElapsed" Grid.Column="4" Height="25" AcceptsReturn="True" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
-    </Grid>
-  </Grid>
 </Window>
