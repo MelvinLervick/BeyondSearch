@@ -4,12 +4,12 @@
         WindowStartupLocation="CenterScreen"
         FontSize="12pt"
         Background="#FFD4E4EE" WindowStyle="ThreeDBorderWindow" Topmost="False"
-        Title="Research" Height="600" Width="800" MinHeight="600" MinWidth="800">
+        Title="Research" Height="620" Width="800" MinHeight="620" MinWidth="800">
     <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
         <Grid.RowDefinitions>
             <RowDefinition Height="25" MaxHeight="25" MinHeight="25" />
             <RowDefinition Height="*" MinHeight="500" />
-            <RowDefinition Height="35" MaxHeight="35" MinHeight="35" />
+            <RowDefinition Height="45" MaxHeight="45" MinHeight="45" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -49,11 +49,10 @@
                     <ColumnDefinition Width="*" MinWidth="200" />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Row="0" Grid.ColumnSpan="3" BorderBrush="Blue" BorderThickness="0 0 0 2" />
-                <ListBox Grid.Column="0" Name="ListBoxKeywords" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top"></ListBox>
-                <ListBox Grid.Column="1" Name="ListBoxFilters" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top"></ListBox>
-                <ListBox Grid.Column="2" Name="ListBoxFilteredKeywords" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top"></ListBox>
-                <Border Grid.Row="1" Grid.ColumnSpan="3" BorderBrush="Red" BorderThickness="0 0 0 2" />
-                <Grid Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" Background="Beige">
+                <ListBox Grid.Row="0" Grid.Column="0" Name="ListBoxKeywords" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top"></ListBox>
+                <ListBox Grid.Row="0" Grid.Column="1" Name="ListBoxFilters" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top"></ListBox>
+                <ListBox Grid.Row="0" Grid.Column="2" Name="ListBoxFilteredKeywords" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top"></ListBox>
+                <Grid Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" Background="PaleGreen">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" MaxHeight="50" MinHeight="50" />
                     </Grid.RowDefinitions>
@@ -63,10 +62,11 @@
                         <ColumnDefinition Width="115" />
                         <ColumnDefinition Width="*" MinWidth="200" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" FontSize="12" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0">Select Keywords File</Label>
-                    <ComboBox Name="ComboBoxKeywords" Grid.Column="1" HorizontalAlignment="Stretch"  Margin="10,0,10,0" VerticalAlignment="Center"/>
-                    <Label Grid.Column="2" FontSize="12" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0">Select Filter File</Label>
-                    <ComboBox Name="ComboBoxFilterWords" Grid.Column="3" HorizontalAlignment="Stretch" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Green" BorderThickness="0 0 0 2" />
+                    <Button Name="ButtonKeywordsFile" Click="ButtonKeywordsFile_Click" Grid.Column="0" FontSize="12" FontWeight="Bold" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0,5,0" Height="30">Select Keywords File</Button>
+                    <TextBox Name="TextBoxKeywordFile" Grid.Column="1" HorizontalAlignment="Stretch"  Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <Button Name="ButtonFilterFile" Click="ButtonFilterFile_Click" Grid.Column="2" FontSize="12" FontWeight="Bold" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0,5,0" Height="30">Select Filter File</Button>
+                    <TextBox Name="TextBoxFilterFile" Grid.Column="3" HorizontalAlignment="Stretch" Margin="0,0,10,0" VerticalAlignment="Center"/>
                 </Grid>
             </Grid>
         </Grid>
