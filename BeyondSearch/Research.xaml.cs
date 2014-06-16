@@ -30,6 +30,7 @@ namespace BeyondSearch
             InitializeComponent();
             InitializeKeywordList();
             InitializeFilterList();
+            InitializeFilters();
         }
 
         private void InitializeKeywordList()
@@ -68,6 +69,13 @@ namespace BeyondSearch
             ListBoxFilters.Items.Add("cat");
 
             ListBoxFilters.Items.Add("dog");
+        }
+
+        private void InitializeFilters()
+        {
+            var listFilters = new List<string> {"Exact Match", "Contains Match"};
+            ComboBoxSelectFilters.ItemsSource = listFilters;
+            ComboBoxSelectFilters.SelectedIndex = 0;
         }
 
         private void Menu_FileExitClick(object sender, RoutedEventArgs e)
@@ -111,42 +119,58 @@ namespace BeyondSearch
         {
             var sw = new Stopwatch();
             ListBoxFilteredKeywords.Items.Clear();
-            var keywords = new List<string>();
-            var filters = new List<string>();
 
-            if (exactMatch)
+            switch (ComboBoxSelectFilters.SelectedIndex)
             {
-                filters = ListBoxFilters.Items.Cast<string>().ToList();
-                filter.FillExactFilterList(DuplicateList(filters, 100));
-                if (ListBoxKeywords.Items.Count > 0)
-                {
-                    keywords = ListBoxKeywords.Items.Cast<string>().ToList();
-                    sw.Start();
-                    var filteredItems = filter.Exact(DuplicateList(keywords, 500));
-                    sw.Stop();
-                    foreach (var filteredItem in filteredItems)
-                    {
-                        ListBoxFilteredKeywords.Items.Add(filteredItem);
-                    }
-                    TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
-                }
+                case 0: // Exact Match
+                    ExactMatchFilter(sw);
+                    break;
+                case 1: // Contains Match
+                    ContainsMatchFilter(sw);
+                    break;
             }
-            else
+        }
+
+        private void ContainsMatchFilter(Stopwatch sw)
+        {
+            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            filter.FillContainsFilterList(DuplicateList(filters, 100));
+
+            if (ListBoxKeywords.Items.Count > 0)
             {
-                filters = ListBoxFilters.Items.Cast<string>().ToList();
-                filter.FillContainsFilterList(DuplicateList(filters, 100));
-                if (ListBoxKeywords.Items.Count > 0)
+                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+
+                sw.Start();
+                var filteredItems = filter.Contains(DuplicateList(keywords, 500));
+                sw.Stop();
+
+                foreach (var filteredItem in filteredItems)
                 {
-                    keywords = ListBoxKeywords.Items.Cast<string>().ToList();
-                    sw.Start();
-                    var filteredItems = filter.Contains(DuplicateList(keywords, 500));
-                    sw.Stop();
-                    foreach (var filteredItem in filteredItems)
-                    {
-                        ListBoxFilteredKeywords.Items.Add(filteredItem);
-                    }
-                    TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+                    ListBoxFilteredKeywords.Items.Add(filteredItem);
                 }
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
+
+        private void ExactMatchFilter(Stopwatch sw)
+        {
+            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            filter.FillExactFilterList(DuplicateList(filters, 100));
+            if (ListBoxKeywords.Items.Count > 0)
+            {
+                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+
+                sw.Start();
+                var filteredItems = filter.Exact(DuplicateList(keywords, 500));
+                sw.Stop();
+
+                foreach (var filteredItem in filteredItems)
+                {
+                    ListBoxFilteredKeywords.Items.Add(filteredItem);
+                }
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
             }
         }
 
