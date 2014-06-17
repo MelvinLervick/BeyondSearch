@@ -94,6 +94,9 @@ namespace BeyondSearch
         private void ClearKeyword_Click(object sender, RoutedEventArgs e)
         {
             ListBoxKeywords.Items.Clear();
+
+            TextBoxKeywordFolder.Text = string.Empty;
+            TextBoxKeywordFile.Text = string.Empty;
         }
 
         private void AddFilter_Click(object sender, RoutedEventArgs e)
@@ -107,6 +110,9 @@ namespace BeyondSearch
         private void ClearFilter_Click(object sender, RoutedEventArgs e)
         {
             ListBoxFilters.Items.Clear();
+
+            TextBoxFilterFolder.Text = string.Empty;
+            TextBoxFilterFile.Text = string.Empty;
         }
 
         private void Filter_Click(object sender, RoutedEventArgs e)
@@ -226,6 +232,14 @@ namespace BeyondSearch
                 TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
                 TextBoxFilterFile.Text = dlg.SafeFileName;
             }
+        }
+
+        private void LoadKeyword_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void LoadFilter_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }
