@@ -109,12 +109,6 @@ namespace BeyondSearch
             ListBoxFilters.Items.Clear();
         }
 
-        private void FilterType_Checked(object sender, RoutedEventArgs e)
-        {
-            var button = sender as RadioButton;
-            exactMatch = false || button != null && button.Content.ToString() == "Exact";
-        }
-
         private void Filter_Click(object sender, RoutedEventArgs e)
         {
             var sw = new Stopwatch();
@@ -134,14 +128,14 @@ namespace BeyondSearch
         private void ContainsMatchFilter(Stopwatch sw)
         {
             List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
-            filter.FillContainsFilterList(DuplicateList(filters, 100));
+            filter.FillContainsFilterList(DuplicateList(filters, 1));
 
             if (ListBoxKeywords.Items.Count > 0)
             {
                 List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
 
                 sw.Start();
-                var filteredItems = filter.Contains(DuplicateList(keywords, 500));
+                var filteredItems = filter.Contains(DuplicateList(keywords, 1));
                 sw.Stop();
 
                 foreach (var filteredItem in filteredItems)
@@ -156,13 +150,13 @@ namespace BeyondSearch
         private void ExactMatchFilter(Stopwatch sw)
         {
             List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
-            filter.FillExactFilterList(DuplicateList(filters, 100));
+            filter.FillExactFilterList(DuplicateList(filters, 1));
             if (ListBoxKeywords.Items.Count > 0)
             {
                 List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
 
                 sw.Start();
-                var filteredItems = filter.Exact(DuplicateList(keywords, 500));
+                var filteredItems = filter.Exact(DuplicateList(keywords, 1));
                 sw.Stop();
 
                 foreach (var filteredItem in filteredItems)
