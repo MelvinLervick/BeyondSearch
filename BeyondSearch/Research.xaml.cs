@@ -30,6 +30,7 @@ namespace BeyondSearch
             InitializeComponent();
             InitializeKeywordList();
             InitializeFilterList();
+            InitializeFilters();
         }
 
         private void InitializeKeywordList()
@@ -68,6 +69,13 @@ namespace BeyondSearch
             ListBoxFilters.Items.Add("cat");
 
             ListBoxFilters.Items.Add("dog");
+        }
+
+        private void InitializeFilters()
+        {
+            var listFilters = new List<string> {"Exact Match", "Contains Match"};
+            ComboBoxSelectFilters.ItemsSource = listFilters;
+            ComboBoxSelectFilters.SelectedIndex = 0;
         }
 
         private void Menu_FileExitClick(object sender, RoutedEventArgs e)
@@ -111,42 +119,58 @@ namespace BeyondSearch
         {
             var sw = new Stopwatch();
             ListBoxFilteredKeywords.Items.Clear();
-            var keywords = new List<string>();
-            var filters = new List<string>();
 
-            if (exactMatch)
+            switch (ComboBoxSelectFilters.SelectedIndex)
             {
-                filters = ListBoxFilters.Items.Cast<string>().ToList();
-                filter.FillExactFilterList(DuplicateList(filters, 100));
-                if (ListBoxKeywords.Items.Count > 0)
-                {
-                    keywords = ListBoxKeywords.Items.Cast<string>().ToList();
-                    sw.Start();
-                    var filteredItems = filter.Exact(DuplicateList(keywords, 500));
-                    sw.Stop();
-                    foreach (var filteredItem in filteredItems)
-                    {
-                        ListBoxFilteredKeywords.Items.Add(filteredItem);
-                    }
-                    TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
-                }
+                case 0: // Exact Match
+                    ExactMatchFilter(sw);
+                    break;
+                case 1: // Contains Match
+                    ContainsMatchFilter(sw);
+                    break;
             }
-            else
+        }
+
+        private void ContainsMatchFilter(Stopwatch sw)
+        {
+            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            filter.FillContainsFilterList(DuplicateList(filters, 100));
+
+            if (ListBoxKeywords.Items.Count > 0)
             {
-                filters = ListBoxFilters.Items.Cast<string>().ToList();
-                filter.FillContainsFilterList(DuplicateList(filters, 100));
-                if (ListBoxKeywords.Items.Count > 0)
+                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+
+                sw.Start();
+                var filteredItems = filter.Contains(DuplicateList(keywords, 500));
+                sw.Stop();
+
+                foreach (var filteredItem in filteredItems)
                 {
-                    keywords = ListBoxKeywords.Items.Cast<string>().ToList();
-                    sw.Start();
-                    var filteredItems = filter.Contains(DuplicateList(keywords, 500));
-                    sw.Stop();
-                    foreach (var filteredItem in filteredItems)
-                    {
-                        ListBoxFilteredKeywords.Items.Add(filteredItem);
-                    }
-                    TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+                    ListBoxFilteredKeywords.Items.Add(filteredItem);
                 }
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
+
+        private void ExactMatchFilter(Stopwatch sw)
+        {
+            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            filter.FillExactFilterList(DuplicateList(filters, 100));
+            if (ListBoxKeywords.Items.Count > 0)
+            {
+                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+
+                sw.Start();
+                var filteredItems = filter.Exact(DuplicateList(keywords, 500));
+                sw.Stop();
+
+                foreach (var filteredItem in filteredItems)
+                {
+                    ListBoxFilteredKeywords.Items.Add(filteredItem);
+                }
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
             }
         }
 
@@ -175,7 +199,9 @@ namespace BeyondSearch
         private void ButtonKeywordsFile_Click(object sender, RoutedEventArgs routedEventArgs)
         {
             // Create OpenFileDialog 
-            var dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".txt", Filter = "Text documents (.txt)|*.txt"};
+            var dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".cfs", Filter = "Index documents (.cfs)|*.cfs|*.txt|*.*"};
+            dlg.CheckPathExists = true;
+            dlg.CheckFileExists = true;
 
             // Display OpenFileDialog by calling ShowDialog method 
             var result = dlg.ShowDialog();
@@ -184,12 +210,28 @@ namespace BeyondSearch
             if (result == true)
             {
                 // Open document 
-                TextBoxKeywordFile.Text = dlg.FileName;
+                TextBoxKeywordFolder.Text = System.IO.Path.GetDirectoryName( dlg.FileName );
+                TextBoxKeywordFile.Text = dlg.SafeFileName;
             }
         }
 
         private void ButtonFilterFile_Click( object sender, RoutedEventArgs e )
         {
+            // Create OpenFileDialog 
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".cfs", Filter = "Index documents (.cfs)|*.cfs|*.txt|*.*" };
+            dlg.CheckPathExists = true;
+            dlg.CheckFileExists = true;
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            var result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                // Open document 
+                TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
+                TextBoxFilterFile.Text = dlg.SafeFileName;
+            }
         }
     }
 }
