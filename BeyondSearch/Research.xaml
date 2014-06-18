@@ -76,17 +76,19 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="90" />
                 <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="70" />
                 <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="90" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="2" Height="30" VerticalAlignment="Center" Margin="10,0,0,0" Click="Filter_Click">Apply Filter</Button>
-            <Label Grid.Column="3" Width="90" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Elapsed</Label>
-            <TextBox Name="TextBoxElapsed" Grid.Column="4" Height="25" AcceptsReturn="True" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
             <Label Grid.Column="0" Width="90" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Select Filter</Label>
             <ComboBox Name="ComboBoxSelectFilters" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150"/>
+            <Button Grid.Column="2" Height="30" VerticalAlignment="Center" Margin="10,0,10,0" Click="Filter_Click">Apply Filter</Button>
+            <Label Grid.Column="3" Width="90" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Elapsed</Label>
+            <TextBox Name="TextBoxElapsed" Grid.Column="4" Height="25" AcceptsReturn="True" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+            <Button Grid.Column="5" Height="30" VerticalAlignment="Center" Margin="10,0,10,0" Click="LoadKeyword_Click" FontSize="12">Load KW</Button>
+            <Button Grid.Column="6" Height="30" VerticalAlignment="Center" Margin="10,0,10,0" Click="LoadFilter_Click" FontSize="12">Load Filter</Button>
         </Grid>
     </Grid>
 </Window>
