@@ -22,7 +22,6 @@ namespace BeyondSearch
     /// </summary>
     public partial class Research : Window
     {
-        private bool exactMatch = true;
         private KeywordFilter filter = new KeywordFilter();
 
         public Research()
