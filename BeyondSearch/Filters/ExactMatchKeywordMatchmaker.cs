@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using BeyondSearch.Common.ProhibitedKeywordFilter;
 
-namespace BeyondSearch.Common.ProhibitedKeywordFilter
+namespace BeyondSearch.Filters
 {
-    public class StrictContainsFilteredKeywordMatchmaker : IFilteredKeywordMatchmaker
+    public class ExactMatchKeywordMatchmaker : IKeywordMatchmaker
     {
         private readonly IDictionary<string, FilteredKeyword> filterMap;
-
-        public StrictContainsFilteredKeywordMatchmaker(IEnumerable<FilteredKeyword> filteredKeywords)
+ 
+        public ExactMatchKeywordMatchmaker(IEnumerable<FilteredKeyword> filteredKeywords)
         {
             if (filteredKeywords == null)
             {
@@ -19,13 +19,13 @@ namespace BeyondSearch.Common.ProhibitedKeywordFilter
 
             foreach (var filteredKeyword in filteredKeywords)
             {
-                if (filterMap.ContainsKey(AddBeginningAndTrailingSpace(filteredKeyword.Keyword))) continue;
+                if (filterMap.ContainsKey(filteredKeyword.Keyword)) continue;
 
-                filterMap.Add(AddBeginningAndTrailingSpace(filteredKeyword.Keyword), filteredKeyword);
+                filterMap.Add(filteredKeyword.Keyword, filteredKeyword);
             }
         }
 
-        public IDictionary<string, FilteredKeyword> AssociateMatchedFilteredKeywords(Dictionary<string, FilteredKeyword> suspects)
+        public IDictionary<string, FilteredKeyword> FilterKeywords(Dictionary<string, FilteredKeyword> suspects)
         {
             if (suspects == null)
             {
@@ -39,9 +39,9 @@ namespace BeyondSearch.Common.ProhibitedKeywordFilter
 
                 if (suspect.Value == null)
                 {
-                    var adjustedSuspect = AddBeginningAndTrailingSpace(suspect.Key);
-                    matchedFilters[suspect.Key] = filterMap.Any(x => adjustedSuspect.Contains(x.Key))
-                        ? new FilteredKeyword {Keyword = suspect.Key}
+                    FilteredKeyword suspectFilter;
+                    matchedFilters[suspect.Key] = filterMap.TryGetValue(suspect.Key, out suspectFilter)
+                        ? suspectFilter
                         : null;
                 }
                 else
@@ -51,11 +51,6 @@ namespace BeyondSearch.Common.ProhibitedKeywordFilter
             }
 
             return matchedFilters;
-        }
-
-        private static string AddBeginningAndTrailingSpace(string keyword)
-        {
-            return string.Format(" {0} ", keyword);
         }
     }
 }

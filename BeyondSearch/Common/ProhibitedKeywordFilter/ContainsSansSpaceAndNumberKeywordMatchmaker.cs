@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BeyondSearch.Filters;
 
 namespace BeyondSearch.Common.ProhibitedKeywordFilter
 {
-    public class ContainsSansSpaceAndNumberFilteredKeywordMatchmaker : IFilteredKeywordMatchmaker
+    public class ContainsSansSpaceAndNumberKeywordMatchmaker : IKeywordMatchmaker
     {
         private readonly bool usePluralizationService;
         private readonly IList<FilteredKeyword> filteredKeywords;
@@ -14,7 +15,7 @@ namespace BeyondSearch.Common.ProhibitedKeywordFilter
         private bool isCachedInitialized;
         private IDictionary<string, List<FilteredKeyword>> filteredKeywordTokenMap;
 
-        public ContainsSansSpaceAndNumberFilteredKeywordMatchmaker(IList<FilteredKeyword> filteredKeywords, bool usePluralizationService = true)
+        public ContainsSansSpaceAndNumberKeywordMatchmaker(IList<FilteredKeyword> filteredKeywords, bool usePluralizationService = true)
         {
             if (filteredKeywords == null)
             {
@@ -26,7 +27,7 @@ namespace BeyondSearch.Common.ProhibitedKeywordFilter
             this.usePluralizationService = usePluralizationService;
         }
 
-        public IDictionary<string, FilteredKeyword> AssociateMatchedFilteredKeywords(Dictionary<string, FilteredKeyword> suspects)
+        public IDictionary<string, FilteredKeyword> FilterKeywords(Dictionary<string, FilteredKeyword> suspects)
         {
             if (suspects == null)
             {

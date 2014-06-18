@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using BeyondSearch.Common.ProhibitedKeywordFilter;
 
-namespace BeyondSearch.Common.ProhibitedKeywordFilter
+namespace BeyondSearch.Filters
 {
-    public class ProhibitedKeywordFilterer
+    public class KeywordFilterer
     {
         private readonly List<string> suspectKeywordsList;
-        private readonly CompositeFilteredKeywordMatchmaker compositeMatchmaker;
+        private readonly KeywordMatchmaker compositeMatchmaker;
 
-        public ProhibitedKeywordFilterer(IEnumerable<FilteredKeyword> masterFilteredKeywords, bool usePluralizationService = true)
+        public KeywordFilterer(IEnumerable<FilteredKeyword> masterFilteredKeywords, bool usePluralizationService = true)
         {
             var toLowerMasterFilteredKeywords = new List<FilteredKeyword>();
             suspectKeywordsList = new List<string>();
@@ -18,15 +19,15 @@ namespace BeyondSearch.Common.ProhibitedKeywordFilter
                 toLowerMasterFilteredKeywords.Add(masterKeyword);
             }
 
-            var matchMakers = new List<IFilteredKeywordMatchmaker>
+            var matchMakers = new List<IKeywordMatchmaker>
             {
-                new ExactMatchFilteredKeywordMatchmaker(toLowerMasterFilteredKeywords),
-                new FuzzyContainsFilteredKeywordMatchmaker(toLowerMasterFilteredKeywords),
-                new StrictContainsFilteredKeywordMatchmaker(toLowerMasterFilteredKeywords),
-                new ContainsSansSpaceAndNumberFilteredKeywordMatchmaker(toLowerMasterFilteredKeywords, usePluralizationService)
+                new ExactMatchKeywordMatchmaker(toLowerMasterFilteredKeywords)//,
+                //new FuzzyContainsKeywordMatchmaker(toLowerMasterFilteredKeywords),
+                //new StrictContainsKeywordMatchmaker(toLowerMasterFilteredKeywords),
+                //new ContainsSansSpaceAndNumberKeywordMatchmaker(toLowerMasterFilteredKeywords, usePluralizationService)
             };
 
-            compositeMatchmaker = new CompositeFilteredKeywordMatchmaker(matchMakers);
+            compositeMatchmaker = new KeywordMatchmaker(matchMakers);
         }
 
         public IDictionary<string, FilteredKeyword> Filter(IEnumerable<string> suspectKeywords)
@@ -44,7 +45,7 @@ namespace BeyondSearch.Common.ProhibitedKeywordFilter
                 suspects.Add(lowerSuspect, null);
             }
 
-            return compositeMatchmaker.AssociateMatchedFilteredKeywords( suspects );
+            return compositeMatchmaker.FilterKeywords( suspects );
         }
 
         public bool IsProhibitedKeyword(string suspectKeyword)

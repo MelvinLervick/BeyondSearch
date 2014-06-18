@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BeyondSearch.Filters;
 using Lucene.Net.Analysis.Snowball;
 using Lucene.Net.QueryParsers;
 using Version = Lucene.Net.Util.Version;
 
 namespace BeyondSearch.Common.ProhibitedKeywordFilter
 {
-    public class FuzzyContainsFilteredKeywordMatchmaker : IFilteredKeywordMatchmaker
+    public class FuzzyContainsKeywordMatchmaker : IKeywordMatchmaker
     {
         private readonly IList<FilteredKeyword> filteredKeywords;
         private readonly IDictionary<string, IEnumerable<PorterStemTokenizer<FilteredKeyword>>> filterMap;
 
-        public FuzzyContainsFilteredKeywordMatchmaker(IList<FilteredKeyword> filteredKeywords)
+        public FuzzyContainsKeywordMatchmaker(IList<FilteredKeyword> filteredKeywords)
         {
             if (filteredKeywords == null)
             {
@@ -28,7 +29,7 @@ namespace BeyondSearch.Common.ProhibitedKeywordFilter
             }
         }
 
-        public IDictionary<string, FilteredKeyword> AssociateMatchedFilteredKeywords(Dictionary<string, FilteredKeyword> suspects)
+        public IDictionary<string, FilteredKeyword> FilterKeywords(Dictionary<string, FilteredKeyword> suspects)
         {
             if (suspects == null)
             {

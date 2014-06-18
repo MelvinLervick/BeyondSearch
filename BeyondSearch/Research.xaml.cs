@@ -22,6 +22,8 @@ namespace BeyondSearch
     /// </summary>
     public partial class Research : Window
     {
+        private const string ExactMatch = "Exact Match";
+        private const string ContainsMatch = "Contains Match";
         private KeywordFilter filter = new KeywordFilter();
 
         public Research()
@@ -72,7 +74,11 @@ namespace BeyondSearch
 
         private void InitializeFilters()
         {
-            var listFilters = new List<string> {"Exact Match", "Contains Match"};
+            var listFilters = new List<string>
+            {
+                ExactMatch, 
+                ContainsMatch
+            };
             ComboBoxSelectFilters.ItemsSource = listFilters;
             ComboBoxSelectFilters.SelectedIndex = 0;
         }
@@ -119,12 +125,12 @@ namespace BeyondSearch
             var sw = new Stopwatch();
             ListBoxFilteredKeywords.Items.Clear();
 
-            switch (ComboBoxSelectFilters.SelectedIndex)
+            switch (ComboBoxSelectFilters.SelectedValue.ToString())
             {
-                case 0: // Exact Match
+                case ExactMatch: // Exact Match
                     ExactMatchFilter(sw);
                     break;
-                case 1: // Contains Match
+                case ContainsMatch: // Contains Match
                     ContainsMatchFilter(sw);
                     break;
             }

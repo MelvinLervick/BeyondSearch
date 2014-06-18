@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BeyondSearch.Common.ProhibitedKeywordFilter;
 
-namespace BeyondSearch.Common.ProhibitedKeywordFilter
+namespace BeyondSearch.Filters
 {
-    public class CompositeFilteredKeywordMatchmaker : IFilteredKeywordMatchmaker
+    public class KeywordMatchmaker : IKeywordMatchmaker
     {
-        private readonly IEnumerable<IFilteredKeywordMatchmaker> matchmakers;
+        private readonly IEnumerable<IKeywordMatchmaker> matchmakers;
 
-        public CompositeFilteredKeywordMatchmaker(IEnumerable<IFilteredKeywordMatchmaker> matchmakers)
+        public KeywordMatchmaker(IEnumerable<IKeywordMatchmaker> matchmakers)
         {
             if (matchmakers == null)
             {
@@ -18,7 +19,7 @@ namespace BeyondSearch.Common.ProhibitedKeywordFilter
             this.matchmakers = matchmakers;
         }
 
-        public IDictionary<string, FilteredKeyword> AssociateMatchedFilteredKeywords(Dictionary<string, FilteredKeyword> suspects)
+        public IDictionary<string, FilteredKeyword> FilterKeywords(Dictionary<string, FilteredKeyword> suspects)
         {
             if (suspects == null)
             {
@@ -27,7 +28,7 @@ namespace BeyondSearch.Common.ProhibitedKeywordFilter
 
             foreach (var matchmaker in matchmakers)
             {
-                suspects = matchmaker.AssociateMatchedFilteredKeywords(suspects) as Dictionary<string, FilteredKeyword>;
+                suspects = matchmaker.FilterKeywords(suspects) as Dictionary<string, FilteredKeyword>;
                 if (suspects != null && suspects.All(x => x.Value != null)) break;
             }
 
