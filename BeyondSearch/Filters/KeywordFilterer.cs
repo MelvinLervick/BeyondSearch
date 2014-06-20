@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BeyondSearch.Common.ProhibitedKeywordFilter;
 
 namespace BeyondSearch.Filters
@@ -8,16 +9,13 @@ namespace BeyondSearch.Filters
         private readonly List<string> suspectKeywordsList;
         private readonly KeywordMatchmaker compositeMatchmaker;
 
-        public KeywordFilterer(IEnumerable<FilteredKeyword> masterFilteredKeywords, bool usePluralizationService = true)
+        public KeywordFilterer(IEnumerable<string> masterFilteredKeywords, bool usePluralizationService = true)
         {
-            var toLowerMasterFilteredKeywords = new List<FilteredKeyword>();
             suspectKeywordsList = new List<string>();
 
-            foreach (var masterKeyword in masterFilteredKeywords)
-            {
-                masterKeyword.Keyword = masterKeyword.Keyword.ToLower();
-                toLowerMasterFilteredKeywords.Add(masterKeyword);
-            }
+            var toLowerMasterFilteredKeywords =
+                masterFilteredKeywords.Select( masterKeyword => new FilteredKeyword {Keyword = masterKeyword.ToLower()} )
+                    .ToList();
 
             var matchMakers = new List<IKeywordMatchmaker>
             {

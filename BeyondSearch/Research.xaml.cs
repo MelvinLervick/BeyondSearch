@@ -22,9 +22,11 @@ namespace BeyondSearch
     /// </summary>
     public partial class Research : Window
     {
-        private const string ExactMatch = "Exact Match";
         private const string ContainsMatch = "Contains Match";
-        private KeywordFilter filter = new KeywordFilter();
+        private const string ContainsMatch1 = "Contains Match1";
+        private const string ExactMatch = "Exact Match";
+        private const string ExactMatch1 = "Exact Match1";
+        private readonly KeywordFilter filter = new KeywordFilter();
 
         public Research()
         {
@@ -36,29 +38,29 @@ namespace BeyondSearch
 
         private void InitializeKeywordList()
         {
-            ListBoxKeywords.Items.Add(" hotels with pools ");
-            ListBoxKeywords.Items.Add(" hotels in south chicago red light ");
-            ListBoxKeywords.Items.Add(" stores that sell adult toys ");
-            ListBoxKeywords.Items.Add(" adult toys ");
-            ListBoxKeywords.Items.Add(" adult only restaurants ");
+            ListBoxKeywords.Items.Add("hotels with pools");
+            ListBoxKeywords.Items.Add("hotels in south chicago red light");
+            ListBoxKeywords.Items.Add("stores that sell adult toys");
+            ListBoxKeywords.Items.Add("adult toys");
+            ListBoxKeywords.Items.Add("adult only restaurants");
 
-            ListBoxKeywords.Items.Add(" animal shelter dog ");
-            ListBoxKeywords.Items.Add(" animal shelter dogs ");
-            ListBoxKeywords.Items.Add(" animal shelter cat ");
-            ListBoxKeywords.Items.Add(" animal shelter cats ");
-            ListBoxKeywords.Items.Add(" park zebra ");
+            ListBoxKeywords.Items.Add("animal shelter dog");
+            ListBoxKeywords.Items.Add("animal shelter dogs");
+            ListBoxKeywords.Items.Add("animal shelter cat");
+            ListBoxKeywords.Items.Add("animal shelter cats");
+            ListBoxKeywords.Items.Add("park zebra");
 
-            ListBoxKeywords.Items.Add(" park zebras ");
-            ListBoxKeywords.Items.Add(" zoo animal zebra ");
-            ListBoxKeywords.Items.Add(" zoo animal zebras ");
-            ListBoxKeywords.Items.Add(" clothes young girls ");
-            ListBoxKeywords.Items.Add(" young girls ");
-
-            ListBoxKeywords.Items.Add(" zebra ");
-            ListBoxKeywords.Items.Add(" cat ");
-            ListBoxKeywords.Items.Add(" dog ");
-            ListBoxKeywords.Items.Add(" red light ");
-            ListBoxKeywords.Items.Add(" red lights ");
+            ListBoxKeywords.Items.Add("park zebras");
+            ListBoxKeywords.Items.Add("zoo animal zebra");
+            ListBoxKeywords.Items.Add("zoo animal zebras");
+            ListBoxKeywords.Items.Add("clothes young girls");
+            ListBoxKeywords.Items.Add("young girls");
+            
+            ListBoxKeywords.Items.Add("zebra");
+            ListBoxKeywords.Items.Add("cat");
+            ListBoxKeywords.Items.Add("dog");
+            ListBoxKeywords.Items.Add("red light");
+            ListBoxKeywords.Items.Add("red lights");
         }
 
         private void InitializeFilterList()
@@ -76,9 +78,12 @@ namespace BeyondSearch
         {
             var listFilters = new List<string>
             {
+                ContainsMatch,
+                ContainsMatch1,
                 ExactMatch, 
-                ContainsMatch
+                ExactMatch1
             };
+
             ComboBoxSelectFilters.ItemsSource = listFilters;
             ComboBoxSelectFilters.SelectedIndex = 0;
         }
@@ -127,26 +132,32 @@ namespace BeyondSearch
 
             switch (ComboBoxSelectFilters.SelectedValue.ToString())
             {
-                case ExactMatch: // Exact Match
-                    ExactMatchFilter(sw);
+                case ContainsMatch: // Contains Match with list of items
+                    ContainsMatchFilterUsingList(sw);
                     break;
-                case ContainsMatch: // Contains Match
-                    ContainsMatchFilter(sw);
+                case ContainsMatch1: // Contains Match one item per call
+                    ContainsMatchFilterUsingList(sw);
+                    break;
+                case ExactMatch: // Exact Match with list of items
+                    ExactMatchFilterUsingList(sw);
+                    break;
+                case ExactMatch1: // Exact Match one item per call
+                    ExactMatchFilterUsingList(sw);
                     break;
             }
         }
 
-        private void ContainsMatchFilter(Stopwatch sw)
+        private void ContainsMatchFilterUsingList(Stopwatch sw)
         {
             List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
-            filter.FillContainsFilterList(DuplicateList(filters, 1));
+            filter.FillFilterList(filters);
 
             if (ListBoxKeywords.Items.Count > 0)
             {
                 List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
 
                 sw.Start();
-                var filteredItems = filter.Contains(DuplicateList(keywords, 1));
+                var filteredItems = filter.Contains(keywords);
                 sw.Stop();
 
                 foreach (var filteredItem in filteredItems)
@@ -158,16 +169,16 @@ namespace BeyondSearch
             }
         }
 
-        private void ExactMatchFilter(Stopwatch sw)
+        private void ExactMatchFilterUsingList(Stopwatch sw)
         {
             List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
-            filter.FillExactFilterList(DuplicateList(filters, 1));
+            filter.FillFilterList(filters);
             if (ListBoxKeywords.Items.Count > 0)
             {
                 List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
 
                 sw.Start();
-                var filteredItems = filter.Exact(DuplicateList(keywords, 1));
+                var filteredItems = filter.Exact(keywords);
                 sw.Stop();
 
                 foreach (var filteredItem in filteredItems)
