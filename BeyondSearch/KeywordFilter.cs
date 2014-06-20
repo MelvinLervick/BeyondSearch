@@ -32,14 +32,13 @@ namespace BeyondSearch
             var filteredList = filterer.Filter(keywords);
 
             return ( from item in filteredList where item.Value == null select item.Key ).ToList();
+        }
 
-            //var filteredKeywords = (from keyword in keywords
-            //  join filter1 in filterList.AsEnumerable() on keyword.Trim() equals filter1 into filterList1
-            //  from filter2 in filterList1.DefaultIfEmpty()
-            //  where filter2 == null
-            //  select keyword).ToList();
+        public List<string> Exact1(IEnumerable<string> keywords)
+        {
+            var filterer = new KeywordFilterer(filterList);
 
-            //return filteredKeywords;
+            return keywords.Where( keyword => !filterer.IsProhibitedKeyword( keyword ) ).ToList();
         }
 
         public List<string> Contains(IEnumerable<string> keywords)

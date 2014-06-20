@@ -133,21 +133,21 @@ namespace BeyondSearch
             switch (ComboBoxSelectFilters.SelectedValue.ToString())
             {
                 case ContainsMatch: // Contains Match with list of items
-                    ContainsMatchFilterUsingList(sw);
+                    ContainsMatchFilter(sw,0);
                     break;
                 case ContainsMatch1: // Contains Match one item per call
-                    ContainsMatchFilterUsingList(sw);
+                    ContainsMatchFilter(sw,1);
                     break;
                 case ExactMatch: // Exact Match with list of items
-                    ExactMatchFilterUsingList(sw);
+                    ExactMatchFilter(sw, 0);
                     break;
                 case ExactMatch1: // Exact Match one item per call
-                    ExactMatchFilterUsingList(sw);
+                    ExactMatchFilter(sw, 1);
                     break;
             }
         }
 
-        private void ContainsMatchFilterUsingList(Stopwatch sw)
+        private void ContainsMatchFilter(Stopwatch sw, int oneOrMany)
         {
             List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
             filter.FillFilterList(filters);
@@ -169,18 +169,20 @@ namespace BeyondSearch
             }
         }
 
-        private void ExactMatchFilterUsingList(Stopwatch sw)
+        private void ExactMatchFilter(Stopwatch sw, int oneOrMany)
         {
             List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
             filter.FillFilterList(filters);
+
             if (ListBoxKeywords.Items.Count > 0)
             {
                 List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
 
                 sw.Start();
-                var filteredItems = filter.Exact(keywords);
+                var filteredItems = oneOrMany == 0 ? filter.Exact(keywords) : filter.Exact1(keywords);
                 sw.Stop();
 
+                ListBoxFilteredKeywords.Items.Clear();
                 foreach (var filteredItem in filteredItems)
                 {
                     ListBoxFilteredKeywords.Items.Add(filteredItem);
