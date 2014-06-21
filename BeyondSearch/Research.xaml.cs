@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BeyondSearch.Common.FilterFileReader;
 
 namespace BeyondSearch
 {
@@ -103,9 +104,24 @@ namespace BeyondSearch
 
         private void AddKeyword_Click(object sender, RoutedEventArgs e)
         {
-            if (TextBoxStringToAdd.Text.Length > 0)
+            if ( TextBoxStringToAdd.Text.Length > 0 )
             {
-                ListBoxKeywords.Items.Add(" " + TextBoxStringToAdd.Text + " ");
+                ListBoxKeywords.Items.Add( " " + TextBoxStringToAdd.Text + " " );
+            }
+            else
+            {
+                if (TextBoxKeywordFile.Text.Length > 0)
+                {
+                    var reader = new FilterTermFileReader();
+                    var terms =
+                        reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxKeywordFolder.Text, TextBoxKeywordFile.Text))
+                            .ToList();
+                    ListBoxKeywords.Items.Clear();
+                    foreach (var term in terms)
+                    {
+                        ListBoxKeywords.Items.Add(term);
+                    }
+                }
             }
         }
 
@@ -119,9 +135,24 @@ namespace BeyondSearch
 
         private void AddFilter_Click(object sender, RoutedEventArgs e)
         {
-            if (TextBoxStringToAdd.Text.Length > 0)
+            if ( TextBoxStringToAdd.Text.Length > 0 )
             {
-                ListBoxFilters.Items.Add(TextBoxStringToAdd.Text);
+                ListBoxFilters.Items.Add( TextBoxStringToAdd.Text );
+            }
+            else
+            {
+                if ( TextBoxFilterFile.Text.Length > 0 )
+                {
+                    var reader = new FilterTermFileReader();
+                    var terms =
+                        reader.ReadFilterTerms( System.IO.Path.Combine( TextBoxFilterFolder.Text, TextBoxFilterFile.Text ) )
+                            .ToList();
+                    ListBoxFilters.Items.Clear();
+                    foreach ( var term in terms )
+                    {
+                        ListBoxFilters.Items.Add(term);
+                    }
+                }
             }
         }
 
@@ -285,7 +316,7 @@ namespace BeyondSearch
         private void ButtonKeywordsFile_Click(object sender, RoutedEventArgs routedEventArgs)
         {
             // Create OpenFileDialog 
-            var dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".cfs", Filter = "Index documents (.cfs)|*.cfs|*.txt|*.*"};
+            var dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".txt", Filter = "Index documents (.txt)|*.txt|*.cfs|*.*"};
             dlg.CheckPathExists = true;
             dlg.CheckFileExists = true;
 
@@ -304,7 +335,7 @@ namespace BeyondSearch
         private void ButtonFilterFile_Click( object sender, RoutedEventArgs e )
         {
             // Create OpenFileDialog 
-            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".cfs", Filter = "Index documents (.cfs)|*.cfs|*.txt|*.*" };
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".txt", Filter = "Index documents (.txt)|*.txt|*.cfs|*.*" };
             dlg.CheckPathExists = true;
             dlg.CheckFileExists = true;
 
