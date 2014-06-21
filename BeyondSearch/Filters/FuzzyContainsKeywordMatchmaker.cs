@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BeyondSearch.Filters;
 using Lucene.Net.Analysis.Snowball;
 using Lucene.Net.QueryParsers;
 using Version = Lucene.Net.Util.Version;
 
-namespace BeyondSearch.Common.ProhibitedKeywordFilter
+namespace BeyondSearch.Filters
 {
     public class FuzzyContainsKeywordMatchmaker : IKeywordMatchmaker
     {
@@ -25,7 +24,6 @@ namespace BeyondSearch.Common.ProhibitedKeywordFilter
             if (filterMap == null)
             {
                 filterMap = GenerateFilterMap(filteredKeywords);
-                Console.WriteLine(string.Format("AFTER  call to GenerateFilterMap: {0}", DateTime.Now));
             }
         }
 

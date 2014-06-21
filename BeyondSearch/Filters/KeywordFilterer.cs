@@ -1,23 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BeyondSearch.Common.ProhibitedKeywordFilter;
 
 namespace BeyondSearch.Filters
 {
     public class KeywordFilterer
     {
         private readonly List<string> suspectKeywordsList;
-        private readonly KeywordMatchmaker compositeMatchmaker;
+        private KeywordMatchmaker compositeMatchmaker;
+        private readonly List<FilteredKeyword> toLowerMasterFilteredKeywords;
+
+        public List<IKeywordMatchmaker> Matchmakers { get; set; }
 
         public KeywordFilterer(IEnumerable<string> masterFilteredKeywords, bool usePluralizationService = true)
         {
             suspectKeywordsList = new List<string>();
 
-            var toLowerMasterFilteredKeywords =
+            toLowerMasterFilteredKeywords =
                 masterFilteredKeywords.Select( masterKeyword => new FilteredKeyword {Keyword = masterKeyword.ToLower()} )
                     .ToList();
 
-            var matchMakers = new List<IKeywordMatchmaker>
+            Matchmakers = new List<IKeywordMatchmaker>
             {
                 new ExactMatchKeywordMatchmaker(toLowerMasterFilteredKeywords)//,
                 //new FuzzyContainsKeywordMatchmaker(toLowerMasterFilteredKeywords),
@@ -25,7 +27,7 @@ namespace BeyondSearch.Filters
                 //new ContainsSansSpaceAndNumberKeywordMatchmaker(toLowerMasterFilteredKeywords, usePluralizationService)
             };
 
-            compositeMatchmaker = new KeywordMatchmaker(matchMakers);
+            compositeMatchmaker = new KeywordMatchmaker(Matchmakers);
         }
 
         public IDictionary<string, FilteredKeyword> Filter(IEnumerable<string> suspectKeywords)
@@ -59,6 +61,42 @@ namespace BeyondSearch.Filters
             }
 
             return true;
+        }
+
+        public void SetMatchmakerToExactMatch(bool singleMatchmaker = true)
+        {
+            if (singleMatchmaker || Matchmakers == null) Matchmakers = new List<IKeywordMatchmaker>();
+
+            Matchmakers.Add(new ExactMatchKeywordMatchmaker(toLowerMasterFilteredKeywords));
+
+            compositeMatchmaker = new KeywordMatchmaker(Matchmakers);
+        }
+
+        public void SetMatchmakerToContainsMatch(bool singleMatchmaker = true)
+        {
+            if (singleMatchmaker || Matchmakers == null) Matchmakers = new List<IKeywordMatchmaker>();
+
+            Matchmakers.Add(new StrictContainsKeywordMatchmaker(toLowerMasterFilteredKeywords));
+
+            compositeMatchmaker = new KeywordMatchmaker(Matchmakers);
+        }
+
+        public void SetMatchmakerToFuzzyContainsMatch(bool singleMatchmaker = true)
+        {
+            if (singleMatchmaker || Matchmakers == null) Matchmakers = new List<IKeywordMatchmaker>();
+
+            Matchmakers.Add(new FuzzyContainsKeywordMatchmaker(toLowerMasterFilteredKeywords));
+
+            compositeMatchmaker = new KeywordMatchmaker(Matchmakers);
+        }
+
+        public void SetMatchmakerToContainsSansSpaceAndNumberMatch(bool singleMatchmaker = true)
+        {
+            if (singleMatchmaker || Matchmakers == null) Matchmakers = new List<IKeywordMatchmaker>();
+
+            Matchmakers.Add(new ContainsSansSpaceAndNumberKeywordMatchmaker(toLowerMasterFilteredKeywords));
+
+            compositeMatchmaker = new KeywordMatchmaker(Matchmakers);
         }
     }
 }

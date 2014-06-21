@@ -14,6 +14,7 @@ namespace BeyondSearch
     public class KeywordFilter : IKeywordFilter
     {
         private List<string> filterList;
+        KeywordFilterer filterer;
 
         #region IKeywordFilter Members
 
@@ -27,8 +28,7 @@ namespace BeyondSearch
 
         public List<string> Exact(IEnumerable<string> keywords)
         {
-            var filterer = new KeywordFilterer(filterList);
-
+            filterer.SetMatchmakerToExactMatch();
             var filteredList = filterer.Filter(keywords);
 
             return ( from item in filteredList where item.Value == null select item.Key ).ToList();
@@ -36,34 +36,50 @@ namespace BeyondSearch
 
         public List<string> Exact1(IEnumerable<string> keywords)
         {
-            var filterer = new KeywordFilterer(filterList);
-
-            return keywords.Where( keyword => !filterer.IsProhibitedKeyword( keyword ) ).ToList();
+            filterer.SetMatchmakerToExactMatch();
+            return keywords.Where(keyword => !filterer.IsProhibitedKeyword(keyword)).ToList();
         }
 
         public List<string> Contains(IEnumerable<string> keywords)
         {
-            var filterCount = filterList.Count;
+            filterer.SetMatchmakerToContainsMatch();
+            var filteredList = filterer.Filter(keywords);
 
-            //var filteredKeywords = (keywords.Cast<string>()
-            //  .SelectMany( keyword => containsFilterList, ( keyword, filter ) => new { keyword, filter } )
-            //  .Where( @t => (@t.keyword.IndexOf( @t.filter, StringComparison.InvariantCultureIgnoreCase ) == -1) )
-            //  .Select( @t => @t.keyword )).ToList()
-            //  .GroupBy( txt => txt )
-            //  .Where( grouping => grouping.Count() == filterCount )
-            //  .ToList()
-            //  .Select( key => key.Key ).ToList();
+            return (from item in filteredList where item.Value == null select item.Key).ToList();
+        }
 
-            var filteredKeywords = (keywords
-              .SelectMany(keyword => filterList, (keyword, filter) => new { keyword, filter })
-              .Where(@t => (!@t.keyword.Contains(" " + @t.filter + " ")))
-              .Select(@t => @t.keyword)).ToList()
-              .GroupBy(txt => txt)
-              .Where(grouping => grouping.Count() == filterCount)
-              .ToList()
-              .Select(key => key.Key).ToList();
+        public List<string> Contains1( IEnumerable<string> keywords )
+        {
+            filterer.SetMatchmakerToContainsMatch();
+            return keywords.Where(keyword => !filterer.IsProhibitedKeyword(keyword)).ToList();
+        }
 
-            return filteredKeywords;
+        public List<string> ContainsSansSpaceAndNumber(IEnumerable<string> keywords)
+        {
+            filterer.SetMatchmakerToContainsSansSpaceAndNumberMatch();
+            var filteredList = filterer.Filter(keywords);
+
+            return (from item in filteredList where item.Value == null select item.Key).ToList();
+        }
+
+        public List<string> ContainsSansSpaceAndNumber1(IEnumerable<string> keywords)
+        {
+            filterer.SetMatchmakerToContainsSansSpaceAndNumberMatch();
+            return keywords.Where(keyword => !filterer.IsProhibitedKeyword(keyword)).ToList();
+        }
+
+        public List<string> FuzzyContains(IEnumerable<string> keywords)
+        {
+            filterer.SetMatchmakerToFuzzyContainsMatch();
+            var filteredList = filterer.Filter(keywords);
+
+            return (from item in filteredList where item.Value == null select item.Key).ToList();
+        }
+
+        public List<string> FuzzyContains1(IEnumerable<string> keywords)
+        {
+            filterer.SetMatchmakerToFuzzyContainsMatch();
+            return keywords.Where(keyword => !filterer.IsProhibitedKeyword(keyword)).ToList();
         }
 
         public void FillFilterList(IEnumerable<string> filters)
@@ -74,6 +90,8 @@ namespace BeyondSearch
             {
                 filterList.Add(filter);
             }
+
+            filterer = new KeywordFilterer(filterList);
         }
 
         #endregion

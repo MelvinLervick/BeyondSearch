@@ -74,8 +74,8 @@
         </Grid>
         <Grid Grid.Row="2" Margin="10, 0, 10, 0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="120" />
                 <ColumnDefinition Width="60" />
                 <ColumnDefinition Width="100" />
@@ -83,7 +83,7 @@
                 <ColumnDefinition Width="90" />
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Width="90" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Select Filter</Label>
-            <ComboBox Name="ComboBoxSelectFilters" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150"/>
+            <ComboBox Name="ComboBoxSelectFilters" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
             <Button Grid.Column="2" Height="30" VerticalAlignment="Center" Margin="10,0,10,0" Click="Filter_Click">Apply Filter</Button>
             <Label Grid.Column="3" Width="90" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Elapsed</Label>
             <TextBox Name="TextBoxElapsed" Grid.Column="4" Height="25" AcceptsReturn="True" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>

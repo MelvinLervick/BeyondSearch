@@ -1,4 +1,4 @@
-﻿namespace BeyondSearch.Common.ProhibitedKeywordFilter
+﻿namespace BeyondSearch.Filters
 {
     public class FilteredKeywordPair
     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BeyondSearch.Common.ProhibitedKeywordFilter;
 
 namespace BeyondSearch.Filters
 {

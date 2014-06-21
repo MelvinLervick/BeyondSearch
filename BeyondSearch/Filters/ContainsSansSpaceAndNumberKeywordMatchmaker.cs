@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BeyondSearch.Filters;
 
-namespace BeyondSearch.Common.ProhibitedKeywordFilter
+namespace BeyondSearch.Filters
 {
     public class ContainsSansSpaceAndNumberKeywordMatchmaker : IKeywordMatchmaker
     {

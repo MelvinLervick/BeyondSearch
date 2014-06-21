@@ -24,8 +24,12 @@ namespace BeyondSearch
     {
         private const string ContainsMatch = "Contains Match";
         private const string ContainsMatch1 = "Contains Match1";
+        private const string ContainsSansSpaceAndNumberMatch = "Contains Sans Space & Number Match";
+        private const string ContainsSansSpaceAndNumberMatch1 = "Contains Sans Space & Number Match1";
         private const string ExactMatch = "Exact Match";
         private const string ExactMatch1 = "Exact Match1";
+        private const string FuzzyContainsMatch = "Fuzzy Contains Match";
+        private const string FuzzyContainsMatch1 = "Fuzzy Contains Match1";
         private readonly KeywordFilter filter = new KeywordFilter();
 
         public Research()
@@ -80,8 +84,12 @@ namespace BeyondSearch
             {
                 ContainsMatch,
                 ContainsMatch1,
-                ExactMatch, 
-                ExactMatch1
+                ContainsSansSpaceAndNumberMatch,
+                ContainsSansSpaceAndNumberMatch1,
+                ExactMatch,
+                ExactMatch1,
+                FuzzyContainsMatch,
+                FuzzyContainsMatch1
             };
 
             ComboBoxSelectFilters.ItemsSource = listFilters;
@@ -138,11 +146,23 @@ namespace BeyondSearch
                 case ContainsMatch1: // Contains Match one item per call
                     ContainsMatchFilter(sw,1);
                     break;
+                case ContainsSansSpaceAndNumberMatch: // Contains Match with list of items
+                    ContainsSansSpaceAndNumberMatchFilter(sw, 0);
+                    break;
+                case ContainsSansSpaceAndNumberMatch1: // Contains Match one item per call
+                    ContainsSansSpaceAndNumberMatchFilter(sw, 1);
+                    break;
                 case ExactMatch: // Exact Match with list of items
                     ExactMatchFilter(sw, 0);
                     break;
                 case ExactMatch1: // Exact Match one item per call
                     ExactMatchFilter(sw, 1);
+                    break;
+                case FuzzyContainsMatch: // Contains Match with list of items
+                    FuzzyContainsMatchFilter(sw, 0);
+                    break;
+                case FuzzyContainsMatch1: // Contains Match one item per call
+                    FuzzyContainsMatchFilter(sw, 1);
                     break;
             }
         }
@@ -157,7 +177,31 @@ namespace BeyondSearch
                 List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
 
                 sw.Start();
-                var filteredItems = filter.Contains(keywords);
+                var filteredItems = oneOrMany == 0 ? filter.Contains( keywords ) : filter.Contains1( keywords );
+                sw.Stop();
+
+                foreach (var filteredItem in filteredItems)
+                {
+                    ListBoxFilteredKeywords.Items.Add(filteredItem);
+                }
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
+
+        private void ContainsSansSpaceAndNumberMatchFilter(Stopwatch sw, int oneOrMany)
+        {
+            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            filter.FillFilterList(filters);
+
+            if (ListBoxKeywords.Items.Count > 0)
+            {
+                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+
+                sw.Start();
+                var filteredItems = oneOrMany == 0
+                    ? filter.ContainsSansSpaceAndNumber( keywords )
+                    : filter.ContainsSansSpaceAndNumber1( keywords );
                 sw.Stop();
 
                 foreach (var filteredItem in filteredItems)
@@ -179,10 +223,34 @@ namespace BeyondSearch
                 List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
 
                 sw.Start();
-                var filteredItems = oneOrMany == 0 ? filter.Exact(keywords) : filter.Exact1(keywords);
+                var filteredItems = oneOrMany == 0 ? filter.Exact( keywords ) : filter.Exact1( keywords );
                 sw.Stop();
 
                 ListBoxFilteredKeywords.Items.Clear();
+                foreach (var filteredItem in filteredItems)
+                {
+                    ListBoxFilteredKeywords.Items.Add(filteredItem);
+                }
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
+
+        private void FuzzyContainsMatchFilter(Stopwatch sw, int oneOrMany)
+        {
+            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            filter.FillFilterList(filters);
+
+            if (ListBoxKeywords.Items.Count > 0)
+            {
+                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+
+                sw.Start();
+                var filteredItems = oneOrMany == 0
+                    ? filter.FuzzyContains( keywords )
+                    : filter.FuzzyContains1( keywords );
+                sw.Stop();
+
                 foreach (var filteredItem in filteredItems)
                 {
                     ListBoxFilteredKeywords.Items.Add(filteredItem);

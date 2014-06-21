@@ -1,11 +1,11 @@
 ﻿using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 
-namespace BeyondSearch.Common.ProhibitedKeywordFilter
+namespace BeyondSearch.Filters
 {
     public class SingularPluralKeyword
     {
-        private static readonly PluralizationService pluralizationService = 
+        private static readonly PluralizationService PluralizationService = 
             PluralizationService.CreateService(CultureInfo.CurrentCulture);
 
         public string Singular { get; private set; }
@@ -22,24 +22,24 @@ namespace BeyondSearch.Common.ProhibitedKeywordFilter
                 return new SingularPluralKeyword { OriginalKeyword = keyword };
             }
 
-            if (pluralizationService.IsSingular(keyword))
+            if (PluralizationService.IsSingular(keyword))
             {
                 return new SingularPluralKeyword
                 {
                     HasBothSingularAndPlural = true,
                     OriginalKeyword = keyword,
                     Singular = keyword,
-                    Plural = pluralizationService.Pluralize(keyword)
+                    Plural = PluralizationService.Pluralize(keyword)
                 };
             }
 
-            if (pluralizationService.IsPlural(keyword))
+            if (PluralizationService.IsPlural(keyword))
             {
                 return new SingularPluralKeyword
                 {
                     HasBothSingularAndPlural = true,
                     OriginalKeyword = keyword,
-                    Singular = pluralizationService.Singularize(keyword),
+                    Singular = PluralizationService.Singularize(keyword),
                     Plural = keyword
                 };
             }
