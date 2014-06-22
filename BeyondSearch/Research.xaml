@@ -16,6 +16,20 @@
         </Grid.ColumnDefinitions>
         <Menu FontSize="12pt" Grid.Row="0" IsMainMenu="True">
             <MenuItem Header="_Exit" Click="Menu_FileExitClick" />
+            <MenuItem Header="_Files">
+                <MenuItem Header="Load _Filter" Click="Menu_FilesFilterClick" />
+                <MenuItem Header="Load _Keywords" Click="Menu_FilesKeywordsClick" />
+            </MenuItem>
+            <MenuItem Header="_Filters" >
+                <MenuItem Header="Call Filter with a List" IsCheckable="True" IsChecked="True" />
+                <MenuItem Header="Strict Contains Match" IsCheckable="True" />
+                <MenuItem Header="Contains Sans Space or Number Match" IsCheckable="True" />
+                <MenuItem Header="Exact Match" IsCheckable="True" IsChecked="True" />
+                <MenuItem Header="Fuzzy Contains Match" IsCheckable="True" />
+            </MenuItem>
+            <MenuItem Header="_Keywords">
+                
+            </MenuItem>
             <MenuItem Header="_Help" />
         </Menu>
         <Grid Grid.Row="1" Margin="0 3 0 3">
@@ -75,7 +89,7 @@
         <Grid Grid.Row="2" Margin="10, 0, 10, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80" />
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="120" />
                 <ColumnDefinition Width="60" />
                 <ColumnDefinition Width="100" />

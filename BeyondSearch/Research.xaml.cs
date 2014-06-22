@@ -358,5 +358,69 @@ namespace BeyondSearch
         private void LoadFilter_Click(object sender, RoutedEventArgs e)
         {
         }
+
+        private void Menu_FilesFilterClick(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog 
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".txt", Filter = "Index documents (.txt)|*.txt|*.cfs|*.*" };
+            dlg.CheckPathExists = true;
+            dlg.CheckFileExists = true;
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            var result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                // Open document 
+                TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
+                TextBoxFilterFile.Text = dlg.SafeFileName;
+            }
+
+            if (TextBoxFilterFile.Text.Length > 0)
+            {
+                var reader = new FilterTermFileReader();
+                var terms =
+                    reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
+                        .ToList();
+                ListBoxFilters.Items.Clear();
+                foreach (var term in terms)
+                {
+                    ListBoxFilters.Items.Add(term);
+                }
+            }
+        }
+
+        private void Menu_FilesKeywordsClick( object sender, RoutedEventArgs e )
+        {
+            // Create OpenFileDialog 
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".txt", Filter = "Index documents (.txt)|*.txt|*.cfs|*.*" };
+            dlg.CheckPathExists = true;
+            dlg.CheckFileExists = true;
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            var result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                // Open document 
+                TextBoxKeywordFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
+                TextBoxKeywordFile.Text = dlg.SafeFileName;
+            }
+
+            if (TextBoxFilterFile.Text.Length > 0)
+            {
+                var reader = new FilterTermFileReader();
+                var terms =
+                    reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
+                        .ToList();
+                ListBoxFilters.Items.Clear();
+                foreach (var term in terms)
+                {
+                    ListBoxFilters.Items.Add(term);
+                }
+            }
+        }
     }
 }
