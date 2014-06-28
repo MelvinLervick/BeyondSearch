@@ -23,14 +23,10 @@ namespace BeyondSearch
     /// </summary>
     public partial class Research : Window
     {
-        private const string ContainsMatch = "Contains Match";
-        private const string ContainsMatch1 = "Contains Match1";
-        private const string ContainsSansSpaceAndNumberMatch = "Contains Sans Space & Number Match";
-        private const string ContainsSansSpaceAndNumberMatch1 = "Contains Sans Space & Number Match1";
-        private const string ExactMatch = "Exact Match";
-        private const string ExactMatch1 = "Exact Match1";
-        private const string FuzzyContainsMatch = "Fuzzy Contains Match";
-        private const string FuzzyContainsMatch1 = "Fuzzy Contains Match1";
+        private const string ContainsMatch = "Contains";
+        private const string ContainsSansSpaceAndNumberMatch = "Sans Space & Number";
+        private const string ExactMatch = "Exact";
+        private const string FuzzyContainsMatch = "Fuzzy";
         private readonly KeywordFilter filter = new KeywordFilter();
 
         public Research()
@@ -38,7 +34,7 @@ namespace BeyondSearch
             InitializeComponent();
             InitializeKeywordList();
             InitializeFilterList();
-            InitializeFilters();
+            DisplaySelectedFilter();
         }
 
         private void InitializeKeywordList()
@@ -79,22 +75,28 @@ namespace BeyondSearch
             ListBoxFilters.Items.Add("dog");
         }
 
-        private void InitializeFilters()
+        private void DisplaySelectedFilter()
         {
-            var listFilters = new List<string>
+            if ( MenuItemExact.IsChecked )
             {
-                ContainsMatch,
-                ContainsMatch1,
-                ContainsSansSpaceAndNumberMatch,
-                ContainsSansSpaceAndNumberMatch1,
-                ExactMatch,
-                ExactMatch1,
-                FuzzyContainsMatch,
-                FuzzyContainsMatch1
-            };
-
-            ComboBoxSelectFilters.ItemsSource = listFilters;
-            ComboBoxSelectFilters.SelectedIndex = 0;
+                LabelSelectedFilter.Content = ExactMatch;
+                return;
+            }
+            if ( MenuItemFuzzy.IsChecked )
+            {
+                LabelSelectedFilter.Content = FuzzyContainsMatch;
+                return;
+            }
+            if ( MenuItemSansSpaceOrNumber.IsChecked )
+            {
+                LabelSelectedFilter.Content = ContainsSansSpaceAndNumberMatch;
+                return;
+            }
+            if ( MenuItemStrictContains.IsChecked )
+            {
+                LabelSelectedFilter.Content = ContainsMatch;
+                return;
+            }
         }
 
         private void Menu_FileExitClick(object sender, RoutedEventArgs e)
@@ -169,32 +171,24 @@ namespace BeyondSearch
             var sw = new Stopwatch();
             ListBoxFilteredKeywords.Items.Clear();
 
-            switch (ComboBoxSelectFilters.SelectedValue.ToString())
+            SetSelectedFilters( sw );
+        }
+
+        private void SetSelectedFilters(Stopwatch sw)
+        {
+            if ( MenuItemList.IsChecked )
             {
-                case ContainsMatch: // Contains Match with list of items
-                    ContainsMatchFilter(sw,0);
-                    break;
-                case ContainsMatch1: // Contains Match one item per call
-                    ContainsMatchFilter(sw,1);
-                    break;
-                case ContainsSansSpaceAndNumberMatch: // Contains Match with list of items
-                    ContainsSansSpaceAndNumberMatchFilter(sw, 0);
-                    break;
-                case ContainsSansSpaceAndNumberMatch1: // Contains Match one item per call
-                    ContainsSansSpaceAndNumberMatchFilter(sw, 1);
-                    break;
-                case ExactMatch: // Exact Match with list of items
-                    ExactMatchFilter(sw, 0);
-                    break;
-                case ExactMatch1: // Exact Match one item per call
-                    ExactMatchFilter(sw, 1);
-                    break;
-                case FuzzyContainsMatch: // Contains Match with list of items
-                    FuzzyContainsMatchFilter(sw, 0);
-                    break;
-                case FuzzyContainsMatch1: // Contains Match one item per call
-                    FuzzyContainsMatchFilter(sw, 1);
-                    break;
+                if (MenuItemExact.IsChecked) ExactMatchFilter(sw, 0);
+                if (MenuItemFuzzy.IsChecked) FuzzyContainsMatchFilter(sw, 0);
+                if (MenuItemSansSpaceOrNumber.IsChecked) ContainsSansSpaceAndNumberMatchFilter(sw, 0);
+                if (MenuItemStrictContains.IsChecked) ContainsMatchFilter(sw, 0);
+            }
+            else
+            {
+                if (MenuItemExact.IsChecked) ExactMatchFilter(sw, 1);
+                if (MenuItemFuzzy.IsChecked) FuzzyContainsMatchFilter(sw, 1);
+                if (MenuItemSansSpaceOrNumber.IsChecked) ContainsSansSpaceAndNumberMatchFilter(sw, 1);
+                if (MenuItemStrictContains.IsChecked) ContainsMatchFilter(sw, 1);
             }
         }
 
@@ -351,14 +345,6 @@ namespace BeyondSearch
             }
         }
 
-        private void LoadKeyword_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void LoadFilter_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void Menu_FilesFilterClick(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog 
@@ -409,18 +395,55 @@ namespace BeyondSearch
                 TextBoxKeywordFile.Text = dlg.SafeFileName;
             }
 
-            if (TextBoxFilterFile.Text.Length > 0)
+            if (TextBoxKeywordFile.Text.Length > 0)
             {
                 var reader = new FilterTermFileReader();
                 var terms =
-                    reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
+                    reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxKeywordFolder.Text, TextBoxKeywordFile.Text))
                         .ToList();
-                ListBoxFilters.Items.Clear();
+                ListBoxKeywords.Items.Clear();
                 foreach (var term in terms)
                 {
-                    ListBoxFilters.Items.Add(term);
+                    ListBoxKeywords.Items.Add(term);
                 }
             }
+        }
+
+        private void MoveFilteredKeywords_Click( object sender, RoutedEventArgs e )
+        {
+        }
+
+        private void MarkSelectedFilter_Click( object sender, RoutedEventArgs e )
+        {
+            var item = e.OriginalSource as MenuItem;
+            item.IsChecked = true;
+
+            if (item.Name == "MenuItemStrictContains")
+            {
+                MenuItemExact.IsChecked = false;
+                MenuItemFuzzy.IsChecked = false;
+                MenuItemSansSpaceOrNumber.IsChecked = false;
+            }
+            if (item.Name == "MenuItemSansSpaceOrNumber")
+            {
+                MenuItemStrictContains.IsChecked = false;
+                MenuItemExact.IsChecked = false;
+                MenuItemFuzzy.IsChecked = false;
+            }
+            if (item.Name == "MenuItemExact")
+            {
+                MenuItemStrictContains.IsChecked = false;
+                MenuItemFuzzy.IsChecked = false;
+                MenuItemSansSpaceOrNumber.IsChecked = false;
+            }
+            if (item.Name == "MenuItemFuzzy")
+            {
+                MenuItemStrictContains.IsChecked = false;
+                MenuItemExact.IsChecked = false;
+                MenuItemSansSpaceOrNumber.IsChecked = false;
+            }
+
+            DisplaySelectedFilter();
         }
     }
 }
