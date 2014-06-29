@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BeyondSearch.Common.FilterFileReader;
+using Microsoft.Win32;
 
 namespace BeyondSearch
 {
@@ -307,44 +297,6 @@ namespace BeyondSearch
             return listToReturn;
         }
 
-        private void ButtonKeywordsFile_Click(object sender, RoutedEventArgs routedEventArgs)
-        {
-            // Create OpenFileDialog 
-            var dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".txt", Filter = "Index documents (.txt)|*.txt|*.cfs|*.*"};
-            dlg.CheckPathExists = true;
-            dlg.CheckFileExists = true;
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            var result = dlg.ShowDialog();
-
-            // Get the selected file name and display in a TextBox 
-            if (result == true)
-            {
-                // Open document 
-                TextBoxKeywordFolder.Text = System.IO.Path.GetDirectoryName( dlg.FileName );
-                TextBoxKeywordFile.Text = dlg.SafeFileName;
-            }
-        }
-
-        private void ButtonFilterFile_Click( object sender, RoutedEventArgs e )
-        {
-            // Create OpenFileDialog 
-            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".txt", Filter = "Index documents (.txt)|*.txt|*.cfs|*.*" };
-            dlg.CheckPathExists = true;
-            dlg.CheckFileExists = true;
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            var result = dlg.ShowDialog();
-
-            // Get the selected file name and display in a TextBox 
-            if (result == true)
-            {
-                // Open document 
-                TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
-                TextBoxFilterFile.Text = dlg.SafeFileName;
-            }
-        }
-
         private void Menu_FilesFilterClick(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog 
@@ -444,6 +396,71 @@ namespace BeyondSearch
             }
 
             DisplaySelectedFilter();
+        }
+
+        private void Menu_SaveFiltersClick( object sender, RoutedEventArgs e )
+        {
+            var saveFile = new SaveFileDialog();
+            saveFile.InitialDirectory = @"C:\";
+            saveFile.DefaultExt = "txt";
+            saveFile.CheckPathExists = true;
+            saveFile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            if ( saveFile.ShowDialog() ?? false )
+            {
+                // If the file name is not an empty string open it for saving.
+                if ( saveFile.FileName != "" )
+                {
+                    using (var tw = new System.IO.StreamWriter(saveFile.FileName))
+                    {
+                        foreach (var item in ListBoxFilters.Items)
+                        {
+                            if ( !string.IsNullOrWhiteSpace( item.ToString() ) )
+                            {
+                                tw.WriteLine(item.ToString());
+                            }
+                        }
+
+                        tw.Close();
+                    }                    
+                }
+                else
+                {
+                    TextBoxFilterFile.Text = "Invalid filename";
+                }
+            }
+        }
+
+        private void Menu_SaveKeywordsClick( object sender, RoutedEventArgs e )
+        {
+            var saveFile = new SaveFileDialog();
+            saveFile.InitialDirectory = @"C:\";
+            saveFile.DefaultExt = "txt";
+            saveFile.CheckPathExists = true;
+
+            if (saveFile.ShowDialog() ?? false)
+            {
+                // If the file name is not an empty string open it for saving.
+                if (saveFile.FileName != "")
+                {
+                    using (var tw = new System.IO.StreamWriter(saveFile.FileName))
+                    {
+                        foreach (var item in ListBoxKeywords.Items)
+                        {
+                            if (!string.IsNullOrWhiteSpace(item.ToString()))
+                            {
+                                tw.WriteLine(item.ToString());
+                            }
+                        }
+
+                        tw.Close();
+                    }
+                }
+                else
+                {
+                    TextBoxFilterFile.Text = "Invalid filename";
+                }
+            }
         }
     }
 }
