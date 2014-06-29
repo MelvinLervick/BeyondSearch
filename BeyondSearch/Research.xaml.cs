@@ -17,6 +17,7 @@ namespace BeyondSearch
         private const string ContainsSansSpaceAndNumberMatch = "Sans Space & Number";
         private const string ExactMatch = "Exact";
         private const string FuzzyContainsMatch = "Fuzzy";
+        private const string Term = "Term";
         private readonly KeywordFilter filter = new KeywordFilter();
 
         public Research()
@@ -363,6 +364,12 @@ namespace BeyondSearch
 
         private void MoveFilteredKeywords_Click( object sender, RoutedEventArgs e )
         {
+            ListBoxKeywords.Items.Clear();
+            foreach ( var item in ListBoxFilteredKeywords.Items )
+            {
+                ListBoxKeywords.Items.Add( item );
+            }
+            ListBoxFilteredKeywords.Items.Clear();
         }
 
         private void MarkSelectedFilter_Click( object sender, RoutedEventArgs e )
@@ -400,11 +407,13 @@ namespace BeyondSearch
 
         private void Menu_SaveFiltersClick( object sender, RoutedEventArgs e )
         {
-            var saveFile = new SaveFileDialog();
-            saveFile.InitialDirectory = @"C:\";
-            saveFile.DefaultExt = "txt";
-            saveFile.CheckPathExists = true;
-            saveFile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            var saveFile = new SaveFileDialog
+            {
+                InitialDirectory = @"C:\",
+                DefaultExt = "txt",
+                CheckPathExists = true,
+                Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*"
+            };
 
             if ( saveFile.ShowDialog() ?? false )
             {
@@ -413,6 +422,7 @@ namespace BeyondSearch
                 {
                     using (var tw = new System.IO.StreamWriter(saveFile.FileName))
                     {
+                        tw.WriteLine(Term);
                         foreach (var item in ListBoxFilters.Items)
                         {
                             if ( !string.IsNullOrWhiteSpace( item.ToString() ) )
@@ -433,10 +443,13 @@ namespace BeyondSearch
 
         private void Menu_SaveKeywordsClick( object sender, RoutedEventArgs e )
         {
-            var saveFile = new SaveFileDialog();
-            saveFile.InitialDirectory = @"C:\";
-            saveFile.DefaultExt = "txt";
-            saveFile.CheckPathExists = true;
+            var saveFile = new SaveFileDialog
+            {
+                InitialDirectory = @"C:\",
+                DefaultExt = "txt",
+                CheckPathExists = true,
+                Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*"
+            };
 
             if (saveFile.ShowDialog() ?? false)
             {
@@ -445,6 +458,7 @@ namespace BeyondSearch
                 {
                     using (var tw = new System.IO.StreamWriter(saveFile.FileName))
                     {
+                        tw.WriteLine(Term);
                         foreach (var item in ListBoxKeywords.Items)
                         {
                             if (!string.IsNullOrWhiteSpace(item.ToString()))
