@@ -98,5 +98,14 @@ namespace BeyondSearch.Filters
 
             compositeMatchmaker = new KeywordMatchmaker(Matchmakers);
         }
+
+        public void SetMatchmakerToLucenePortStem(bool singleMatchmaker = true)
+        {
+            if (singleMatchmaker || Matchmakers == null) Matchmakers = new List<IKeywordMatchmaker>();
+
+            Matchmakers.Add(new LucenePorterStemMatchmaker(toLowerMasterFilteredKeywords));
+
+            compositeMatchmaker = new KeywordMatchmaker(Matchmakers);
+        }
     }
 }

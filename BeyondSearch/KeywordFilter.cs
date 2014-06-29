@@ -82,6 +82,20 @@ namespace BeyondSearch
             return keywords.Where(keyword => !filterer.IsProhibitedKeyword(keyword)).ToList();
         }
 
+        public List<string> LucenePorterStemContains(IEnumerable<string> keywords)
+        {
+            filterer.SetMatchmakerToLucenePortStem();
+            var filteredList = filterer.Filter(keywords);
+
+            return (from item in filteredList where item.Value == null select item.Key).ToList();
+        }
+
+        public List<string> LucenePorterStemContains1(IEnumerable<string> keywords)
+        {
+            filterer.SetMatchmakerToLucenePortStem();
+            return keywords.Where(keyword => !filterer.IsProhibitedKeyword(keyword)).ToList();
+        }
+
         public void FillFilterList(IEnumerable<string> filters)
         {
             filterList = new List<string>();

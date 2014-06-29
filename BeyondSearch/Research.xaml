@@ -28,6 +28,7 @@
                 <MenuItem Name="MenuItemSansSpaceOrNumber" Header="Contains Sans Space or Number Match" IsCheckable="True" Click="MarkSelectedFilter_Click" />
                 <MenuItem Name="MenuItemExact" Header="Exact Match" IsCheckable="True" IsChecked="True" Click="MarkSelectedFilter_Click" />
                 <MenuItem Name="MenuItemFuzzy" Header="Fuzzy Contains Match" IsCheckable="True" Click="MarkSelectedFilter_Click" />
+                <MenuItem Name="MenuItemLucenePorterStem" Header="Lucene Porter Stem Match" IsCheckable="True" Click="MarkSelectedFilter_Click" />
             </MenuItem>
             <MenuItem Header="_Keywords">
                 

@@ -13,10 +13,11 @@ namespace BeyondSearch
     /// </summary>
     public partial class Research : Window
     {
-        private const string ContainsMatch = "Contains";
-        private const string ContainsSansSpaceAndNumberMatch = "Sans Space & Number";
-        private const string ExactMatch = "Exact";
-        private const string FuzzyContainsMatch = "Fuzzy";
+        private const string ContainsMatch = "Contains Match";
+        private const string ContainsSansSpaceAndNumberMatch = "Sans Space & Number Match";
+        private const string ExactMatch = "Exact Match";
+        private const string FuzzyContainsMatch = "Fuzzy Match";
+        private const string LucenePorterStemMatch = "Lucene Porter Stem";
         private const string Term = "Term";
         private readonly KeywordFilter filter = new KeywordFilter();
 
@@ -86,6 +87,11 @@ namespace BeyondSearch
             if ( MenuItemStrictContains.IsChecked )
             {
                 LabelSelectedFilter.Content = ContainsMatch;
+                return;
+            }
+            if (MenuItemLucenePorterStem.IsChecked)
+            {
+                LabelSelectedFilter.Content = LucenePorterStemMatch;
                 return;
             }
         }
@@ -173,6 +179,7 @@ namespace BeyondSearch
                 if (MenuItemFuzzy.IsChecked) FuzzyContainsMatchFilter(sw, 0);
                 if (MenuItemSansSpaceOrNumber.IsChecked) ContainsSansSpaceAndNumberMatchFilter(sw, 0);
                 if (MenuItemStrictContains.IsChecked) ContainsMatchFilter(sw, 0);
+                if (MenuItemLucenePorterStem.IsChecked) LucenePorterStemFilter(sw, 0);
             }
             else
             {
@@ -180,6 +187,7 @@ namespace BeyondSearch
                 if (MenuItemFuzzy.IsChecked) FuzzyContainsMatchFilter(sw, 1);
                 if (MenuItemSansSpaceOrNumber.IsChecked) ContainsSansSpaceAndNumberMatchFilter(sw, 1);
                 if (MenuItemStrictContains.IsChecked) ContainsMatchFilter(sw, 1);
+                if (MenuItemLucenePorterStem.IsChecked) LucenePorterStemFilter(sw, 1);
             }
         }
 
@@ -265,6 +273,30 @@ namespace BeyondSearch
                 var filteredItems = oneOrMany == 0
                     ? filter.FuzzyContains( keywords )
                     : filter.FuzzyContains1( keywords );
+                sw.Stop();
+
+                foreach (var filteredItem in filteredItems)
+                {
+                    ListBoxFilteredKeywords.Items.Add(filteredItem);
+                }
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
+
+        private void LucenePorterStemFilter(Stopwatch sw, int oneOrMany)
+        {
+            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            filter.FillFilterList(filters);
+
+            if (ListBoxKeywords.Items.Count > 0)
+            {
+                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+
+                sw.Start();
+                var filteredItems = oneOrMany == 0
+                    ? filter.LucenePorterStemContains(keywords)
+                    : filter.LucenePorterStemContains1(keywords);
                 sw.Stop();
 
                 foreach (var filteredItem in filteredItems)
@@ -382,24 +414,35 @@ namespace BeyondSearch
                 MenuItemExact.IsChecked = false;
                 MenuItemFuzzy.IsChecked = false;
                 MenuItemSansSpaceOrNumber.IsChecked = false;
+                MenuItemLucenePorterStem.IsChecked = false;
             }
             if (item.Name == "MenuItemSansSpaceOrNumber")
             {
                 MenuItemStrictContains.IsChecked = false;
                 MenuItemExact.IsChecked = false;
                 MenuItemFuzzy.IsChecked = false;
+                MenuItemLucenePorterStem.IsChecked = false;
             }
             if (item.Name == "MenuItemExact")
             {
                 MenuItemStrictContains.IsChecked = false;
                 MenuItemFuzzy.IsChecked = false;
                 MenuItemSansSpaceOrNumber.IsChecked = false;
+                MenuItemLucenePorterStem.IsChecked = false;
             }
             if (item.Name == "MenuItemFuzzy")
             {
                 MenuItemStrictContains.IsChecked = false;
                 MenuItemExact.IsChecked = false;
                 MenuItemSansSpaceOrNumber.IsChecked = false;
+                MenuItemLucenePorterStem.IsChecked = false;
+            }
+            if (item.Name == "MenuItemLucenePorterStem")
+            {
+                MenuItemStrictContains.IsChecked = false;
+                MenuItemExact.IsChecked = false;
+                MenuItemSansSpaceOrNumber.IsChecked = false;
+                MenuItemFuzzy.IsChecked = false;
             }
 
             DisplaySelectedFilter();

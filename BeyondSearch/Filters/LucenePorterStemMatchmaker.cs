@@ -5,12 +5,12 @@ using BeyondSearch.Common;
 
 namespace BeyondSearch.Filters
 {
-    public class FuzzyContainsKeywordMatchmaker : IKeywordMatchmaker
+    public class LucenePorterStemMatchmaker : IKeywordMatchmaker
     {
         private readonly IList<FilteredKeyword> filteredKeywords;
         private readonly IDictionary<string, IEnumerable<PorterStemTokenizer<FilteredKeyword>>> filterMap;
 
-        public FuzzyContainsKeywordMatchmaker(IList<FilteredKeyword> filteredKeywords)
+        public LucenePorterStemMatchmaker(IList<FilteredKeyword> filteredKeywords)
         {
             if (filteredKeywords == null)
             {
