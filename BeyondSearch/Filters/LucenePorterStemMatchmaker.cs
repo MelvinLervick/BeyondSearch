@@ -1,14 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using BeyondSearch.Common;
+using Lucene.Net.Analysis;
+using Lucene.Net.Analysis.Standard;
+using Lucene.Net.Documents;
+using Lucene.Net.Index;
+using Lucene.Net.QueryParsers;
+using Lucene.Net.Search;
+using Lucene.Net.Store;
+using Version = Lucene.Net.Util.Version;
 
 namespace BeyondSearch.Filters
 {
     public class LucenePorterStemMatchmaker : IKeywordMatchmaker
     {
         private readonly IList<FilteredKeyword> filteredKeywords;
-        private readonly IDictionary<string, IEnumerable<PorterStemTokenizer<FilteredKeyword>>> filterMap;
+        //private readonly IDictionary<string, IEnumerable<PorterStemTokenizer<FilteredKeyword>>> filterMap;
+        private readonly RAMDirectory filterIndex;
 
         public LucenePorterStemMatchmaker(IList<FilteredKeyword> filteredKeywords)
         {
@@ -19,9 +29,19 @@ namespace BeyondSearch.Filters
 
             this.filteredKeywords = filteredKeywords;
 
-            if (filterMap == null)
+            if (filterIndex == null)
             {
-                filterMap = GenerateFilterMap(filteredKeywords);
+                filterIndex = new RAMDirectory();
+                //var writer = new IndexWriter(filterIndex, new StandardAnalyzer(Version.LUCENE_29), IndexWriter.MaxFieldLength.UNLIMITED);
+                var writer = new IndexWriter(filterIndex, new SimpleAnalyzer(), IndexWriter.MaxFieldLength.UNLIMITED);
+
+                foreach ( var keyword in filteredKeywords )
+                {
+                    writer.AddDocument( CreateDocument( keyword.Keyword ) );
+                }
+
+                writer.Optimize();
+                writer.Dispose();
             }
         }
 
@@ -39,15 +59,25 @@ namespace BeyondSearch.Filters
 
                 if (suspect.Value == null)
                 {
-                    var suspectToCheck = new Dictionary<string, FilteredKeyword>
+                    Searcher searcher = new IndexSearcher(filterIndex);
+
+                    //var suspectToCheck = new Dictionary<string, FilteredKeyword>
+                    //{
+                    //    {suspect.Key, null}
+                    //};
+                    //var matches =
+                    //    suspectToCheck.Keys.Select(x => new PorterStemTokenizer<string>(x, y => y))
+                    //        .Select(x => new {suspect = x.Source, filter = x.GetFirstMatch(filterMap)}).Distinct()
+                    //        .ToDictionary(x => x.suspect, y => y.filter == null ? null : y.filter.Source);
+                    var suspectTokens = suspect.Key.ToPorterStemNormalizedWithStopWords();
+                    if ( Search( searcher, suspectTokens ) )
                     {
-                        {suspect.Key, null}
-                    };
-                    var matches =
-                        suspectToCheck.Keys.Select(x => new PorterStemTokenizer<string>(x, y => y))
-                            .Select(x => new {suspect = x.Source, filter = x.GetFirstMatch(filterMap)}).Distinct()
-                            .ToDictionary(x => x.suspect, y => y.filter == null ? null : y.filter.Source);
-                    matchedFilters[suspect.Key] = matches[suspect.Key];
+                        matchedFilters[suspect.Key] = new FilteredKeyword();
+                    }
+                    else
+                    {
+                        matchedFilters[suspect.Key] = suspect.Value;
+                    }
                 }
                 else
                 {
@@ -58,70 +88,39 @@ namespace BeyondSearch.Filters
             return matchedFilters;
         }
 
-        private IDictionary<string, IEnumerable<PorterStemTokenizer<FilteredKeyword>>> GenerateFilterMap(IEnumerable<FilteredKeyword> filteredKeywords)
+        private static Document CreateDocument(String keywords)
         {
-            var tokenizedFilters = filteredKeywords.Select(x => new PorterStemTokenizer<FilteredKeyword>(x, y => y.Keyword)).ToList();
-            var expanded = tokenizedFilters.SelectMany(AssociateTokenizerToTokens);
-            var grouped = CollapseAssociatedTokenizers(expanded);
-            return grouped;
+            var doc = new Document();
+
+            // Add the keywords as an indexed field. Note that indexed
+            // Text fields are constructed using a Reader. Lucene can read
+            // and index very large chunks of text, without storing the
+            // entire content verbatim in the index. In this example we
+            // can just wrap the content string in a StringReader."\"" + queryString + "\""
+            var tokens = string.Format( "\"{0}\"", keywords.ToPorterStemNormalizedWithStopWords() );
+            doc.Add(new Field("keywords", keywords, Field.Store.YES, Field.Index.ANALYZED));
+            doc.Add(new Field("tokens", tokens, Field.Store.YES, Field.Index.ANALYZED));
+
+            return doc;
         }
 
-        private IEnumerable<KeyValuePair<string, PorterStemTokenizer<FilteredKeyword>>> AssociateTokenizerToTokens(
-            PorterStemTokenizer<FilteredKeyword> tokenizer)
+        private static bool Search(Searcher searcher, String queryString)
         {
-            return tokenizer.Tokens.Keys.ToDictionary(token => token, value => tokenizer);
-        }
+            // Build a Query object
+            //var qp = new QueryParser(Version.LUCENE_29, "keywords", new StandardAnalyzer(Version.LUCENE_29));
+            //var qp = new QueryParser(Version.LUCENE_29, "tokens", new StandardAnalyzer(Version.LUCENE_29));
+            var qp = new QueryParser(Version.LUCENE_29, "tokens", new SimpleAnalyzer());
+            qp.FuzzyMinSim = 0.9F;
+            var query = qp.Parse(queryString); //, "keywords", new StandardAnalyzer(Version.LUCENE_29));
 
-        private IDictionary<string, IEnumerable<PorterStemTokenizer<FilteredKeyword>>> CollapseAssociatedTokenizers(
-            IEnumerable<KeyValuePair<string, PorterStemTokenizer<FilteredKeyword>>> associations)
-        {
-            var grouped = associations.GroupBy(association => association.Key, association => association.Value);
-            return grouped.ToDictionary(group => group.Key, group => group.ToList().AsEnumerable());
-        }
+            // Search for the query
+            var hitCount = searcher.Search(query,null,1).TotalHits;
 
-        private class PorterStemTokenizer<T>
-        {
-            public readonly string OriginalString;
-            public readonly T Source;
-            public readonly IDictionary<string, int> Tokens;
-
-            public PorterStemTokenizer(T input, Func<T, string> keywordSelector)
-            {
-                Source = input;
-                OriginalString = keywordSelector(input);
-                Tokens = OriginalString.ToPorterStemNormalizedWithStopWords()
-                    .Split(' ').GroupBy(x => x)
-                    .ToDictionary(x => x.Key, y => y.Count());
+            if (hitCount == 0) {
+                return false;
             }
 
-            public PorterStemTokenizer<TV> GetFirstMatch<TV>(IDictionary<string, IEnumerable<PorterStemTokenizer<TV>>> tokenizedFilters)
-            {
-                var narrowedFilters = NarrowFilters(tokenizedFilters);
-                var match = narrowedFilters.FirstOrDefault(KeywordMatchesFilterItem);
-                return match;
-            }
-
-            private IEnumerable<PorterStemTokenizer<TV>> NarrowFilters<TV>(IDictionary<string, IEnumerable<PorterStemTokenizer<TV>>> tokenizedFilters)
-            {
-                var filtersForSuspectTokens =
-                    Tokens.Keys.Where(tokenizedFilters.ContainsKey).Select(x => tokenizedFilters[x]);
-
-                var smallestFilterSet =
-                    filtersForSuspectTokens.Where(x => x.Any()).OrderBy(x => x.Count()).FirstOrDefault();
-
-                return smallestFilterSet ?? Enumerable.Empty<PorterStemTokenizer<TV>>();
-            }
-
-            private bool KeywordMatchesFilterItem<TV>(PorterStemTokenizer<TV> tokenizedFilter)
-            {
-                var matched =
-                    tokenizedFilter.Tokens.All(
-                        x =>
-                            Tokens.ContainsKey(x.Key) &&
-                            Tokens[x.Key] >= tokenizedFilter.Tokens[x.Key]);
-
-                return matched;
-            }
+            return true;
         }
     }
 }
