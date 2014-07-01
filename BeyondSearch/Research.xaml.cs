@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using BeyondSearch.Common.FilterFileReader;
+using BeyondSearch.Common.TsvFileReader;
 using Microsoft.Win32;
 
 namespace BeyondSearch
@@ -350,14 +351,29 @@ namespace BeyondSearch
 
             if (TextBoxFilterFile.Text.Length > 0)
             {
-                var reader = new FilterTermFileReader();
-                var terms =
-                    reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
-                        .ToList();
-                ListBoxFilters.Items.Clear();
-                foreach (var term in terms)
+                if ( TextBoxFilterFile.Text.Contains( ".tsv" ) )
                 {
-                    ListBoxFilters.Items.Add(term);
+                    var reader = new TsvProhibitedKeywordFileReader();
+                    var terms =
+                        reader.ReadKeywords(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
+                            .ToList();
+                    ListBoxFilters.Items.Clear();
+                    foreach (var term in terms)
+                    {
+                        ListBoxFilters.Items.Add(term);
+                    }
+                }
+                else
+                {
+                    var reader = new FilterTermFileReader();
+                    var terms =
+                        reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
+                            .ToList();
+                    ListBoxFilters.Items.Clear();
+                    foreach (var term in terms)
+                    {
+                        ListBoxFilters.Items.Add(term);
+                    }
                 }
             }
         }
@@ -382,14 +398,29 @@ namespace BeyondSearch
 
             if (TextBoxKeywordFile.Text.Length > 0)
             {
-                var reader = new FilterTermFileReader();
-                var terms =
-                    reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxKeywordFolder.Text, TextBoxKeywordFile.Text))
-                        .ToList();
-                ListBoxKeywords.Items.Clear();
-                foreach (var term in terms)
+                if ( TextBoxKeywordFile.Text.Contains( ".tsv" ) )
                 {
-                    ListBoxKeywords.Items.Add(term);
+                    var reader = new TsvProhibitedKeywordFileReader();
+                    var terms =
+                        reader.ReadKeywords( System.IO.Path.Combine( TextBoxKeywordFolder.Text, TextBoxKeywordFile.Text ) )
+                            .ToList();
+                    ListBoxKeywords.Items.Clear();
+                    foreach ( var term in terms )
+                    {
+                        ListBoxKeywords.Items.Add( term );
+                    }
+                }
+                else
+                {
+                    var reader = new FilterTermFileReader();
+                    var terms =
+                        reader.ReadFilterTerms( System.IO.Path.Combine( TextBoxKeywordFolder.Text,
+                            TextBoxKeywordFile.Text ) ).ToList();
+                    ListBoxKeywords.Items.Clear();
+                    foreach ( var term in terms )
+                    {
+                        ListBoxKeywords.Items.Add( term );
+                    }
                 }
             }
         }
