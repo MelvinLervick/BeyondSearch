@@ -15,6 +15,7 @@ namespace BeyondSearch
     public partial class Research : Window
     {
         private const string ContainsMatch = "Contains Match";
+        private const string StrictContainsMatch = "Strict Contains Match";
         private const string ContainsSansSpaceAndNumberMatch = "Sans Space & Number Match";
         private const string ExactMatch = "Exact Match";
         private const string FuzzyContainsMatch = "Fuzzy Match";
@@ -87,12 +88,17 @@ namespace BeyondSearch
             }
             if ( MenuItemStrictContains.IsChecked )
             {
-                LabelSelectedFilter.Content = ContainsMatch;
+                LabelSelectedFilter.Content = StrictContainsMatch;
                 return;
             }
             if (MenuItemLucenePorterStem.IsChecked)
             {
                 LabelSelectedFilter.Content = LucenePorterStemMatch;
+                return;
+            }
+            if (MenuItemContains.IsChecked)
+            {
+                LabelSelectedFilter.Content = ContainsMatch;
                 return;
             }
         }
@@ -179,7 +185,8 @@ namespace BeyondSearch
                 if (MenuItemExact.IsChecked) ExactMatchFilter(sw, 0);
                 if (MenuItemFuzzy.IsChecked) FuzzyContainsMatchFilter(sw, 0);
                 if (MenuItemSansSpaceOrNumber.IsChecked) ContainsSansSpaceAndNumberMatchFilter(sw, 0);
-                if (MenuItemStrictContains.IsChecked) ContainsMatchFilter(sw, 0);
+                if (MenuItemStrictContains.IsChecked) StrictContainsMatchFilter(sw, 0);
+                if (MenuItemContains.IsChecked) ContainsMatchFilter(sw, 0);
                 if (MenuItemLucenePorterStem.IsChecked) LucenePorterStemFilter(sw, 0);
             }
             else
@@ -187,7 +194,8 @@ namespace BeyondSearch
                 if (MenuItemExact.IsChecked) ExactMatchFilter(sw, 1);
                 if (MenuItemFuzzy.IsChecked) FuzzyContainsMatchFilter(sw, 1);
                 if (MenuItemSansSpaceOrNumber.IsChecked) ContainsSansSpaceAndNumberMatchFilter(sw, 1);
-                if (MenuItemStrictContains.IsChecked) ContainsMatchFilter(sw, 1);
+                if (MenuItemStrictContains.IsChecked) StrictContainsMatchFilter(sw, 1);
+                if (MenuItemContains.IsChecked) ContainsMatchFilter(sw, 1);
                 if (MenuItemLucenePorterStem.IsChecked) LucenePorterStemFilter(sw, 1);
             }
         }
@@ -202,7 +210,29 @@ namespace BeyondSearch
                 List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
 
                 sw.Start();
-                var filteredItems = oneOrMany == 0 ? filter.Contains( keywords ) : filter.Contains1( keywords );
+                var filteredItems = oneOrMany == 0 ? filter.Contains(keywords) : filter.Contains1(keywords);
+                sw.Stop();
+
+                foreach (var filteredItem in filteredItems)
+                {
+                    ListBoxFilteredKeywords.Items.Add(filteredItem);
+                }
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
+
+        private void StrictContainsMatchFilter(Stopwatch sw, int oneOrMany)
+        {
+            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            filter.FillFilterList(filters);
+
+            if (ListBoxKeywords.Items.Count > 0)
+            {
+                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+
+                sw.Start();
+                var filteredItems = oneOrMany == 0 ? filter.StrictContains( keywords ) : filter.StrictContains1( keywords );
                 sw.Stop();
 
                 foreach (var filteredItem in filteredItems)
@@ -440,8 +470,17 @@ namespace BeyondSearch
             var item = e.OriginalSource as MenuItem;
             item.IsChecked = true;
 
+            if (item.Name == "MenuItemContains")
+            {
+                MenuItemStrictContains.IsChecked = false;
+                MenuItemExact.IsChecked = false;
+                MenuItemFuzzy.IsChecked = false;
+                MenuItemSansSpaceOrNumber.IsChecked = false;
+                MenuItemLucenePorterStem.IsChecked = false;
+            }
             if (item.Name == "MenuItemStrictContains")
             {
+                MenuItemContains.IsChecked = false;
                 MenuItemExact.IsChecked = false;
                 MenuItemFuzzy.IsChecked = false;
                 MenuItemSansSpaceOrNumber.IsChecked = false;
@@ -449,6 +488,7 @@ namespace BeyondSearch
             }
             if (item.Name == "MenuItemSansSpaceOrNumber")
             {
+                MenuItemContains.IsChecked = false;
                 MenuItemStrictContains.IsChecked = false;
                 MenuItemExact.IsChecked = false;
                 MenuItemFuzzy.IsChecked = false;
@@ -456,6 +496,7 @@ namespace BeyondSearch
             }
             if (item.Name == "MenuItemExact")
             {
+                MenuItemContains.IsChecked = false;
                 MenuItemStrictContains.IsChecked = false;
                 MenuItemFuzzy.IsChecked = false;
                 MenuItemSansSpaceOrNumber.IsChecked = false;
@@ -463,6 +504,7 @@ namespace BeyondSearch
             }
             if (item.Name == "MenuItemFuzzy")
             {
+                MenuItemContains.IsChecked = false;
                 MenuItemStrictContains.IsChecked = false;
                 MenuItemExact.IsChecked = false;
                 MenuItemSansSpaceOrNumber.IsChecked = false;
@@ -470,6 +512,7 @@ namespace BeyondSearch
             }
             if (item.Name == "MenuItemLucenePorterStem")
             {
+                MenuItemContains.IsChecked = false;
                 MenuItemStrictContains.IsChecked = false;
                 MenuItemExact.IsChecked = false;
                 MenuItemSansSpaceOrNumber.IsChecked = false;

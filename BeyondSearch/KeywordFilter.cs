@@ -26,6 +26,20 @@ namespace BeyondSearch
             }
         }
 
+        public List<string> Contains(IEnumerable<string> keywords)
+        {
+            filterer.SetMatchmakerToContainsMatch();
+            var filteredList = filterer.Filter(keywords);
+
+            return (from item in filteredList where item.Value == null select item.Key).ToList();
+        }
+
+        public List<string> Contains1(IEnumerable<string> keywords)
+        {
+            filterer.SetMatchmakerToContainsMatch();
+            return keywords.Where(keyword => !filterer.IsProhibitedKeyword(keyword)).ToList();
+        }
+
         public List<string> Exact(IEnumerable<string> keywords)
         {
             filterer.SetMatchmakerToExactMatch();
@@ -40,17 +54,17 @@ namespace BeyondSearch
             return keywords.Where(keyword => !filterer.IsProhibitedKeyword(keyword)).ToList();
         }
 
-        public List<string> Contains(IEnumerable<string> keywords)
+        public List<string> StrictContains(IEnumerable<string> keywords)
         {
-            filterer.SetMatchmakerToContainsMatch();
+            filterer.SetMatchmakerToStrictContainsMatch();
             var filteredList = filterer.Filter(keywords);
 
             return (from item in filteredList where item.Value == null select item.Key).ToList();
         }
 
-        public List<string> Contains1( IEnumerable<string> keywords )
+        public List<string> StrictContains1( IEnumerable<string> keywords )
         {
-            filterer.SetMatchmakerToContainsMatch();
+            filterer.SetMatchmakerToStrictContainsMatch();
             return keywords.Where(keyword => !filterer.IsProhibitedKeyword(keyword)).ToList();
         }
 

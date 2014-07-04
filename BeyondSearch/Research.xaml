@@ -24,6 +24,7 @@
             </MenuItem>
             <MenuItem Header="_Filters" >
                 <MenuItem Name="MenuItemList" Header="Call Filter with a List" IsCheckable="True" IsChecked="True" />
+                <MenuItem Name="MenuItemContains" Header="Contains Match" IsCheckable="True" Click="MarkSelectedFilter_Click" />
                 <MenuItem Name="MenuItemStrictContains" Header="Strict Contains Match" IsCheckable="True" Click="MarkSelectedFilter_Click" />
                 <MenuItem Name="MenuItemSansSpaceOrNumber" Header="Contains Sans Space or Number Match" IsCheckable="True" Click="MarkSelectedFilter_Click" />
                 <MenuItem Name="MenuItemExact" Header="Exact Match" IsCheckable="True" IsChecked="True" Click="MarkSelectedFilter_Click" />

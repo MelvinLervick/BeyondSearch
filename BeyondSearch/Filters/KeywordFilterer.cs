@@ -72,7 +72,7 @@ namespace BeyondSearch.Filters
             compositeMatchmaker = new KeywordMatchmaker(Matchmakers);
         }
 
-        public void SetMatchmakerToContainsMatch(bool singleMatchmaker = true)
+        public void SetMatchmakerToStrictContainsMatch(bool singleMatchmaker = true)
         {
             if (singleMatchmaker || Matchmakers == null) Matchmakers = new List<IKeywordMatchmaker>();
 
@@ -104,6 +104,15 @@ namespace BeyondSearch.Filters
             if (singleMatchmaker || Matchmakers == null) Matchmakers = new List<IKeywordMatchmaker>();
 
             Matchmakers.Add(new LucenePorterStemMatchmaker(toLowerMasterFilteredKeywords));
+
+            compositeMatchmaker = new KeywordMatchmaker(Matchmakers);
+        }
+
+        public void SetMatchmakerToContainsMatch(bool singleMatchmaker = true)
+        {
+            if (singleMatchmaker || Matchmakers == null) Matchmakers = new List<IKeywordMatchmaker>();
+
+            Matchmakers.Add(new ContainsMatchmaker(toLowerMasterFilteredKeywords));
 
             compositeMatchmaker = new KeywordMatchmaker(Matchmakers);
         }
