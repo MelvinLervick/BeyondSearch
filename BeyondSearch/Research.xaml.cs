@@ -29,6 +29,8 @@ namespace BeyondSearch
             InitializeKeywordList();
             InitializeFilterList();
             DisplaySelectedFilter();
+            ListBoxKeywords.ToolTip = ListBoxKeywords.Items.Count.ToString();
+            ListBoxFilters.ToolTip = ListBoxFilters.Items.Count.ToString();
         }
 
         private void InitializeKeywordList()
@@ -113,27 +115,14 @@ namespace BeyondSearch
             if ( TextBoxStringToAdd.Text.Length > 0 )
             {
                 ListBoxKeywords.Items.Add( " " + TextBoxStringToAdd.Text + " " );
-            }
-            else
-            {
-                if (TextBoxKeywordFile.Text.Length > 0)
-                {
-                    var reader = new FilterTermFileReader();
-                    var terms =
-                        reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxKeywordFolder.Text, TextBoxKeywordFile.Text))
-                            .ToList();
-                    ListBoxKeywords.Items.Clear();
-                    foreach (var term in terms)
-                    {
-                        ListBoxKeywords.Items.Add(term);
-                    }
-                }
+                ListBoxKeywords.ToolTip = ListBoxKeywords.Items.Count.ToString();
             }
         }
 
         private void ClearKeyword_Click(object sender, RoutedEventArgs e)
         {
             ListBoxKeywords.Items.Clear();
+            ListBoxKeywords.ToolTip = string.Empty;
 
             TextBoxKeywordFolder.Text = string.Empty;
             TextBoxKeywordFile.Text = string.Empty;
@@ -144,27 +133,14 @@ namespace BeyondSearch
             if ( TextBoxStringToAdd.Text.Length > 0 )
             {
                 ListBoxFilters.Items.Add( TextBoxStringToAdd.Text );
-            }
-            else
-            {
-                if ( TextBoxFilterFile.Text.Length > 0 )
-                {
-                    var reader = new FilterTermFileReader();
-                    var terms =
-                        reader.ReadFilterTerms( System.IO.Path.Combine( TextBoxFilterFolder.Text, TextBoxFilterFile.Text ) )
-                            .ToList();
-                    ListBoxFilters.Items.Clear();
-                    foreach ( var term in terms )
-                    {
-                        ListBoxFilters.Items.Add(term);
-                    }
-                }
+                ListBoxFilters.ToolTip = ListBoxFilters.Items.Count.ToString();
             }
         }
 
         private void ClearFilter_Click(object sender, RoutedEventArgs e)
         {
             ListBoxFilters.Items.Clear();
+            ListBoxFilters.ToolTip = string.Empty;
 
             TextBoxFilterFolder.Text = string.Empty;
             TextBoxFilterFile.Text = string.Empty;
@@ -176,6 +152,7 @@ namespace BeyondSearch
             ListBoxFilteredKeywords.Items.Clear();
 
             SetSelectedFilters( sw );
+            ListBoxFilteredKeywords.ToolTip = ListBoxFilteredKeywords.Items.Count.ToString();
         }
 
         private void SetSelectedFilters(Stopwatch sw)
@@ -405,6 +382,7 @@ namespace BeyondSearch
                         ListBoxFilters.Items.Add(term);
                     }
                 }
+                ListBoxFilters.ToolTip = ListBoxFilters.Items.Count.ToString();
             }
         }
 
@@ -452,6 +430,7 @@ namespace BeyondSearch
                         ListBoxKeywords.Items.Add( term );
                     }
                 }
+                ListBoxKeywords.ToolTip = ListBoxKeywords.Items.Count.ToString();
             }
         }
 
@@ -463,6 +442,8 @@ namespace BeyondSearch
                 ListBoxKeywords.Items.Add( item );
             }
             ListBoxFilteredKeywords.Items.Clear();
+            ListBoxKeywords.ToolTip = ListBoxKeywords.Items.Count.ToString();
+            ListBoxFilteredKeywords.ToolTip = ListBoxFilteredKeywords.Items.Count.ToString();
         }
 
         private void MarkSelectedFilter_Click( object sender, RoutedEventArgs e )
