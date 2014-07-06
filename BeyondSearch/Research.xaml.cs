@@ -341,7 +341,7 @@ namespace BeyondSearch
         private void Menu_FilesFilterClick(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog 
-            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".txt", Filter = "Index documents (.txt)|*.txt|*.cfs|*.*" };
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".txt", Filter = "Index documents (.txt)|*.txt|All files (*.*)|*.*" };
             dlg.CheckPathExists = true;
             dlg.CheckFileExists = true;
 
