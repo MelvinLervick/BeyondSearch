@@ -17,7 +17,11 @@
         <Menu FontSize="12pt" Grid.Row="0" IsMainMenu="True">
             <MenuItem Header="_Exit" Click="Menu_FileExitClick" />
             <MenuItem Header="_Files">
-                <MenuItem Header="Load _Filter" Click="Menu_FilesFilterClick" />
+                <MenuItem Header="Load _Filter">
+                    <MenuItem Header="Load _Filter (Term only)" Click="Menu_FilesFilterTermClick" />
+                    <MenuItem Header="Load _Filter (Term, Bit, Category" Click="Menu_FilesFilterCategoryClick" />
+                    <MenuItem Header="Load _Filter (Tsv)" Click="Menu_FilesFilterTsvClick" />
+                </MenuItem>
                 <MenuItem Header="Load _Keywords" Click="Menu_FilesKeywordsClick" />
                 <MenuItem Header="Save _Filter" Click="Menu_SaveFiltersClick" />
                 <MenuItem Header="Save _Keywords" Click="Menu_SaveKeywordsClick" />

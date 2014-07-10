@@ -105,8 +105,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\CategorizedFilterReader\CategorizedFilterTerm.cs" />
+    <Compile Include="Common\CategorizedFilterReader\CategorizedFilterTermFileReader.cs" />
     <Compile Include="Common\FilterFileReader\FilterTerm.cs" />
     <Compile Include="Common\FilterFileReader\FilterTermFileReader.cs" />
+    <Compile Include="Common\ICategorizedFilterTermFileReader.cs" />
     <Compile Include="Common\IFilterTermFileReader.cs" />
     <Compile Include="Common\IProhibitedKeywordFileReader.cs" />
     <Compile Include="Common\StringExtensions.cs" />

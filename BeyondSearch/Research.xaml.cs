@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using BeyondSearch.Common.CategorizedFilterReader;
 using BeyondSearch.Common.FilterFileReader;
 using BeyondSearch.Common.TsvFileReader;
 using Microsoft.Win32;
@@ -52,7 +53,7 @@ namespace BeyondSearch
             ListBoxKeywords.Items.Add("zoo animal zebras");
             ListBoxKeywords.Items.Add("clothes young girls");
             ListBoxKeywords.Items.Add("young girls");
-            
+
             ListBoxKeywords.Items.Add("zebra");
             ListBoxKeywords.Items.Add("cat");
             ListBoxKeywords.Items.Add("dog");
@@ -73,22 +74,22 @@ namespace BeyondSearch
 
         private void DisplaySelectedFilter()
         {
-            if ( MenuItemExact.IsChecked )
+            if (MenuItemExact.IsChecked)
             {
                 LabelSelectedFilter.Content = ExactMatch;
                 return;
             }
-            if ( MenuItemFuzzy.IsChecked )
+            if (MenuItemFuzzy.IsChecked)
             {
                 LabelSelectedFilter.Content = FuzzyContainsMatch;
                 return;
             }
-            if ( MenuItemSansSpaceOrNumber.IsChecked )
+            if (MenuItemSansSpaceOrNumber.IsChecked)
             {
                 LabelSelectedFilter.Content = ContainsSansSpaceAndNumberMatch;
                 return;
             }
-            if ( MenuItemStrictContains.IsChecked )
+            if (MenuItemStrictContains.IsChecked)
             {
                 LabelSelectedFilter.Content = StrictContainsMatch;
                 return;
@@ -112,9 +113,9 @@ namespace BeyondSearch
 
         private void AddKeyword_Click(object sender, RoutedEventArgs e)
         {
-            if ( TextBoxStringToAdd.Text.Length > 0 )
+            if (TextBoxStringToAdd.Text.Length > 0)
             {
-                ListBoxKeywords.Items.Add( " " + TextBoxStringToAdd.Text + " " );
+                ListBoxKeywords.Items.Add(" " + TextBoxStringToAdd.Text + " ");
                 ListBoxKeywords.ToolTip = ListBoxKeywords.Items.Count.ToString();
             }
         }
@@ -130,9 +131,9 @@ namespace BeyondSearch
 
         private void AddFilter_Click(object sender, RoutedEventArgs e)
         {
-            if ( TextBoxStringToAdd.Text.Length > 0 )
+            if (TextBoxStringToAdd.Text.Length > 0)
             {
-                ListBoxFilters.Items.Add( TextBoxStringToAdd.Text );
+                ListBoxFilters.Items.Add(TextBoxStringToAdd.Text);
                 ListBoxFilters.ToolTip = ListBoxFilters.Items.Count.ToString();
             }
         }
@@ -151,13 +152,13 @@ namespace BeyondSearch
             var sw = new Stopwatch();
             ListBoxFilteredKeywords.Items.Clear();
 
-            SetSelectedFilters( sw );
+            SetSelectedFilters(sw);
             ListBoxFilteredKeywords.ToolTip = ListBoxFilteredKeywords.Items.Count.ToString();
         }
 
         private void SetSelectedFilters(Stopwatch sw)
         {
-            if ( MenuItemList.IsChecked )
+            if (MenuItemList.IsChecked)
             {
                 if (MenuItemExact.IsChecked) ExactMatchFilter(sw, 0);
                 if (MenuItemFuzzy.IsChecked) FuzzyContainsMatchFilter(sw, 0);
@@ -209,7 +210,7 @@ namespace BeyondSearch
                 List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
 
                 sw.Start();
-                var filteredItems = oneOrMany == 0 ? filter.StrictContains( keywords ) : filter.StrictContains1( keywords );
+                var filteredItems = oneOrMany == 0 ? filter.StrictContains(keywords) : filter.StrictContains1(keywords);
                 sw.Stop();
 
                 foreach (var filteredItem in filteredItems)
@@ -232,8 +233,8 @@ namespace BeyondSearch
 
                 sw.Start();
                 var filteredItems = oneOrMany == 0
-                    ? filter.ContainsSansSpaceAndNumber( keywords )
-                    : filter.ContainsSansSpaceAndNumber1( keywords );
+                    ? filter.ContainsSansSpaceAndNumber(keywords)
+                    : filter.ContainsSansSpaceAndNumber1(keywords);
                 sw.Stop();
 
                 foreach (var filteredItem in filteredItems)
@@ -255,7 +256,7 @@ namespace BeyondSearch
                 List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
 
                 sw.Start();
-                var filteredItems = oneOrMany == 0 ? filter.Exact( keywords ) : filter.Exact1( keywords );
+                var filteredItems = oneOrMany == 0 ? filter.Exact(keywords) : filter.Exact1(keywords);
                 sw.Stop();
 
                 ListBoxFilteredKeywords.Items.Clear();
@@ -279,8 +280,8 @@ namespace BeyondSearch
 
                 sw.Start();
                 var filteredItems = oneOrMany == 0
-                    ? filter.FuzzyContains( keywords )
-                    : filter.FuzzyContains1( keywords );
+                    ? filter.FuzzyContains(keywords)
+                    : filter.FuzzyContains1(keywords);
                 sw.Stop();
 
                 foreach (var filteredItem in filteredItems)
@@ -338,55 +339,7 @@ namespace BeyondSearch
             return listToReturn;
         }
 
-        private void Menu_FilesFilterClick(object sender, RoutedEventArgs e)
-        {
-            // Create OpenFileDialog 
-            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".txt", Filter = "Index documents (.txt)|*.txt|All files (*.*)|*.*" };
-            dlg.CheckPathExists = true;
-            dlg.CheckFileExists = true;
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            var result = dlg.ShowDialog();
-
-            // Get the selected file name and display in a TextBox 
-            if (result == true)
-            {
-                // Open document 
-                TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
-                TextBoxFilterFile.Text = dlg.SafeFileName;
-            }
-
-            if (TextBoxFilterFile.Text.Length > 0)
-            {
-                if ( TextBoxFilterFile.Text.Contains( ".tsv" ) )
-                {
-                    var reader = new TsvProhibitedKeywordFileReader();
-                    var terms =
-                        reader.ReadKeywords(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
-                            .ToList();
-                    ListBoxFilters.Items.Clear();
-                    foreach (var term in terms)
-                    {
-                        ListBoxFilters.Items.Add(term);
-                    }
-                }
-                else
-                {
-                    var reader = new FilterTermFileReader();
-                    var terms =
-                        reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
-                            .ToList();
-                    ListBoxFilters.Items.Clear();
-                    foreach (var term in terms)
-                    {
-                        ListBoxFilters.Items.Add(term);
-                    }
-                }
-                ListBoxFilters.ToolTip = ListBoxFilters.Items.Count.ToString();
-            }
-        }
-
-        private void Menu_FilesKeywordsClick( object sender, RoutedEventArgs e )
+        private void Menu_FilesKeywordsClick(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog 
             var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".txt", Filter = "Index documents (.txt)|*.txt|*.cfs|*.*" };
@@ -406,47 +359,47 @@ namespace BeyondSearch
 
             if (TextBoxKeywordFile.Text.Length > 0)
             {
-                if ( TextBoxKeywordFile.Text.Contains( ".tsv" ) )
+                if (TextBoxKeywordFile.Text.Contains(".tsv"))
                 {
                     var reader = new TsvProhibitedKeywordFileReader();
                     var terms =
-                        reader.ReadKeywords( System.IO.Path.Combine( TextBoxKeywordFolder.Text, TextBoxKeywordFile.Text ) )
+                        reader.ReadKeywords(System.IO.Path.Combine(TextBoxKeywordFolder.Text, TextBoxKeywordFile.Text))
                             .ToList();
                     ListBoxKeywords.Items.Clear();
-                    foreach ( var term in terms )
+                    foreach (var term in terms)
                     {
-                        ListBoxKeywords.Items.Add( term );
+                        ListBoxKeywords.Items.Add(term);
                     }
                 }
                 else
                 {
                     var reader = new FilterTermFileReader();
                     var terms =
-                        reader.ReadFilterTerms( System.IO.Path.Combine( TextBoxKeywordFolder.Text,
-                            TextBoxKeywordFile.Text ) ).ToList();
+                        reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxKeywordFolder.Text,
+                            TextBoxKeywordFile.Text)).ToList();
                     ListBoxKeywords.Items.Clear();
-                    foreach ( var term in terms )
+                    foreach (var term in terms)
                     {
-                        ListBoxKeywords.Items.Add( term );
+                        ListBoxKeywords.Items.Add(term);
                     }
                 }
                 ListBoxKeywords.ToolTip = ListBoxKeywords.Items.Count.ToString();
             }
         }
 
-        private void MoveFilteredKeywords_Click( object sender, RoutedEventArgs e )
+        private void MoveFilteredKeywords_Click(object sender, RoutedEventArgs e)
         {
             ListBoxKeywords.Items.Clear();
-            foreach ( var item in ListBoxFilteredKeywords.Items )
+            foreach (var item in ListBoxFilteredKeywords.Items)
             {
-                ListBoxKeywords.Items.Add( item );
+                ListBoxKeywords.Items.Add(item);
             }
             ListBoxFilteredKeywords.Items.Clear();
             ListBoxKeywords.ToolTip = ListBoxKeywords.Items.Count.ToString();
             ListBoxFilteredKeywords.ToolTip = ListBoxFilteredKeywords.Items.Count.ToString();
         }
 
-        private void MarkSelectedFilter_Click( object sender, RoutedEventArgs e )
+        private void MarkSelectedFilter_Click(object sender, RoutedEventArgs e)
         {
             var item = e.OriginalSource as MenuItem;
             item.IsChecked = true;
@@ -503,7 +456,7 @@ namespace BeyondSearch
             DisplaySelectedFilter();
         }
 
-        private void Menu_SaveFiltersClick( object sender, RoutedEventArgs e )
+        private void Menu_SaveFiltersClick(object sender, RoutedEventArgs e)
         {
             var saveFile = new SaveFileDialog
             {
@@ -513,24 +466,24 @@ namespace BeyondSearch
                 Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*"
             };
 
-            if ( saveFile.ShowDialog() ?? false )
+            if (saveFile.ShowDialog() ?? false)
             {
                 // If the file name is not an empty string open it for saving.
-                if ( saveFile.FileName != "" )
+                if (saveFile.FileName != "")
                 {
                     using (var tw = new System.IO.StreamWriter(saveFile.FileName))
                     {
                         tw.WriteLine(Term);
                         foreach (var item in ListBoxFilters.Items)
                         {
-                            if ( !string.IsNullOrWhiteSpace( item.ToString() ) )
+                            if (!string.IsNullOrWhiteSpace(item.ToString()))
                             {
                                 tw.WriteLine(item.ToString());
                             }
                         }
 
                         tw.Close();
-                    }                    
+                    }
                 }
                 else
                 {
@@ -539,7 +492,7 @@ namespace BeyondSearch
             }
         }
 
-        private void Menu_SaveKeywordsClick( object sender, RoutedEventArgs e )
+        private void Menu_SaveKeywordsClick(object sender, RoutedEventArgs e)
         {
             var saveFile = new SaveFileDialog
             {
@@ -572,6 +525,108 @@ namespace BeyondSearch
                 {
                     TextBoxFilterFile.Text = "Invalid filename";
                 }
+            }
+        }
+
+        private void Menu_FilesFilterTermClick(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog 
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".txt", Filter = "Index documents (.txt)|*.txt|All files (*.*)|*.*" };
+            dlg.CheckPathExists = true;
+            dlg.CheckFileExists = true;
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            var result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                // Open document 
+                TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
+                TextBoxFilterFile.Text = dlg.SafeFileName;
+            }
+
+            if (TextBoxFilterFile.Text.Length > 0)
+            {
+                var reader = new FilterTermFileReader();
+                var terms =
+                    reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
+                        .ToList();
+                ListBoxFilters.Items.Clear();
+                foreach (var term in terms)
+                {
+                    ListBoxFilters.Items.Add(term);
+                }
+
+                ListBoxFilters.ToolTip = ListBoxFilters.Items.Count.ToString();
+            }
+        }
+
+        private void Menu_FilesFilterCategoryClick(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog 
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".txt", Filter = "Index documents (.txt)|*.txt|All files (*.*)|*.*" };
+            dlg.CheckPathExists = true;
+            dlg.CheckFileExists = true;
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            var result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                // Open document 
+                TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
+                TextBoxFilterFile.Text = dlg.SafeFileName;
+            }
+
+            if (TextBoxFilterFile.Text.Length > 0)
+            {
+                var reader = new CategorizedFilterTermFileReader();
+                var terms =
+                    reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
+                        .ToList();
+                ListBoxFilters.Items.Clear();
+                foreach (var term in terms)
+                {
+                    ListBoxFilters.Items.Add(term.Term);
+                }
+
+                ListBoxFilters.ToolTip = ListBoxFilters.Items.Count.ToString();
+            }
+        }
+
+        private void Menu_FilesFilterTsvClick(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog 
+            var dlg = new Microsoft.Win32.OpenFileDialog { DefaultExt = ".tsv", Filter = "Index documents (.tsv)|*.tsv|All files (*.*)|*.*" };
+            dlg.CheckPathExists = true;
+            dlg.CheckFileExists = true;
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            var result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                // Open document 
+                TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
+                TextBoxFilterFile.Text = dlg.SafeFileName;
+            }
+
+            if (TextBoxFilterFile.Text.Length > 0)
+            {
+                var reader = new TsvProhibitedKeywordFileReader();
+                var terms =
+                    reader.ReadKeywords(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
+                        .ToList();
+                ListBoxFilters.Items.Clear();
+                foreach (var term in terms)
+                {
+                    ListBoxFilters.Items.Add(term);
+                }
+
+                ListBoxFilters.ToolTip = ListBoxFilters.Items.Count.ToString();
             }
         }
     }
