@@ -71,8 +71,27 @@
                     <ColumnDefinition Width="*" MinWidth="200" />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Row="0" Grid.ColumnSpan="3" BorderBrush="Blue" BorderThickness="0 0 0 2" />
-                <ListBox Grid.Row="0" Grid.Column="0" Name="ListBoxKeywords" Margin="5,5,5,5" Background="LightYellow" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top"></ListBox>
-                <ListBox Grid.Row="0" Grid.Column="1" Name="ListBoxFilters" Margin="5,5,5,5" Background="Aquamarine"  FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top"></ListBox>
+                <ListBox Grid.Row="0" Grid.Column="0" Name="ListBoxKeywords" Margin="5,5,5,5" Background="LightYellow" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate >
+                            <TextBlock Name="KeywordTextBlock"  Foreground="DarkBlue" Text="{Binding Keyword}"></TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ListBox Grid.Row="0" Grid.Column="1" Name="ListBoxFilters" Margin="5,5,5,5" Background="Aquamarine"  FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="20" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Name="FilterNameTextBlock"  Foreground="DarkBlue" Text="{Binding Keyword}" HorizontalAlignment="Stretch"></TextBlock>
+                                <TextBlock Grid.Column="1" Name="FilterCategoryTextBlock" Background="Green" Foreground="White" Text="{Binding Category}" HorizontalAlignment="Right"></TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <ListBox Grid.Row="0" Grid.Column="2" Name="ListBoxFilteredKeywords" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top"></ListBox>
                 <Grid Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" Background="PaleGreen">
                     <Grid.RowDefinitions>

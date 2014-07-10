@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using BeyondSearch.Common.CategorizedFilterReader;
 using BeyondSearch.Common.FilterFileReader;
 using BeyondSearch.Common.TsvFileReader;
+using BeyondSearch.Filters;
 using Microsoft.Win32;
 
 namespace BeyondSearch
@@ -24,6 +25,9 @@ namespace BeyondSearch
         private const string Term = "Term";
         private readonly KeywordFilter filter = new KeywordFilter();
 
+        public List<FilteredKeyword> Keywords;
+        public List<FilteredKeyword> Filters;
+
         public Research()
         {
             InitializeComponent();
@@ -36,40 +40,82 @@ namespace BeyondSearch
 
         private void InitializeKeywordList()
         {
-            ListBoxKeywords.Items.Add("hotels with pools");
-            ListBoxKeywords.Items.Add("hotels in south chicago red light");
-            ListBoxKeywords.Items.Add("stores that sell adult toys");
-            ListBoxKeywords.Items.Add("adult toys");
-            ListBoxKeywords.Items.Add("adult only restaurants");
+            Keywords = new List<FilteredKeyword>
+            {
+                new FilteredKeyword {Keyword = "hotels with pools"},
+                new FilteredKeyword {Keyword = "hotels in south chicago red light"},
+                new FilteredKeyword {Keyword = "stores that sell adult toys"},
+                new FilteredKeyword {Keyword = "adult toys"},
+                new FilteredKeyword {Keyword = "adult only restaurants"},
 
-            ListBoxKeywords.Items.Add("animal shelter dog");
-            ListBoxKeywords.Items.Add("animal shelter dogs");
-            ListBoxKeywords.Items.Add("animal shelter cat");
-            ListBoxKeywords.Items.Add("animal shelter cats");
-            ListBoxKeywords.Items.Add("park zebra");
+                new FilteredKeyword {Keyword = "animal shelter dog"},
+                new FilteredKeyword {Keyword = "animal shelter dogs"},
+                new FilteredKeyword {Keyword = "animal shelter cat"},
+                new FilteredKeyword {Keyword = "animal shelter cats"},
+                new FilteredKeyword {Keyword = "park zebra"},
 
-            ListBoxKeywords.Items.Add("park zebras");
-            ListBoxKeywords.Items.Add("zoo animal zebra");
-            ListBoxKeywords.Items.Add("zoo animal zebras");
-            ListBoxKeywords.Items.Add("clothes young girls");
-            ListBoxKeywords.Items.Add("young girls");
+                new FilteredKeyword {Keyword = "park zebras"},
+                new FilteredKeyword {Keyword = "zoo animal zebra"},
+                new FilteredKeyword {Keyword = "zoo animal zebras"},
+                new FilteredKeyword {Keyword = "clothes young girls"},
+                new FilteredKeyword {Keyword = "young girls"},
 
-            ListBoxKeywords.Items.Add("zebra");
-            ListBoxKeywords.Items.Add("cat");
-            ListBoxKeywords.Items.Add("dog");
-            ListBoxKeywords.Items.Add("red light");
-            ListBoxKeywords.Items.Add("red lights");
+                new FilteredKeyword {Keyword = "zebra"},
+                new FilteredKeyword {Keyword = "cat"},
+                new FilteredKeyword {Keyword = "dog"},
+                new FilteredKeyword {Keyword = "red light"},
+                new FilteredKeyword {Keyword = "red lights"}
+            };
+
+            ListBoxKeywords.ItemsSource = Keywords;
+
+            //ListBoxKeywords.Items.Add("hotels with pools");
+            //ListBoxKeywords.Items.Add("hotels in south chicago red light");
+            //ListBoxKeywords.Items.Add("stores that sell adult toys");
+            //ListBoxKeywords.Items.Add("adult toys");
+            //ListBoxKeywords.Items.Add("adult only restaurants");
+
+            //ListBoxKeywords.Items.Add("animal shelter dog");
+            //ListBoxKeywords.Items.Add("animal shelter dogs");
+            //ListBoxKeywords.Items.Add("animal shelter cat");
+            //ListBoxKeywords.Items.Add("animal shelter cats");
+            //ListBoxKeywords.Items.Add("park zebra");
+
+            //ListBoxKeywords.Items.Add("park zebras");
+            //ListBoxKeywords.Items.Add("zoo animal zebra");
+            //ListBoxKeywords.Items.Add("zoo animal zebras");
+            //ListBoxKeywords.Items.Add("clothes young girls");
+            //ListBoxKeywords.Items.Add("young girls");
+
+            //ListBoxKeywords.Items.Add("zebra");
+            //ListBoxKeywords.Items.Add("cat");
+            //ListBoxKeywords.Items.Add("dog");
+            //ListBoxKeywords.Items.Add("red light");
+            //ListBoxKeywords.Items.Add("red lights");
         }
 
         private void InitializeFilterList()
         {
-            ListBoxFilters.Items.Add("adult toys");
-            ListBoxFilters.Items.Add("zebra");
-            ListBoxFilters.Items.Add("young girls");
-            ListBoxFilters.Items.Add("red light");
-            ListBoxFilters.Items.Add("cat");
+            Filters = new List<FilteredKeyword>
+            {
+                new FilteredKeyword {Keyword = "adult toys"},
+                new FilteredKeyword {Keyword = "zebra"},
+                new FilteredKeyword {Keyword = "young girls"},
+                new FilteredKeyword {Keyword = "red light"},
+                new FilteredKeyword {Keyword = "cat"},
 
-            ListBoxFilters.Items.Add("dog");
+                new FilteredKeyword {Keyword = "dog"}
+            };
+
+            ListBoxFilters.ItemsSource = Filters;
+
+            //ListBoxFilters.Items.Add("adult toys");
+            //ListBoxFilters.Items.Add("zebra");
+            //ListBoxFilters.Items.Add("young girls");
+            //ListBoxFilters.Items.Add("red light");
+            //ListBoxFilters.Items.Add("cat");
+
+            //ListBoxFilters.Items.Add("dog");
         }
 
         private void DisplaySelectedFilter()
@@ -180,12 +226,12 @@ namespace BeyondSearch
 
         private void ContainsMatchFilter(Stopwatch sw, int oneOrMany)
         {
-            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            List<string> filters = ListBoxFilters.Items.Cast<FilteredKeyword>().Select(x => x.Keyword).ToList();
             filter.FillFilterList(filters);
 
             if (ListBoxKeywords.Items.Count > 0)
             {
-                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+                List<string> keywords = ListBoxKeywords.Items.Cast<FilteredKeyword>().Select(x => x.Keyword).ToList();
 
                 sw.Start();
                 var filteredItems = oneOrMany == 0 ? filter.Contains(keywords) : filter.Contains1(keywords);
@@ -202,12 +248,12 @@ namespace BeyondSearch
 
         private void StrictContainsMatchFilter(Stopwatch sw, int oneOrMany)
         {
-            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            List<string> filters = ListBoxFilters.Items.Cast<FilteredKeyword>().Select(x => x.Keyword).ToList();
             filter.FillFilterList(filters);
 
             if (ListBoxKeywords.Items.Count > 0)
             {
-                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+                List<string> keywords = ListBoxKeywords.Items.Cast<FilteredKeyword>().Select(x => x.Keyword).ToList();
 
                 sw.Start();
                 var filteredItems = oneOrMany == 0 ? filter.StrictContains(keywords) : filter.StrictContains1(keywords);
@@ -224,12 +270,12 @@ namespace BeyondSearch
 
         private void ContainsSansSpaceAndNumberMatchFilter(Stopwatch sw, int oneOrMany)
         {
-            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            List<string> filters = ListBoxFilters.Items.Cast<FilteredKeyword>().Select(x => x.Keyword).ToList();
             filter.FillFilterList(filters);
 
             if (ListBoxKeywords.Items.Count > 0)
             {
-                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+                List<string> keywords = ListBoxKeywords.Items.Cast<FilteredKeyword>().Select(x => x.Keyword).ToList();
 
                 sw.Start();
                 var filteredItems = oneOrMany == 0
@@ -248,12 +294,12 @@ namespace BeyondSearch
 
         private void ExactMatchFilter(Stopwatch sw, int oneOrMany)
         {
-            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            List<string> filters = ListBoxFilters.Items.Cast<FilteredKeyword>().Select(x => x.Keyword).ToList();
             filter.FillFilterList(filters);
 
             if (ListBoxKeywords.Items.Count > 0)
             {
-                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+                List<string> keywords = ListBoxKeywords.Items.Cast<FilteredKeyword>().Select(x => x.Keyword).ToList();
 
                 sw.Start();
                 var filteredItems = oneOrMany == 0 ? filter.Exact(keywords) : filter.Exact1(keywords);
@@ -271,12 +317,12 @@ namespace BeyondSearch
 
         private void FuzzyContainsMatchFilter(Stopwatch sw, int oneOrMany)
         {
-            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            List<string> filters = ListBoxFilters.Items.Cast<FilteredKeyword>().Select(x => x.Keyword).ToList();
             filter.FillFilterList(filters);
 
             if (ListBoxKeywords.Items.Count > 0)
             {
-                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+                List<string> keywords = ListBoxKeywords.Items.Cast<FilteredKeyword>().Select(x => x.Keyword).ToList();
 
                 sw.Start();
                 var filteredItems = oneOrMany == 0
@@ -295,12 +341,12 @@ namespace BeyondSearch
 
         private void LucenePorterStemFilter(Stopwatch sw, int oneOrMany)
         {
-            List<string> filters = ListBoxFilters.Items.Cast<string>().ToList();
+            List<string> filters = ListBoxFilters.Items.Cast<FilteredKeyword>().Select(x => x.Keyword).ToList();
             filter.FillFilterList(filters);
 
             if (ListBoxKeywords.Items.Count > 0)
             {
-                List<string> keywords = ListBoxKeywords.Items.Cast<string>().ToList();
+                List<string> keywords = ListBoxKeywords.Items.Cast<FilteredKeyword>().Select(x => x.Keyword).ToList();
 
                 sw.Start();
                 var filteredItems = oneOrMany == 0
@@ -586,13 +632,12 @@ namespace BeyondSearch
                 var terms =
                     reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
                         .ToList();
-                ListBoxFilters.Items.Clear();
-                foreach (var term in terms)
-                {
-                    ListBoxFilters.Items.Add(term.Term);
-                }
-
-                ListBoxFilters.ToolTip = ListBoxFilters.Items.Count.ToString();
+                Filters =
+                    terms.Select(
+                        x => new FilteredKeyword {Category = x.Category, CategoryBit = x.CategoryBit, Keyword = x.Term}).ToList();
+                
+                ListBoxFilters.ItemsSource = Filters;
+                ListBoxFilters.ToolTip = Filters.Count.ToString();
             }
         }
 
