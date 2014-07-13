@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BeyondSearch.Common.FilterFileReader;
+using BeyondSearch.Filters;
 using LINQtoCSV;
 
 namespace BeyondSearch.Common.CategorizedFilterReader
@@ -18,12 +19,12 @@ namespace BeyondSearch.Common.CategorizedFilterReader
             };
         }
 
-        public IEnumerable<CategorizedFilterTerm> ReadFilterTerms(string filePath)
+        public IEnumerable<FilteredKeyword> ReadFilterTerms(string filePath)
         {
             var fileContext = new CsvContext();
             var keywords = fileContext.Read<CategorizedFilterTerm>(filePath, fileDescription);
             return keywords
-                .Select(x => x)
+                .Select(x => new FilteredKeyword { Keyword = x.Term, CategoryBit = x.CategoryBit, Category = x.Category })
                 .ToList();
         }
     }

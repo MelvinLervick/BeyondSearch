@@ -112,7 +112,7 @@
     <Compile Include="Common\ICategorizedFilterTermFileReader.cs" />
     <Compile Include="Common\IFilterTermFileReader.cs" />
     <Compile Include="Common\IProhibitedKeywordFileReader.cs" />
-    <Compile Include="Common\StringExtensions.cs" />
+    <Compile Include="Common\Extensions.cs" />
     <Compile Include="Filters\ContainsMatchmaker.cs" />
     <Compile Include="Filters\LucenePorterStemMatchmaker.cs" />
     <Compile Include="Filters\KeywordMatchmaker.cs" />

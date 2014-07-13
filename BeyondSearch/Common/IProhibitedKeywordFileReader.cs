@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using BeyondSearch.Filters;
 
 namespace BeyondSearch.Common
 {
     public interface IProhibitedKeywordFileReader
     {
-        IEnumerable<string> ReadKeywords(string filePath);
+        IEnumerable<FilteredKeyword> ReadKeywords(string filePath);
     }
 }

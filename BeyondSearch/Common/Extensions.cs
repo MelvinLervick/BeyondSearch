@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using BeyondSearch.Filters;
 using Lucene.Net.Analysis.Snowball;
 using Lucene.Net.QueryParsers;
 using Version = Lucene.Net.Util.Version;
 
 namespace BeyondSearch.Common
 {
-    public static class StringExtensions
+    public static class Extensions
     {
         public const string PorterAnalyzerName = "Porter";
 
@@ -43,6 +47,11 @@ namespace BeyondSearch.Common
             Array.Sort(strTokens);
 
             return string.Join(" ", strTokens).Trim();
+        }
+
+        public static void AddFilteredKeywordListItem(this ObservableCollection<FilteredKeyword> fkw, string keyword, string category = "0", byte bit = 0)
+        {
+            fkw.Add( new FilteredKeyword { Keyword = keyword, Category = category, CategoryBit = bit} );
         }
     }
 }

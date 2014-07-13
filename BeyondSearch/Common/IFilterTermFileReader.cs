@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using BeyondSearch.Filters;
 
 namespace BeyondSearch.Common
 {
     public interface IFilterTermFileReader
     {
-        IEnumerable<string> ReadFilterTerms(string filePath);
+        IEnumerable<FilteredKeyword> ReadFilterTerms(string filePath);
     }
 }

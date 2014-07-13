@@ -71,14 +71,14 @@
                     <ColumnDefinition Width="*" MinWidth="200" />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Row="0" Grid.ColumnSpan="3" BorderBrush="Blue" BorderThickness="0 0 0 2" />
-                <ListBox Grid.Row="0" Grid.Column="0" Name="ListBoxKeywords" Margin="5,5,5,5" Background="LightYellow" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top">
+                <ListBox Grid.Row="0" Grid.Column="0" Name="ListBoxKeywords" MouseEnter="ListBoxKeywords_OnMouseEnter" Margin="5,5,5,5" Background="LightYellow" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top">
                     <ListBox.ItemTemplate>
                         <DataTemplate >
                             <TextBlock Name="KeywordTextBlock"  Foreground="DarkBlue" Text="{Binding Keyword}"></TextBlock>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <ListBox Grid.Row="0" Grid.Column="1" Name="ListBoxFilters" Margin="5,5,5,5" Background="Aquamarine"  FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top">
+                <ListBox Grid.Row="0" Grid.Column="1" Name="ListBoxFilters" MouseEnter="ListBoxFilters_OnMouseEnter" Margin="5,5,5,5" Background="Aquamarine"  FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top">
                     <ListBox.ItemTemplate>
                         <DataTemplate >
                             <Grid>
@@ -92,7 +92,13 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <ListBox Grid.Row="0" Grid.Column="2" Name="ListBoxFilteredKeywords" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top"></ListBox>
+                <ListBox Grid.Row="0" Grid.Column="2" Name="ListBoxUnFilteredKeywords" MouseEnter="ListBoxUnFilteredKeywords_OnMouseEnter" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate >
+                            <TextBlock Name="KeywordTextBlock"  Foreground="DarkBlue" Text="{Binding Keyword}"></TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <Grid Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" Background="PaleGreen">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" MaxHeight="29" MinHeight="29" />
