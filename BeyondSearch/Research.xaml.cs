@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -26,6 +27,9 @@ namespace BeyondSearch
         private const string FuzzyContainsMatch = "Fuzzy Match";
         private const string LucenePorterStemMatch = "Lucene Porter Stem";
         private const string Term = "Term";
+        private const string CategoryBit = "CategoryBit";
+        private const string Category = "Category";
+        private const string SaveFileFilter = "{0}\t{1}\t{2}";
         private readonly KeywordFilter filter = new KeywordFilter();
 
         public ObservableCollection<FilteredKeyword> Keywords;
@@ -135,6 +139,7 @@ namespace BeyondSearch
             if (TextBoxStringToAdd.Text.Length > 0)
             {
                 AddWordToCollection(Keywords, TextBoxStringToAdd.Text);
+                TextBoxStringToAdd.Text = String.Empty;
             }
         }
 
@@ -151,6 +156,7 @@ namespace BeyondSearch
             if (TextBoxStringToAdd.Text.Length > 0)
             {
                 AddWordToCollection(Filters, TextBoxStringToAdd.Text);
+                TextBoxStringToAdd.Text = String.Empty;
             }
         }
 
@@ -482,12 +488,12 @@ namespace BeyondSearch
                 {
                     using (var tw = new System.IO.StreamWriter(saveFile.FileName))
                     {
-                        tw.WriteLine(Term);
-                        foreach (var item in ListBoxFilters.Items)
+                        tw.WriteLine(SaveFileFilter, Term, CategoryBit, Category);
+                        foreach (var keyword in Filters)
                         {
-                            if (!string.IsNullOrWhiteSpace(item.ToString()))
+                            if (!string.IsNullOrWhiteSpace(keyword.Keyword))
                             {
-                                tw.WriteLine(item.ToString());
+                                tw.WriteLine(SaveFileFilter, keyword.Keyword, keyword.CategoryBit, keyword.Category);
                             }
                         }
 
@@ -519,11 +525,11 @@ namespace BeyondSearch
                     using (var tw = new System.IO.StreamWriter(saveFile.FileName))
                     {
                         tw.WriteLine(Term);
-                        foreach (var item in ListBoxKeywords.Items)
+                        foreach (var keyword in Keywords)
                         {
-                            if (!string.IsNullOrWhiteSpace(item.ToString()))
+                            if (!string.IsNullOrWhiteSpace(keyword.Keyword))
                             {
-                                tw.WriteLine(item.ToString());
+                                tw.WriteLine(keyword.Keyword);
                             }
                         }
 
