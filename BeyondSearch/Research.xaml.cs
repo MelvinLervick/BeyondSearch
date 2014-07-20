@@ -35,6 +35,7 @@ namespace BeyondSearch
         public ObservableCollection<FilteredKeyword> Keywords;
         public ObservableCollection<FilteredKeyword> Filters;
         public ObservableCollection<FilteredKeyword> UnFilteredKeywords;
+        public ObservableCollection<FilteredKeyword> FilteredKeywords;
         public List<KeywordCategory> Categories = new List<KeywordCategory>
         {
             new KeywordCategory {Category = "0", CategoryBit = 0},
@@ -53,6 +54,7 @@ namespace BeyondSearch
             Keywords = new ObservableCollection<FilteredKeyword>();
             Filters = new ObservableCollection<FilteredKeyword>();
             UnFilteredKeywords = new ObservableCollection<FilteredKeyword>();
+            FilteredKeywords = new ObservableCollection<FilteredKeyword>();
 
             InitializeKeywordList();
             InitializeFilterList();
@@ -61,6 +63,7 @@ namespace BeyondSearch
             ListBoxKeywords.ItemsSource = Keywords;
             ListBoxFilters.ItemsSource = Filters;
             ListBoxUnFilteredKeywords.ItemsSource = UnFilteredKeywords;
+            ListBoxFilteredKeywords.ItemsSource = FilteredKeywords;
         }
 
         private void InitializeKeywordList()
@@ -178,175 +181,22 @@ namespace BeyondSearch
         {
             var sw = new Stopwatch();
 
+            FilteredKeywords.Clear();
             UnFilteredKeywords.Clear();
             SetSelectedFilters(sw);
         }
 
         private void SetSelectedFilters(Stopwatch sw)
         {
-            if (MenuItemList.IsChecked)
-            {
-                if (MenuItemExact.IsChecked) ExactMatchFilter(sw, 0);
-                if (MenuItemFuzzy.IsChecked) FuzzyContainsMatchFilter(sw, 0);
-                if (MenuItemSansSpaceOrNumber.IsChecked) ContainsSansSpaceAndNumberMatchFilter(sw, 0);
-                if (MenuItemStrictContains.IsChecked) StrictContainsMatchFilter(sw, 0);
-                if (MenuItemContains.IsChecked) ContainsMatchFilter(sw, 0);
-                if (MenuItemLucenePorterStem.IsChecked) LucenePorterStemFilter(sw, 0);
-            }
-            else
-            {
-                if (MenuItemExact.IsChecked) ExactMatchFilter(sw, 1);
-                if (MenuItemFuzzy.IsChecked) FuzzyContainsMatchFilter(sw, 1);
-                if (MenuItemSansSpaceOrNumber.IsChecked) ContainsSansSpaceAndNumberMatchFilter(sw, 1);
-                if (MenuItemStrictContains.IsChecked) StrictContainsMatchFilter(sw, 1);
-                if (MenuItemContains.IsChecked) ContainsMatchFilter(sw, 1);
-                if (MenuItemLucenePorterStem.IsChecked) LucenePorterStemFilter(sw, 1);
-            }
+            if (MenuItemExact.IsChecked) ExactMatchFilter(sw);
+            if (MenuItemFuzzy.IsChecked) FuzzyContainsMatchFilter(sw);
+            if (MenuItemSansSpaceOrNumber.IsChecked) ContainsSansSpaceAndNumberMatchFilter(sw);
+            if (MenuItemStrictContains.IsChecked) StrictContainsMatchFilter(sw);
+            if (MenuItemContains.IsChecked) ContainsMatchFilter(sw);
+            if (MenuItemLucenePorterStem.IsChecked) LucenePorterStemFilter(sw);
         }
 
-        #region Filters
-
-        private void ContainsMatchFilter(Stopwatch sw, int oneOrMany)
-        {
-            var filters = Filters.Select(x => x.Keyword).ToList();
-            filter.FillFilterList(filters);
-
-            if (ListBoxKeywords.Items.Count > 0)
-            {
-                var keywords = Keywords.Select(x => x.Keyword).ToList();
-
-                sw.Start();
-                var filteredItems = oneOrMany == 0 ? filter.Contains(keywords) : filter.Contains1(keywords);
-                sw.Stop();
-
-                foreach (var filteredItem in filteredItems)
-                {
-                    UnFilteredKeywords.AddFilteredKeywordListItem(filteredItem);
-                }
-
-                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
-            }
-        }
-
-        private void StrictContainsMatchFilter(Stopwatch sw, int oneOrMany)
-        {
-            var filters = Filters.Select(x => x.Keyword).ToList();
-            filter.FillFilterList(filters);
-
-            if (ListBoxKeywords.Items.Count > 0)
-            {
-                var keywords = Keywords.Select(x => x.Keyword).ToList();
-
-                sw.Start();
-                var filteredItems = oneOrMany == 0 ? filter.StrictContains(keywords) : filter.StrictContains1(keywords);
-                sw.Stop();
-
-                foreach (var filteredItem in filteredItems)
-                {
-                    UnFilteredKeywords.AddFilteredKeywordListItem(filteredItem);
-                }
-
-                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
-            }
-        }
-
-        private void ContainsSansSpaceAndNumberMatchFilter(Stopwatch sw, int oneOrMany)
-        {
-            var filters = Filters.Select(x => x.Keyword).ToList();
-            filter.FillFilterList(filters);
-
-            if (ListBoxKeywords.Items.Count > 0)
-            {
-                var keywords = Keywords.Select(x => x.Keyword).ToList();
-
-                sw.Start();
-                var filteredItems = oneOrMany == 0
-                    ? filter.ContainsSansSpaceAndNumber(keywords)
-                    : filter.ContainsSansSpaceAndNumber1(keywords);
-                sw.Stop();
-
-                foreach (var filteredItem in filteredItems)
-                {
-                    UnFilteredKeywords.AddFilteredKeywordListItem(filteredItem);
-                }
-
-                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
-            }
-        }
-
-        private void ExactMatchFilter(Stopwatch sw, int oneOrMany)
-        {
-            var filters = Filters.Select(x => x.Keyword).ToList();
-            filter.FillFilterList(filters);
-
-            if (ListBoxKeywords.Items.Count > 0)
-            {
-                var keywords = Keywords.Select(x => x.Keyword).ToList();
-
-                sw.Start();
-                var filteredItems = oneOrMany == 0 ? filter.Exact(keywords) : filter.Exact1(keywords);
-                sw.Stop();
-
-                foreach (var filteredItem in filteredItems)
-                {
-                    UnFilteredKeywords.AddFilteredKeywordListItem(filteredItem);
-                }
-
-                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
-            }
-        }
-
-        private void FuzzyContainsMatchFilter(Stopwatch sw, int oneOrMany)
-        {
-            var filters = Filters.Select(x => x.Keyword).ToList();
-            filter.FillFilterList(filters);
-
-            if (ListBoxKeywords.Items.Count > 0)
-            {
-                var keywords = Keywords.Select(x => x.Keyword).ToList();
-
-                sw.Start();
-                var filteredItems = oneOrMany == 0
-                    ? filter.FuzzyContains(keywords)
-                    : filter.FuzzyContains1(keywords);
-                sw.Stop();
-
-                foreach (var filteredItem in filteredItems)
-                {
-                    UnFilteredKeywords.AddFilteredKeywordListItem(filteredItem);
-                }
-
-                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
-            }
-        }
-
-        private void LucenePorterStemFilter(Stopwatch sw, int oneOrMany)
-        {
-            var filters = Filters.Select(x => x.Keyword).ToList();
-            filter.FillFilterList(filters);
-
-            if (ListBoxKeywords.Items.Count > 0)
-            {
-                var keywords = Keywords.Select(x => x.Keyword).ToList();
-
-                sw.Start();
-                var filteredItems = oneOrMany == 0
-                    ? filter.LucenePorterStemContains(keywords)
-                    : filter.LucenePorterStemContains1(keywords);
-                sw.Stop();
-
-                foreach (var filteredItem in filteredItems)
-                {
-                    UnFilteredKeywords.AddFilteredKeywordListItem(filteredItem);
-                }
-
-                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
-            }
-        }
-
-        #endregion
-
-        private void MoveFilteredKeywords_Click(object sender, RoutedEventArgs e)
+        private void MoveUnFilteredKeywords_Click(object sender, RoutedEventArgs e)
         {
             if (Keywords != null && Keywords.Count > 0) Keywords.Clear();
 
@@ -415,6 +265,116 @@ namespace BeyondSearch
             DisplaySelectedFilter();
         }
 
+        private void ComboBoxCategory_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            comboBox.ItemsSource = Categories;
+            comboBox.DisplayMemberPath = Category;
+            comboBox.SelectedValuePath = Category;
+        }
+
+        #region Filters
+
+        private void ContainsMatchFilter(Stopwatch sw)
+        {
+            filter.FillFilterList(Filters);
+
+            if (ListBoxKeywords.Items.Count > 0)
+            {
+                var keywords = Keywords.Select(x => x.Keyword).ToList();
+
+                sw.Start();
+                SetGoodAndBadDisplayLists( filter.Contains( keywords ) );
+                sw.Stop();
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
+
+        private void StrictContainsMatchFilter(Stopwatch sw)
+        {
+            filter.FillFilterList(Filters);
+
+            if (ListBoxKeywords.Items.Count > 0)
+            {
+                var keywords = Keywords.Select(x => x.Keyword).ToList();
+
+                sw.Start();
+                SetGoodAndBadDisplayLists( filter.StrictContains( keywords ) );
+                sw.Stop();
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
+
+        private void ContainsSansSpaceAndNumberMatchFilter(Stopwatch sw)
+        {
+            filter.FillFilterList(Filters);
+
+            if (ListBoxKeywords.Items.Count > 0)
+            {
+                var keywords = Keywords.Select(x => x.Keyword).ToList();
+
+                sw.Start();
+                SetGoodAndBadDisplayLists( filter.ContainsSansSpaceAndNumber( keywords ) );
+                sw.Stop();
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
+
+        private void ExactMatchFilter(Stopwatch sw)
+        {
+            filter.FillFilterList(Filters);
+
+            if (ListBoxKeywords.Items.Count > 0)
+            {
+                var keywords = Keywords.Select(x => x.Keyword).ToList();
+
+                sw.Start();
+                SetGoodAndBadDisplayLists( filter.Exact( keywords ) );
+                sw.Stop();
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
+
+        private void FuzzyContainsMatchFilter(Stopwatch sw)
+        {
+            filter.FillFilterList(Filters);
+
+            if (ListBoxKeywords.Items.Count > 0)
+            {
+                var keywords = Keywords.Select(x => x.Keyword).ToList();
+
+                sw.Start();
+                SetGoodAndBadDisplayLists( filter.FuzzyContains( keywords ) );
+                sw.Stop();
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
+
+        private void LucenePorterStemFilter(Stopwatch sw)
+        {
+            filter.FillFilterList(Filters);
+
+            if (ListBoxKeywords.Items.Count > 0)
+            {
+                var keywords = Keywords.Select(x => x.Keyword).ToList();
+
+                sw.Start();
+                SetGoodAndBadDisplayLists( filter.LucenePorterStemContains( keywords ) );
+                sw.Stop();
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
+
+        #endregion
+
+        #region ToolTips
+
         private void ListBoxKeywords_OnMouseEnter(object sender, MouseEventArgs e)
         {
             ListBoxKeywords.ToolTip = Keywords.Count.ToString();
@@ -429,6 +389,13 @@ namespace BeyondSearch
         {
             ListBoxUnFilteredKeywords.ToolTip = UnFilteredKeywords.Count.ToString();
         }
+
+        private void ListBoxFilteredKeywords_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            ListBoxFilteredKeywords.ToolTip = FilteredKeywords.Count.ToString();
+        }
+
+        #endregion
 
         #region File Read/Write
 
@@ -680,57 +647,18 @@ namespace BeyondSearch
             }
         }
 
-        #endregion
-
-        private void FilterCategoryTextBox_OnTextChanged( object sender, TextChangedEventArgs e )
+        private void SetGoodAndBadDisplayLists(GoodOrBadKeywords filteredItems)
         {
-            var  box = sender as TextBox;
-            var keyword = box.DataContext as FilteredKeyword;
-
-            switch (box.Text)
+            foreach (var filteredItem in filteredItems.GoodKeywords)
             {
-                case "1":
-                    keyword.Category = "1";
-                    keyword.CategoryBit = 1;
-                    break;
-                case "2":
-                    keyword.Category = "2";
-                    keyword.CategoryBit = 2;
-                    break;
-                case "3":
-                    keyword.Category = "3";
-                    keyword.CategoryBit = 4;
-                    break;
-                case "4":
-                    keyword.Category = "4";
-                    keyword.CategoryBit = 8;
-                    break;
-                case "5":
-                    keyword.Category = "5";
-                    keyword.CategoryBit = 16;
-                    break;
-                case "6":
-                    keyword.Category = "6";
-                    keyword.CategoryBit = 32;
-                    break;
-                case "7":
-                    keyword.Category = "7";
-                    keyword.CategoryBit = 64;
-                    break;
-                default:
-                    keyword.Category = "0";
-                    keyword.CategoryBit = 0;
-                    break;
+                UnFilteredKeywords.AddFilteredKeywordListItem(filteredItem);
             }
-            keyword.Category = box.Text;
+            foreach (var filteredItem in filteredItems.BadKeywords)
+            {
+                FilteredKeywords.AddFilteredKeywordListItem(filteredItem);
+            }
         }
 
-        private void ComboBoxCategory_OnLoaded( object sender, RoutedEventArgs e )
-        {
-            var comboBox = sender as ComboBox;
-            comboBox.ItemsSource = Categories;
-            comboBox.DisplayMemberPath = Category;
-            comboBox.SelectedValuePath = Category;
-        }
+        #endregion
     }
 }

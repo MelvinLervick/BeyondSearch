@@ -11,13 +11,19 @@ namespace BeyondSearch.Filters
 
         public List<IKeywordMatchmaker> Matchmakers { get; set; }
 
-        public KeywordFilterer(IEnumerable<string> masterFilteredKeywords, bool usePluralizationService = true)
+        public KeywordFilterer(IEnumerable<FilteredKeyword> masterFilteredKeywords, bool usePluralizationService = true)
         {
             suspectKeywordsList = new List<string>();
 
             toLowerMasterFilteredKeywords =
-                masterFilteredKeywords.Select( masterKeyword => new FilteredKeyword {Keyword = masterKeyword.ToLower()} )
-                    .ToList();
+                masterFilteredKeywords.Select(
+                    masterKeyword =>
+                        new FilteredKeyword
+                        {
+                            Keyword = masterKeyword.Keyword.ToLower(),
+                            Category = masterKeyword.Category,
+                            CategoryBit = masterKeyword.CategoryBit
+                        } ).ToList();
 
             Matchmakers = new List<IKeywordMatchmaker>
             {

@@ -1,25 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
+using BeyondSearch.Common;
+using BeyondSearch.Filters;
 
 namespace BeyondSearch
 {
     interface IKeywordFilter
     {
-        List<string> FilterList { get; }
+        List<FilteredKeyword> FilterList { get; }
 
-        List<string> Contains(IEnumerable<string> keywords);
-        List<string> Contains1(IEnumerable<string> keywords);
-        List<string> Exact(IEnumerable<string> keywords);
-        List<string> Exact1(IEnumerable<string> keywords);
-        List<string> StrictContains(IEnumerable<string> keywords);
-        List<string> StrictContains1(IEnumerable<string> keywords);
-        List<string> ContainsSansSpaceAndNumber(IEnumerable<string> keywords);
-        List<string> ContainsSansSpaceAndNumber1(IEnumerable<string> keywords);
-        List<string> FuzzyContains( IEnumerable<string> keywords );
-        List<string> FuzzyContains1( IEnumerable<string> keywords );
-        List<string> LucenePorterStemContains( IEnumerable<string> keywords );
-        List<string> LucenePorterStemContains1( IEnumerable<string> keywords );
+        GoodOrBadKeywords Contains(IEnumerable<string> keywords);
+        GoodOrBadKeywords Exact(IEnumerable<string> keywords);
+        GoodOrBadKeywords StrictContains(IEnumerable<string> keywords);
+        GoodOrBadKeywords ContainsSansSpaceAndNumber(IEnumerable<string> keywords);
+        GoodOrBadKeywords FuzzyContains( IEnumerable<string> keywords );
+        GoodOrBadKeywords LucenePorterStemContains( IEnumerable<string> keywords );
 
-        void FillFilterList(IEnumerable<string> filters);
+        void FillFilterList(IEnumerable<FilteredKeyword> filters);
     }
 }
