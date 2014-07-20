@@ -35,6 +35,17 @@ namespace BeyondSearch
         public ObservableCollection<FilteredKeyword> Keywords;
         public ObservableCollection<FilteredKeyword> Filters;
         public ObservableCollection<FilteredKeyword> UnFilteredKeywords;
+        public List<KeywordCategory> Categories = new List<KeywordCategory>
+        {
+            new KeywordCategory {Category = "0", CategoryBit = 0},
+            new KeywordCategory {Category = "1", CategoryBit = 1},
+            new KeywordCategory {Category = "2", CategoryBit = 2},
+            new KeywordCategory {Category = "3", CategoryBit = 4},
+            new KeywordCategory {Category = "4", CategoryBit = 8},
+            new KeywordCategory {Category = "5", CategoryBit = 16},
+            new KeywordCategory {Category = "6", CategoryBit = 32},
+            new KeywordCategory {Category = "7", CategoryBit = 64}
+        }; 
 
         public Research()
         {
@@ -77,11 +88,6 @@ namespace BeyondSearch
             Keywords.AddFilteredKeywordListItem("dog");
             Keywords.AddFilteredKeywordListItem("red light");
             Keywords.AddFilteredKeywordListItem("red lights");
-        }
-
-        private static FilteredKeyword AddListItem()
-        {
-            return new FilteredKeyword { Keyword = "hotels with pools" };
         }
 
         private void InitializeFilterList()
@@ -446,10 +452,7 @@ namespace BeyondSearch
                 // Open document 
                 TextBoxKeywordFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
                 TextBoxKeywordFile.Text = dlg.SafeFileName;
-            }
 
-            if (TextBoxKeywordFile.Text.Length > 0)
-            {
                 if (TextBoxKeywordFile.Text.Contains(".tsv"))
                 {
                     var reader = new TsvProhibitedKeywordFileReader();
@@ -563,10 +566,7 @@ namespace BeyondSearch
                 // Open document 
                 TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
                 TextBoxFilterFile.Text = dlg.SafeFileName;
-            }
 
-            if (TextBoxFilterFile.Text.Length > 0)
-            {
                 var reader = new FilterTermFileReader();
                 var terms =
                     reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
@@ -596,16 +596,13 @@ namespace BeyondSearch
                 // Open document 
                 TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
                 TextBoxFilterFile.Text = dlg.SafeFileName;
-            }
 
-            if (TextBoxFilterFile.Text.Length > 0)
-            {
                 var reader = new CategorizedFilterTermFileReader();
                 var terms =
                     reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
                         .ToList();
 
-                StoreTermsReadToObservableCollection( Filters, terms );
+                StoreTermsReadToObservableCollection(Filters, terms);
             }
         }
 
@@ -629,10 +626,7 @@ namespace BeyondSearch
                 // Open document 
                 TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
                 TextBoxFilterFile.Text = dlg.SafeFileName;
-            }
 
-            if (TextBoxFilterFile.Text.Length > 0)
-            {
                 var reader = new TsvProhibitedKeywordFileReader();
                 var terms =
                     reader.ReadKeywords(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
@@ -687,5 +681,56 @@ namespace BeyondSearch
         }
 
         #endregion
+
+        private void FilterCategoryTextBox_OnTextChanged( object sender, TextChangedEventArgs e )
+        {
+            var  box = sender as TextBox;
+            var keyword = box.DataContext as FilteredKeyword;
+
+            switch (box.Text)
+            {
+                case "1":
+                    keyword.Category = "1";
+                    keyword.CategoryBit = 1;
+                    break;
+                case "2":
+                    keyword.Category = "2";
+                    keyword.CategoryBit = 2;
+                    break;
+                case "3":
+                    keyword.Category = "3";
+                    keyword.CategoryBit = 4;
+                    break;
+                case "4":
+                    keyword.Category = "4";
+                    keyword.CategoryBit = 8;
+                    break;
+                case "5":
+                    keyword.Category = "5";
+                    keyword.CategoryBit = 16;
+                    break;
+                case "6":
+                    keyword.Category = "6";
+                    keyword.CategoryBit = 32;
+                    break;
+                case "7":
+                    keyword.Category = "7";
+                    keyword.CategoryBit = 64;
+                    break;
+                default:
+                    keyword.Category = "0";
+                    keyword.CategoryBit = 0;
+                    break;
+            }
+            keyword.Category = box.Text;
+        }
+
+        private void ComboBoxCategory_OnLoaded( object sender, RoutedEventArgs e )
+        {
+            var comboBox = sender as ComboBox;
+            comboBox.ItemsSource = Categories;
+            comboBox.DisplayMemberPath = Category;
+            comboBox.SelectedValuePath = Category;
+        }
     }
 }

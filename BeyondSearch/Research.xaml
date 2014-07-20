@@ -36,7 +36,7 @@
                 <MenuItem Name="MenuItemLucenePorterStem" Header="Lucene Porter Stem Match" IsCheckable="True" Click="MarkSelectedFilter_Click" />
             </MenuItem>
             <MenuItem Header="_Keywords">
-                
+
             </MenuItem>
             <MenuItem Header="_Help" />
         </Menu>
@@ -78,21 +78,26 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <ListBox Grid.Row="0" Grid.Column="1" Name="ListBoxFilters" MouseEnter="ListBoxFilters_OnMouseEnter" Margin="5,5,5,5" Background="Aquamarine"  FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top">
+                <ListBox Grid.Row="0" Grid.Column="1" Name="ListBoxFilters" MouseEnter="ListBoxFilters_OnMouseEnter" Margin="5,5,5,5" Background="Aquamarine" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top" Grid.IsSharedSizeScope="True">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate >
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="20" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Name="FilterNameTextBlock"  Foreground="DarkBlue" Text="{Binding Keyword}" HorizontalAlignment="Stretch"></TextBlock>
-                                <TextBlock Grid.Column="1" Name="FilterCategoryTextBlock" Background="Green" Foreground="White" Text="{Binding Category}" HorizontalAlignment="Right"></TextBlock>
-                            </Grid>
+                            <StackPanel Orientation="Vertical">
+                                <DockPanel>
+                                    <TextBox DockPanel.Dock="Left" Name="FilterNameTextBox" IsReadOnly="True" BorderThickness="0" Background="Aquamarine" Foreground="DarkBlue" Text="{Binding Keyword}" HorizontalAlignment="Left"></TextBox>
+                                    <!--<TextBox DockPanel.Dock="Right" Name="FilterCategoryTextBox" TextChanged="FilterCategoryTextBox_OnTextChanged" Background="Cyan" Foreground="Black" Text="{Binding Category}" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="25"></TextBox>-->
+                                    <ComboBox DockPanel.Dock="Right" Name="ComboBoxCategory" Width="50" TabIndex="2" Loaded="ComboBoxCategory_OnLoaded" SelectedValue="{Binding Category}" HorizontalContentAlignment="Center" HorizontalAlignment="Right"></ComboBox>
+                                </DockPanel>
+                            </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <ListBox Grid.Row="0" Grid.Column="2" Name="ListBoxUnFilteredKeywords" MouseEnter="ListBoxUnFilteredKeywords_OnMouseEnter" Margin="5,5,5,5" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top">
+                <ListBox Grid.Row="0" Grid.Column="2" Name="ListBoxUnFilteredKeywords" MouseEnter="ListBoxUnFilteredKeywords_OnMouseEnter" Margin="5,5,5,5" Background="SkyBlue" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top">
                     <ListBox.ItemTemplate>
                         <DataTemplate >
                             <TextBlock Name="KeywordTextBlock"  Foreground="DarkBlue" Text="{Binding Keyword}"></TextBlock>
@@ -123,15 +128,15 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="120" />
-                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="60" />
                 <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="70" />
-                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="30" />
+                <ColumnDefinition Width="30" />
             </Grid.ColumnDefinitions>
             <Label Name="LabelSelectedFilter" Grid.Column="0" HorizontalAlignment="Stretch" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" ToolTip="SelectedFilter">Selected Filter</Label>
             <Button Grid.Column="1" Height="30" VerticalAlignment="Center" Margin="10,0,10,0" Click="Filter_Click">Apply Filter</Button>
-            <Button Grid.Column="2" Height="30" VerticalAlignment="Center" Margin="10,0,10,0" Click="MoveFilteredKeywords_Click" FontSize="12" ToolTip="Move the filtered Keywords to the Keyword list.">Move Filtered KWs</Button>
+            <Button Grid.Column="2" Height="30" VerticalAlignment="Center" Margin="10,0,10,0" Click="MoveFilteredKeywords_Click" Background="SkyBlue" FontSize="12" ToolTip="Move the filtered Keywords to the Keyword list.">Move Filtered KWs</Button>
             <Label Grid.Column="3" Width="90" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Elapsed</Label>
             <TextBox Name="TextBoxElapsed" Grid.Column="4" Height="25" AcceptsReturn="True" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
         </Grid>

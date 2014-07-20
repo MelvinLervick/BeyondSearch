@@ -3,7 +3,7 @@
     public class FilteredKeyword
     {
         public string Keyword { get; set; }
-        public string Category;
-        public byte CategoryBit;
+        public string Category { get; set; }
+        public byte CategoryBit { get; set; }
     }
 }
