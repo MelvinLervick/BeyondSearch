@@ -90,7 +90,6 @@
                             <StackPanel Orientation="Vertical">
                                 <DockPanel>
                                     <TextBox DockPanel.Dock="Left" Name="FilterNameTextBox" IsReadOnly="True" BorderThickness="0" Background="Aquamarine" Foreground="DarkBlue" Text="{Binding Keyword}" HorizontalAlignment="Left"></TextBox>
-                                    <!--<TextBox DockPanel.Dock="Right" Name="FilterCategoryTextBox" TextChanged="FilterCategoryTextBox_OnTextChanged" Background="Cyan" Foreground="Black" Text="{Binding Category}" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="25"></TextBox>-->
                                     <ComboBox DockPanel.Dock="Right" Name="ComboBoxCategory" Width="50" TabIndex="2" Loaded="ComboBoxCategory_OnLoaded" SelectedValue="{Binding Category}" HorizontalContentAlignment="Center" HorizontalAlignment="Right"></ComboBox>
                                 </DockPanel>
                             </StackPanel>

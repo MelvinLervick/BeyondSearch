@@ -71,13 +71,7 @@ namespace BeyondSearch
 
         public void FillFilterList(IEnumerable<FilteredKeyword> filters)
         {
-            filterList = filters.ToList();
-            //filterList = new List<FilteredKeyword>();
-
-            //foreach (var filter in filters)
-            //{
-            //    filterList.Add(filter);
-            //}
+            filterList = filters.Select( x => x ).ToList();
 
             filterer = new KeywordFilterer(filterList);
         }

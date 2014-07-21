@@ -39,22 +39,35 @@ namespace BeyondSearch.Filters
 
                 if (suspect.Value == null)
                 {
-                    var badSuspect = string.Empty;
+                    FilteredKeyword badSuspect = null;
                     foreach ( var key in filterMap.Keys )
                     {
                         if ( suspect.Key.Contains( key ) )
                         {
-                            badSuspect = key;
-                            break;
+                            if ( badSuspect == null )
+                            {
+                                var filter = filterMap[key];
+                                badSuspect = new FilteredKeyword
+                                {
+                                    Keyword = filter.Keyword,
+                                    Category = filter.Category,
+                                    CategoryBit = filter.CategoryBit
+                                };
+                            }
+                            else
+                            {
+                                badSuspect.CategoryBit = (byte)(badSuspect.CategoryBit | filterMap[key].CategoryBit);
+                            }
                         }
+                        if ((badSuspect != null) && (badSuspect.CategoryBit > 32)) break;
                     }
-                    if ( string.IsNullOrWhiteSpace( badSuspect ) )
+                    if ( (badSuspect == null) || (badSuspect.CategoryBit <= 32))
                     {
                         matchedFilters[suspect.Key] = null;
                     }
                     else
                     {
-                        matchedFilters[suspect.Key] = filterMap[badSuspect];
+                        matchedFilters[suspect.Key] = badSuspect;
                     }
                 }
                 else

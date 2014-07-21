@@ -31,6 +31,7 @@ namespace BeyondSearch
         private const string Category = "Category";
         private const string SaveFileFilter = "{0}\t{1}\t{2}";
         private readonly KeywordFilter filter = new KeywordFilter();
+        private bool PageLoad = true;
 
         public ObservableCollection<FilteredKeyword> Keywords;
         public ObservableCollection<FilteredKeyword> Filters;
@@ -64,6 +65,7 @@ namespace BeyondSearch
             ListBoxFilters.ItemsSource = Filters;
             ListBoxUnFilteredKeywords.ItemsSource = UnFilteredKeywords;
             ListBoxFilteredKeywords.ItemsSource = FilteredKeywords;
+            PageLoad = false;
         }
 
         private void InitializeKeywordList()
@@ -183,6 +185,7 @@ namespace BeyondSearch
 
             FilteredKeywords.Clear();
             UnFilteredKeywords.Clear();
+            UpdateFilterCategoryBits();
             SetSelectedFilters(sw);
         }
 
@@ -459,6 +462,7 @@ namespace BeyondSearch
                     using (var tw = new System.IO.StreamWriter(saveFile.FileName))
                     {
                         tw.WriteLine(SaveFileFilter, Term, CategoryBit, Category);
+                        UpdateFilterCategoryBits();
                         foreach (var keyword in Filters)
                         {
                             if (!string.IsNullOrWhiteSpace(keyword.Keyword))
@@ -474,6 +478,15 @@ namespace BeyondSearch
                 {
                     TextBoxFilterFile.Text = "Invalid filename";
                 }
+            }
+        }
+
+        private void UpdateFilterCategoryBits()
+        {
+            foreach ( var keyword in Filters )
+            {
+                keyword.CategoryBit =
+                    ( Categories.Where( cat => cat.Category == keyword.Category ).Select( cat => cat.CategoryBit ) ).First();
             }
         }
 
