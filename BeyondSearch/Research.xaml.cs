@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -31,7 +32,6 @@ namespace BeyondSearch
         private const string Category = "Category";
         private const string SaveFileFilter = "{0}\t{1}\t{2}";
         private readonly KeywordFilter filter = new KeywordFilter();
-        private bool PageLoad = true;
 
         public ObservableCollection<FilteredKeyword> Keywords;
         public ObservableCollection<FilteredKeyword> Filters;
@@ -63,9 +63,10 @@ namespace BeyondSearch
 
             ListBoxKeywords.ItemsSource = Keywords;
             ListBoxFilters.ItemsSource = Filters;
+            ListBoxFilters.Items.SortDescriptions.Add(new SortDescription("Keyword", ListSortDirection.Ascending));
+            ListBoxFilters.Items.IsLiveSorting = true;
             ListBoxUnFilteredKeywords.ItemsSource = UnFilteredKeywords;
             ListBoxFilteredKeywords.ItemsSource = FilteredKeywords;
-            PageLoad = false;
         }
 
         private void InitializeKeywordList()
