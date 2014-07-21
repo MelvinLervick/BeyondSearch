@@ -156,7 +156,7 @@ striptease	64	7
 sucking	64	7
 swinger	64	7
 swinging	64	7
-teen	32	6
+teen	16	5
 teenage	32	6
 threesome	64	7
 tits	64	7
@@ -197,3 +197,4 @@ store	2	2
 animation	2	2
 cam	16	5
 cartoon	2	2
+comic	8	4
