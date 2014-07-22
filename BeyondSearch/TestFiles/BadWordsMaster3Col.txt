@@ -1,14 +1,14 @@
 Term	CategoryBit	Category
-0	64	7
-1	64	7
-2	64	7
-3	64	7
-4	64	7
-5	64	7
-6	64	7
-7	64	7
-8	64	7
-9	64	7
+0	2	2
+1	2	2
+2	2	2
+3	2	2
+4	2	2
+5	2	2
+6	2	2
+7	2	2
+8	2	2
+9	2	2
 abduction	64	7
 abductor	64	7
 abnormal	8	4
@@ -24,8 +24,8 @@ amoral	64	7
 anal	64	7
 animal	16	5
 anime	64	7
-anus	64	7
-ass	64	7
+anus	32	6
+ass	16	5
 babes	64	7
 bang	16	5
 barely	16	5
@@ -54,7 +54,7 @@ cock	64	7
 creampie	64	7
 crotches	64	7
 crotchless	64	7
-cum	64	7
+cum	16	5
 cunilingus	64	7
 cunnilingus	64	7
 cunt	64	7
@@ -74,7 +74,7 @@ exotic	32	6
 faggots	64	7
 feces	64	7
 fellatio	64	7
-female	32	6
+female	16	5
 femdom	64	7
 fetish	64	7
 fisting	64	7
@@ -87,7 +87,7 @@ gangbang	64	7
 gay	64	7
 girl	16	5
 g-spot	64	7
-hand	32	6
+hand	16	5
 hardcore	64	7
 hentai	64	7
 horny	64	7
@@ -99,7 +99,7 @@ latina	16	5
 lesbian	64	7
 lesbo	64	7
 lolita	64	7
-male	32	6
+male	16	5
 man	16	5
 masterbat	64	7
 masturbat	64	7
@@ -120,7 +120,7 @@ orgasm	64	7
 orgies	64	7
 orgy	64	7
 pedo	64	7
-pee	64	7
+pee	16	5
 peeing	64	7
 penetrat	64	7
 penis	64	7
@@ -161,7 +161,7 @@ teenage	32	6
 threesome	64	7
 tits	64	7
 titt	64	7
-toilet	32	6
+toilet	16	5
 tooch	64	7
 twinks	64	7
 twosome	64	7
@@ -180,7 +180,7 @@ x rate	64	7
 xrate	64	7
 x-rate	64	7
 xx	64	7
-film	32	6
+film	16	5
 friend	8	4
 actress	8	4
 desnudas	64	7
@@ -198,3 +198,5 @@ animation	2	2
 cam	16	5
 cartoon	2	2
 comic	8	4
+hand job	64	7
+handjob	64	7

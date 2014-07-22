@@ -409,7 +409,7 @@ namespace BeyondSearch
             var dlg = new Microsoft.Win32.OpenFileDialog
             {
                 DefaultExt = ".tsv",
-                Filter = "Index documents (.tsv)|*.tsv|All files (*.*)|*.*",
+                Filter = "Index documents All files (*.*)|*.*|(.tsv)|*.tsv",
                 CheckPathExists = true,
                 CheckFileExists = true
             };
