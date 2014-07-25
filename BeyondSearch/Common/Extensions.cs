@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using BeyondSearch.Filters;
 using Lucene.Net.Analysis.Snowball;
 using Lucene.Net.QueryParsers;
@@ -51,6 +53,7 @@ namespace BeyondSearch.Common
 
         public static void AddFilteredKeywordListItem(this ObservableCollection<FilteredKeyword> fkw, string keyword, string category = "0", byte bit = 0)
         {
+            if (fkw.Any(x => x.Keyword == keyword)) return;
             fkw.Add( new FilteredKeyword { Keyword = keyword, Category = category, CategoryBit = bit} );
         }
     }
