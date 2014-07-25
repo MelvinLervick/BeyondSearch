@@ -7,7 +7,7 @@ namespace BeyondSearch.Filters
     public class ContainsMatchmaker : IKeywordMatchmaker
     {
         private readonly IDictionary<string, FilteredKeyword> filterMap;
- 
+
         public ContainsMatchmaker(IEnumerable<FilteredKeyword> filteredKeywords)
         {
             if (filteredKeywords == null)
@@ -40,11 +40,11 @@ namespace BeyondSearch.Filters
                 if (suspect.Value == null)
                 {
                     FilteredKeyword badSuspect = null;
-                    foreach ( var key in filterMap.Keys )
+                    foreach (var key in filterMap.Keys)
                     {
-                        if ( suspect.Key.Contains( key ) )
+                        if (suspect.Key.Contains(key))
                         {
-                            if ( badSuspect == null )
+                            if (badSuspect == null)
                             {
                                 var filter = filterMap[key];
                                 badSuspect = new FilteredKeyword
@@ -61,7 +61,15 @@ namespace BeyondSearch.Filters
                         }
                         if ((badSuspect != null) && (badSuspect.CategoryBit > 32)) break;
                     }
-                    if ( (badSuspect == null) || (badSuspect.CategoryBit <= 32))
+                    if ((badSuspect == null) || 
+                        (badSuspect.CategoryBit <= 32) || 
+                        (badSuspect.CategoryBit == 32 && 
+                            (suspect.Key.Split(' ').Count() > 1) && 
+                            (suspect.Key.Length > badSuspect.Keyword.Length * 2)) ||
+                        (badSuspect.CategoryBit == 16 &&
+                            (suspect.Key.Split(' ').Count() > 2) &&
+                            (suspect.Key.Length > badSuspect.Keyword.Length * 2))
+                       )
                     {
                         matchedFilters[suspect.Key] = null;
                     }
