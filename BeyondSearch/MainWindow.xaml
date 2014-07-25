@@ -28,8 +28,8 @@
       <MenuItem Header="_Edit" />
       <MenuItem Header="_View" />
       <MenuItem Header="_Window" />
+      <MenuItem Header="_Filter Research" Click="Menu_ResearchClick" Name="MenuResearch" />
       <MenuItem Header="_Tools">
-        <MenuItem Header="_Filter Research" Click="Menu_ResearchClick" Name="MenuResearch" />
         <MenuItem Header="_Options" />
       </MenuItem>
       <MenuItem Header="_Help" />
