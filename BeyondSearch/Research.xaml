@@ -19,7 +19,7 @@
             <MenuItem Header="_Files">
                 <MenuItem Header="Load _Filter">
                     <MenuItem Header="Load _Filter (Term only)" Click="Menu_FilesFilterTermClick" />
-                    <MenuItem Header="Load _Filter (Term, Bit, Category" Click="Menu_FilesFilterCategoryClick" />
+                    <MenuItem Header="Load _Filter (Term, Bit, Category)" Click="Menu_FilesFilterCategoryClick" />
                     <MenuItem Header="Load _Filter (Tsv)" Click="Menu_FilesFilterTsvClick" />
                 </MenuItem>
                 <MenuItem Header="Load _Keywords" Click="Menu_FilesKeywordsClick" />
