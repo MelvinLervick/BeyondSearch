@@ -177,6 +177,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="TestFiles\AdultKeyword.tsv" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -191,7 +192,9 @@
   <ItemGroup>
     <Resource Include="Resources\folder.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="TestFiles\Dictionary.txt" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="TestFiles\BadWordsMaster3Col.txt" />
     <Resource Include="TestFiles\SubstringTestFilters3Col.txt" />
