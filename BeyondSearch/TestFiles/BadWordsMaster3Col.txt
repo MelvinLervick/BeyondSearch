@@ -13,26 +13,20 @@ abduction	64	7
 abductor	64	7
 abnormal	8	4
 absolut	8	4
-action	8	4
-actress	8	4
 a-cup	64	7
 adam and eve	64	7
 addicted	64	7
-adolescent	32	6
+adolescent	16	5
 adult	32	6
 amateur	16	5
 amatuer	16	5
 amoral	64	7
 anal	64	7
 animal	16	5
-animation	2	2
 anime	64	7
 anus	32	6
-asian	2	2
 ass	16	5
-auction	2	2
 babes	64	7
-baby	2	2
 bang	16	5
 barely	16	5
 bbw	64	7
@@ -48,11 +42,7 @@ boob	64	7
 booty	64	7
 boy	16	5
 breast	64	7
-buffet	2	2
 butt	64	7
-cam	16	5
-cards	2	2
-cartoon	2	2
 censored	64	7
 centerfold	64	7
 centrefold	64	7
@@ -61,7 +51,6 @@ chick	64	7
 clit	64	7
 clitoris	64	7
 cock	64	7
-comic	8	4
 creampie	64	7
 crotches	64	7
 crotchless	64	7
@@ -70,7 +59,6 @@ cunilingus	64	7
 cunnilingus	64	7
 cunt	64	7
 deep throat	64	7
-desnudas	64	7
 dick	64	7
 dildo	64	7
 dominatrix	64	7
@@ -88,10 +76,8 @@ fellatio	64	7
 female	16	5
 femdom	64	7
 fetish	64	7
-film	16	5
 fisting	64	7
 foursome	64	7
-friend	8	4
 fuck	64	7
 g spot	64	7
 gallery	32	6
@@ -101,8 +87,6 @@ gay	64	7
 girl	16	5
 g-spot	64	7
 hand	16	5
-hand job	64	7
-handjob	64	7
 hardcore	64	7
 hentai	64	7
 horny	64	7
@@ -116,12 +100,12 @@ lesbo	64	7
 lolita	64	7
 male	16	5
 man	16	5
+masterbat	64	7
 masturbat	64	7
 men	16	5
 milf	64	7
 movie	8	4
 naked	64	7
-naturism	64	7
 naughty	32	6
 nipple	64	7
 nobutt	64	7
@@ -160,7 +144,6 @@ sites	16	5
 slut	64	7
 snatches	64	7
 softcore	64	7
-store	2	2
 stories	16	5
 story	16	5
 street	16	5
@@ -177,7 +160,6 @@ tits	64	7
 titt	64	7
 toilet	16	5
 tooch	64	7
-toys	2	2
 twinks	64	7
 twosome	64	7
 underage	32	6
@@ -195,3 +177,25 @@ x rate	64	7
 xrate	64	7
 x-rate	64	7
 xx	64	7
+film	16	5
+friend	8	4
+actress	8	4
+desnudas	64	7
+action	8	4
+naturism	64	7
+asian	2	2
+auction	2	2
+baby	2	2
+toys	2	2
+cards	2	2
+buffet	2	2
+store	2	2
+animation	2	2
+cam	16	5
+cartoon	2	2
+comic	8	4
+hand job	64	7
+handjob	64	7
+intercourse	64	7
+cocaine	64	7
+masturb	64	7
