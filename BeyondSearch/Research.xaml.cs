@@ -548,10 +548,14 @@ namespace BeyondSearch
                 TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
                 TextBoxFilterFile.Text = dlg.SafeFileName;
 
+                var sw = new Stopwatch();
+                sw.Start();
                 var reader = new FilterTermFileReader();
                 var terms =
                     reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
                         .ToList();
+                sw.Stop();
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
 
                 StoreTermsReadToObservableCollection(Filters, terms);
             }
