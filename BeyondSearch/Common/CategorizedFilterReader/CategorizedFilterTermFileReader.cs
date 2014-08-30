@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BeyondSearch.Common.FilterFileReader;
 using BeyondSearch.Filters;
 using LINQtoCSV;
 

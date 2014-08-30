@@ -8,8 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using BeyondSearch.Common;
+using BeyondSearch.Common.BeyondSearchFileReader;
 using BeyondSearch.Common.CategorizedFilterReader;
-using BeyondSearch.Common.FilterFileReader;
 using BeyondSearch.Common.TsvFileReader;
 using BeyondSearch.Filters;
 using Microsoft.Win32;
@@ -71,40 +71,40 @@ namespace BeyondSearch
 
         private void InitializeKeywordList()
         {
-            Keywords.AddFilteredKeywordListItem("hotels with pools");
-            Keywords.AddFilteredKeywordListItem("hotels in south chicago red light");
-            Keywords.AddFilteredKeywordListItem("stores that sell adult toys");
-            Keywords.AddFilteredKeywordListItem("adult toys");
-            Keywords.AddFilteredKeywordListItem("adult only restaurants");
+            Keywords.AddFilteredKeywordListItem(false, "hotels with pools");
+            Keywords.AddFilteredKeywordListItem(false, "hotels in south chicago red light");
+            Keywords.AddFilteredKeywordListItem(false, "stores that sell adult toys");
+            Keywords.AddFilteredKeywordListItem(false, "adult toys");
+            Keywords.AddFilteredKeywordListItem(false, "adult only restaurants");
 
-            Keywords.AddFilteredKeywordListItem("animal shelter dog");
-            Keywords.AddFilteredKeywordListItem("animal shelter dogs");
-            Keywords.AddFilteredKeywordListItem("animal shelter cat");
-            Keywords.AddFilteredKeywordListItem("animal shelter cats");
-            Keywords.AddFilteredKeywordListItem("park zebra");
+            Keywords.AddFilteredKeywordListItem(false, "animal shelter dog");
+            Keywords.AddFilteredKeywordListItem(false, "animal shelter dogs");
+            Keywords.AddFilteredKeywordListItem(false, "animal shelter cat");
+            Keywords.AddFilteredKeywordListItem(false, "animal shelter cats");
+            Keywords.AddFilteredKeywordListItem(false, "park zebra");
 
-            Keywords.AddFilteredKeywordListItem("park zebras");
-            Keywords.AddFilteredKeywordListItem("zoo animal zebra");
-            Keywords.AddFilteredKeywordListItem("zoo animal zebras");
-            Keywords.AddFilteredKeywordListItem("clothes young girls");
-            Keywords.AddFilteredKeywordListItem("young girls");
+            Keywords.AddFilteredKeywordListItem(false, "park zebras");
+            Keywords.AddFilteredKeywordListItem(false, "zoo animal zebra");
+            Keywords.AddFilteredKeywordListItem(false, "zoo animal zebras");
+            Keywords.AddFilteredKeywordListItem(false, "clothes young girls");
+            Keywords.AddFilteredKeywordListItem(false, "young girls");
 
-            Keywords.AddFilteredKeywordListItem("zebra");
-            Keywords.AddFilteredKeywordListItem("cat");
-            Keywords.AddFilteredKeywordListItem("dog");
-            Keywords.AddFilteredKeywordListItem("red light");
-            Keywords.AddFilteredKeywordListItem("red lights");
+            Keywords.AddFilteredKeywordListItem(false, "zebra");
+            Keywords.AddFilteredKeywordListItem(false, "cat");
+            Keywords.AddFilteredKeywordListItem(false, "dog");
+            Keywords.AddFilteredKeywordListItem(false, "red light");
+            Keywords.AddFilteredKeywordListItem(false, "red lights");
         }
 
         private void InitializeFilterList()
         {
-            Filters.AddFilteredKeywordListItem( "adult toys" );
-            Filters.AddFilteredKeywordListItem( "zebra" );
-            Filters.AddFilteredKeywordListItem( "young girls" );
-            Filters.AddFilteredKeywordListItem( "red light" );
-            Filters.AddFilteredKeywordListItem( "cat" );
+            Filters.AddFilteredKeywordListItem(false,  "adult toys" );
+            Filters.AddFilteredKeywordListItem(false,  "zebra" );
+            Filters.AddFilteredKeywordListItem(false,  "young girls" );
+            Filters.AddFilteredKeywordListItem(false,  "red light" );
+            Filters.AddFilteredKeywordListItem(false,  "cat" );
 
-            Filters.AddFilteredKeywordListItem( "dog" );
+            Filters.AddFilteredKeywordListItem(false,  "dog" );
         }
 
         private void DisplaySelectedFilter()
@@ -206,7 +206,7 @@ namespace BeyondSearch
 
             foreach (var keyword in UnFilteredKeywords)
             {
-                Keywords.AddFilteredKeywordListItem( keyword.Keyword, keyword.Category, keyword.CategoryBit );
+                Keywords.AddFilteredKeywordListItem(false,  keyword.Keyword, category: keyword.Category, bit: keyword.CategoryBit );
             }
 
             UnFilteredKeywords.Clear();
@@ -424,24 +424,30 @@ namespace BeyondSearch
                 TextBoxKeywordFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
                 TextBoxKeywordFile.Text = dlg.SafeFileName;
 
+                var sw = new Stopwatch();
+                sw.Start();
+
                 if (TextBoxKeywordFile.Text.Contains(".tsv"))
                 {
-                    var reader = new TsvProhibitedKeywordFileReader();
+                    var reader = new BeyondSearchFileReader();
                     var terms =
-                        reader.ReadKeywords(System.IO.Path.Combine(TextBoxKeywordFolder.Text, TextBoxKeywordFile.Text))
+                        reader.ReadTerms(System.IO.Path.Combine(TextBoxKeywordFolder.Text, TextBoxKeywordFile.Text), RecordFormat.Tsv)
                             .ToList();
 
                     StoreTermsReadToObservableCollection(Keywords, terms);
                 }
                 else
                 {
-                    var reader = new FilterTermFileReader();
+                    var reader = new BeyondSearchFileReader();
                     var terms =
-                        reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxKeywordFolder.Text,
-                            TextBoxKeywordFile.Text)).ToList();
+                        reader.ReadTerms(System.IO.Path.Combine(TextBoxKeywordFolder.Text,
+                            TextBoxKeywordFile.Text), RecordFormat.TermOnly).ToList();
 
                     StoreTermsReadToObservableCollection(Keywords, terms);
                 }
+
+                sw.Stop();
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
             }
         }
 
@@ -550,14 +556,16 @@ namespace BeyondSearch
 
                 var sw = new Stopwatch();
                 sw.Start();
-                var reader = new FilterTermFileReader();
+
+                var reader = new BeyondSearchFileReader();
                 var terms =
-                    reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
+                    reader.ReadTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text), RecordFormat.TermOnly)
                         .ToList();
-                sw.Stop();
-                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
 
                 StoreTermsReadToObservableCollection(Filters, terms);
+
+                sw.Stop();
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
             }
         }
 
@@ -582,12 +590,18 @@ namespace BeyondSearch
                 TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
                 TextBoxFilterFile.Text = dlg.SafeFileName;
 
-                var reader = new CategorizedFilterTermFileReader();
+                var sw = new Stopwatch();
+                sw.Start();
+
+                var reader = new BeyondSearchFileReader();
                 var terms =
-                    reader.ReadFilterTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
+                    reader.ReadTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text), RecordFormat.CategorizedTerm)
                         .ToList();
 
                 StoreTermsReadToObservableCollection(Filters, terms);
+
+                sw.Stop();
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
             }
         }
 
@@ -612,12 +626,18 @@ namespace BeyondSearch
                 TextBoxFilterFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
                 TextBoxFilterFile.Text = dlg.SafeFileName;
 
-                var reader = new TsvProhibitedKeywordFileReader();
+                var sw = new Stopwatch();
+                sw.Start();
+
+                var reader = new BeyondSearchFileReader();
                 var terms =
-                    reader.ReadKeywords(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text))
+                    reader.ReadTerms(System.IO.Path.Combine(TextBoxFilterFolder.Text, TextBoxFilterFile.Text), RecordFormat.Tsv)
                         .ToList();
 
                 StoreTermsReadToObservableCollection(Filters, terms);
+
+                sw.Stop();
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
             }
         }
 
@@ -628,7 +648,7 @@ namespace BeyondSearch
         private void AddWordToCollection(ObservableCollection<FilteredKeyword> collection, string word)
         {
             if (collection == null) collection = new ObservableCollection<FilteredKeyword>();
-            collection.AddFilteredKeywordListItem(word);
+            collection.AddFilteredKeywordListItem(true, word);
         }
 
         private IEnumerable<string> DuplicateList(List<string> list, int noTimesToDuplicate)
@@ -660,8 +680,8 @@ namespace BeyondSearch
             collection.Clear();
             foreach (var filteredKeyword in terms)
             {
-                collection.AddFilteredKeywordListItem(filteredKeyword.Keyword, filteredKeyword.Category,
-                    filteredKeyword.CategoryBit);
+                collection.AddFilteredKeywordListItem(false, filteredKeyword.Keyword, category: filteredKeyword.Category,
+                    bit: filteredKeyword.CategoryBit);
             }
         }
 
@@ -669,11 +689,11 @@ namespace BeyondSearch
         {
             foreach (var filteredItem in filteredItems.GoodKeywords)
             {
-                UnFilteredKeywords.AddFilteredKeywordListItem(filteredItem);
+                UnFilteredKeywords.AddFilteredKeywordListItem(false, filteredItem);
             }
             foreach (var filteredItem in filteredItems.BadKeywords)
             {
-                FilteredKeywords.AddFilteredKeywordListItem(filteredItem);
+                FilteredKeywords.AddFilteredKeywordListItem(false, filteredItem);
             }
         }
 

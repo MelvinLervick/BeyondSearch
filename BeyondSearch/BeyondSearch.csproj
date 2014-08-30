@@ -107,12 +107,12 @@
     </ApplicationDefinition>
     <Compile Include="Common\CategorizedFilterReader\CategorizedFilterTerm.cs" />
     <Compile Include="Common\CategorizedFilterReader\CategorizedFilterTermFileReader.cs" />
+    <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\GoodOrBadKeywords.cs" />
     <Compile Include="Common\KeywordCategory.cs" />
-    <Compile Include="Common\FilterFileReader\FilterTerm.cs" />
-    <Compile Include="Common\FilterFileReader\FilterTermFileReader.cs" />
+    <Compile Include="Common\BeyondSearchFileReader\BeyondSearchFileReader.cs" />
     <Compile Include="Common\ICategorizedFilterTermFileReader.cs" />
-    <Compile Include="Common\IFilterTermFileReader.cs" />
+    <Compile Include="Common\IBeyondSearchFileReader.cs" />
     <Compile Include="Common\IProhibitedKeywordFileReader.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Filters\ContainsMatchmaker.cs" />

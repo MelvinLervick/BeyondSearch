@@ -51,9 +51,9 @@ namespace BeyondSearch.Common
             return string.Join(" ", strTokens).Trim();
         }
 
-        public static void AddFilteredKeywordListItem(this ObservableCollection<FilteredKeyword> fkw, string keyword, string category = "0", byte bit = 0)
+        public static void AddFilteredKeywordListItem( this ObservableCollection<FilteredKeyword> fkw, bool checkForDuplicates, string keyword, string category = "0", byte bit = 0 )
         {
-            if (fkw.Any(x => x.Keyword == keyword)) return;
+            if (checkForDuplicates && fkw.Any(x => x.Keyword == keyword)) return;
             fkw.Add( new FilteredKeyword { Keyword = keyword, Category = category, CategoryBit = bit} );
         }
     }
