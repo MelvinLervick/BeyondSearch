@@ -122,5 +122,14 @@ namespace BeyondSearch.Filters
 
             compositeMatchmaker = new KeywordMatchmaker(Matchmakers);
         }
+
+        public void SetMatchmakerToDictionary(bool singleMatchmaker = true)
+        {
+            if (singleMatchmaker || Matchmakers == null) Matchmakers = new List<IKeywordMatchmaker>();
+
+            Matchmakers.Add(new DictionaryMatchmaker(toLowerMasterFilteredKeywords));
+
+            compositeMatchmaker = new KeywordMatchmaker(Matchmakers);
+        }
     }
 }

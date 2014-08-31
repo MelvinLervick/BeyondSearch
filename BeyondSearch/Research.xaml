@@ -27,6 +27,7 @@
                 <MenuItem Header="Save _Keywords" Click="Menu_SaveKeywordsClick" />
             </MenuItem>
             <MenuItem Header="_Filters" >
+                <MenuItem Name="MenuItemDictionary" Header="Dictionary" IsCheckable="True" Click="MarkSelectedFilter_Click" />
                 <MenuItem Name="MenuItemContains" Header="Contains Match" IsCheckable="True" Click="MarkSelectedFilter_Click" />
                 <MenuItem Name="MenuItemStrictContains" Header="Strict Contains Match" IsCheckable="True" Click="MarkSelectedFilter_Click" />
                 <MenuItem Name="MenuItemSansSpaceOrNumber" Header="Contains Sans Space or Number Match" IsCheckable="True" Click="MarkSelectedFilter_Click" />

@@ -9,6 +9,7 @@ namespace BeyondSearch
     {
         List<FilteredKeyword> FilterList { get; }
 
+        GoodOrBadKeywords Dictionary(IEnumerable<string> keywords);
         GoodOrBadKeywords Contains(IEnumerable<string> keywords);
         GoodOrBadKeywords Exact(IEnumerable<string> keywords);
         GoodOrBadKeywords StrictContains(IEnumerable<string> keywords);

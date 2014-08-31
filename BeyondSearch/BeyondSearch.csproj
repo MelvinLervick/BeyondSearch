@@ -116,6 +116,7 @@
     <Compile Include="Common\IProhibitedKeywordFileReader.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Filters\ContainsMatchmaker.cs" />
+    <Compile Include="Filters\DictionaryMatchmaker.cs" />
     <Compile Include="Filters\LucenePorterStemMatchmaker.cs" />
     <Compile Include="Filters\KeywordMatchmaker.cs" />
     <Compile Include="Filters\ContainsSansSpaceAndNumberKeywordMatchmaker.cs" />

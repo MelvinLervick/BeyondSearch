@@ -25,6 +25,7 @@ namespace BeyondSearch
         private const string StrictContainsMatch = "Strict Contains Match";
         private const string ContainsSansSpaceAndNumberMatch = "Sans Space & Number Match";
         private const string ExactMatch = "Exact Match";
+        private const string Dictionary = "Dictionary";
         private const string FuzzyContainsMatch = "Fuzzy Match";
         private const string LucenePorterStemMatch = "Lucene Porter Stem";
         private const string Term = "Term";
@@ -109,6 +110,11 @@ namespace BeyondSearch
 
         private void DisplaySelectedFilter()
         {
+            if (MenuItemDictionary.IsChecked)
+            {
+                LabelSelectedFilter.Content = Dictionary;
+                return;
+            }
             if (MenuItemExact.IsChecked)
             {
                 LabelSelectedFilter.Content = ExactMatch;
@@ -197,6 +203,7 @@ namespace BeyondSearch
             if (MenuItemSansSpaceOrNumber.IsChecked) ContainsSansSpaceAndNumberMatchFilter(sw);
             if (MenuItemStrictContains.IsChecked) StrictContainsMatchFilter(sw);
             if (MenuItemContains.IsChecked) ContainsMatchFilter(sw);
+            if (MenuItemDictionary.IsChecked) DictionaryMatchFilter(sw);
             if (MenuItemLucenePorterStem.IsChecked) LucenePorterStemFilter(sw);
         }
 
@@ -217,8 +224,18 @@ namespace BeyondSearch
             var item = e.OriginalSource as MenuItem;
             item.IsChecked = true;
 
+            if (item.Name == "MenuItemDictionary")
+            {
+                MenuItemContains.IsChecked = false;
+                MenuItemStrictContains.IsChecked = false;
+                MenuItemExact.IsChecked = false;
+                MenuItemFuzzy.IsChecked = false;
+                MenuItemSansSpaceOrNumber.IsChecked = false;
+                MenuItemLucenePorterStem.IsChecked = false;
+            }
             if (item.Name == "MenuItemContains")
             {
+                MenuItemDictionary.IsChecked = false;
                 MenuItemStrictContains.IsChecked = false;
                 MenuItemExact.IsChecked = false;
                 MenuItemFuzzy.IsChecked = false;
@@ -227,6 +244,7 @@ namespace BeyondSearch
             }
             if (item.Name == "MenuItemStrictContains")
             {
+                MenuItemDictionary.IsChecked = false;
                 MenuItemContains.IsChecked = false;
                 MenuItemExact.IsChecked = false;
                 MenuItemFuzzy.IsChecked = false;
@@ -235,6 +253,7 @@ namespace BeyondSearch
             }
             if (item.Name == "MenuItemSansSpaceOrNumber")
             {
+                MenuItemDictionary.IsChecked = false;
                 MenuItemContains.IsChecked = false;
                 MenuItemStrictContains.IsChecked = false;
                 MenuItemExact.IsChecked = false;
@@ -243,6 +262,7 @@ namespace BeyondSearch
             }
             if (item.Name == "MenuItemExact")
             {
+                MenuItemDictionary.IsChecked = false;
                 MenuItemContains.IsChecked = false;
                 MenuItemStrictContains.IsChecked = false;
                 MenuItemFuzzy.IsChecked = false;
@@ -251,6 +271,7 @@ namespace BeyondSearch
             }
             if (item.Name == "MenuItemFuzzy")
             {
+                MenuItemDictionary.IsChecked = false;
                 MenuItemContains.IsChecked = false;
                 MenuItemStrictContains.IsChecked = false;
                 MenuItemExact.IsChecked = false;
@@ -259,6 +280,7 @@ namespace BeyondSearch
             }
             if (item.Name == "MenuItemLucenePorterStem")
             {
+                MenuItemDictionary.IsChecked = false;
                 MenuItemContains.IsChecked = false;
                 MenuItemStrictContains.IsChecked = false;
                 MenuItemExact.IsChecked = false;
@@ -278,6 +300,22 @@ namespace BeyondSearch
         }
 
         #region Filters
+
+        private void DictionaryMatchFilter(Stopwatch sw)
+        {
+            filter.FillFilterList(Filters);
+
+            if (ListBoxKeywords.Items.Count > 0)
+            {
+                var keywords = Keywords.Select(x => x.Keyword).ToList();
+
+                sw.Start();
+                SetGoodAndBadDisplayLists(filter.Dictionary(keywords));
+                sw.Stop();
+
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
 
         private void ContainsMatchFilter(Stopwatch sw)
         {

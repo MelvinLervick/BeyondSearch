@@ -27,6 +27,13 @@ namespace BeyondSearch
             }
         }
 
+        public GoodOrBadKeywords Dictionary(IEnumerable<string> keywords)
+        {
+            filterer.SetMatchmakerToDictionary();
+
+            return new GoodOrBadKeywords(filterer.Filter(keywords));
+        }
+
         public GoodOrBadKeywords Contains(IEnumerable<string> keywords)
         {
             filterer.SetMatchmakerToContainsMatch();
