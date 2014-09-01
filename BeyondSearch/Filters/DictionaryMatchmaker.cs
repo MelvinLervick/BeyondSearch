@@ -38,15 +38,21 @@ namespace BeyondSearch.Filters
                 if (matchedDictionary.ContainsKey(suspect.Key)) continue;
 
                 var words = suspect.Key.Split(' ');
-                if (suspect.Value == null && words.Count() == 1)
+                var correctlySpelledWordCount = words.Count( word => filterMap.ContainsKey( word ) );
+                if (suspect.Value == null && words.Count() == correctlySpelledWordCount)
                 {
-                    matchedDictionary[suspect.Key] = filterMap.ContainsKey(suspect.Key)
-                    ? null
-                    : new FilteredKeyword();
+                    matchedDictionary[suspect.Key] = null;
                 }
                 else
                 {
-                    matchedDictionary[suspect.Key] = suspect.Value;
+                    if ( suspect.Value == null )
+                    {
+                        matchedDictionary[suspect.Key] = new FilteredKeyword();
+                    }
+                    else
+                    {
+                        matchedDictionary[suspect.Key] = suspect.Value;
+                    }
                 }
             }
 
