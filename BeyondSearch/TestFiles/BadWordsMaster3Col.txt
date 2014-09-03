@@ -24,8 +24,8 @@ amoral	64	7
 anal	64	7
 animal	16	5
 anime	64	7
-anus	32	6
-ass	32	6
+anus	64	7
+ass	64	7
 babes	64	7
 bang	16	5
 bbw	64	7
@@ -272,3 +272,4 @@ shagging	64	7
 sodomies	64	7
 squirt	16	5
 blouse	32	6
+nice	8	4

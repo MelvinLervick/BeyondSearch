@@ -7,6 +7,7 @@ namespace BeyondSearch.Filters
     public class ContainsMatchmaker : IKeywordMatchmaker
     {
         private readonly IDictionary<string, FilteredKeyword> filterMap;
+        private const int Threshhold = 40;
 
         public ContainsMatchmaker(IEnumerable<FilteredKeyword> filteredKeywords)
         {
@@ -59,16 +60,17 @@ namespace BeyondSearch.Filters
                                 badSuspect.CategoryBit = (byte)(badSuspect.CategoryBit | filterMap[key].CategoryBit);
                             }
                         }
-                        if ((badSuspect != null) && (badSuspect.CategoryBit > 32)) break;
+                        if ((badSuspect != null) && (badSuspect.CategoryBit > Threshhold)) break;
                     }
-                    if ((badSuspect == null) || 
-                        (badSuspect.CategoryBit <= 32) || 
-                        (badSuspect.CategoryBit == 32 && 
-                            (suspect.Key.Split(' ').Count() > 1) && 
-                            (suspect.Key.Length > badSuspect.Keyword.Length * 2)) ||
-                        (badSuspect.CategoryBit == 16 &&
-                            (suspect.Key.Split(' ').Count() > 2) &&
-                            (suspect.Key.Length > badSuspect.Keyword.Length * 2))
+                    if ((badSuspect == null) ||
+                        (badSuspect.CategoryBit <= Threshhold) 
+                        // || 
+                        //(badSuspect.CategoryBit == 32 && 
+                        //    (suspect.Key.Split(' ').Count() > 1) && 
+                        //    (suspect.Key.Length > badSuspect.Keyword.Length * 2)) ||
+                        //(badSuspect.CategoryBit == 16 &&
+                        //    (suspect.Key.Split(' ').Count() > 2) &&
+                        //    (suspect.Key.Length > badSuspect.Keyword.Length * 2))
                        )
                     {
                         matchedFilters[suspect.Key] = null;
