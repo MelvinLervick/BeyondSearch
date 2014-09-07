@@ -63,7 +63,10 @@ namespace BeyondSearch
             DisplaySelectedFilter();
 
             ListBoxKeywords.ItemsSource = Keywords;
+            ListBoxKeywords.Items.SortDescriptions.Add(new SortDescription("Keyword", ListSortDirection.Ascending));
+            ListBoxKeywords.Items.IsLiveSorting = true;
             ListBoxFilters.ItemsSource = Filters;
+            ListBoxFilters.Items.SortDescriptions.Add(new SortDescription("Category", ListSortDirection.Ascending));
             ListBoxFilters.Items.SortDescriptions.Add(new SortDescription("Keyword", ListSortDirection.Ascending));
             ListBoxFilters.Items.IsLiveSorting = true;
             ListBoxUnFilteredKeywords.ItemsSource = UnFilteredKeywords;

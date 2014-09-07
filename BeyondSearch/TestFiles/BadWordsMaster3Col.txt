@@ -45,8 +45,8 @@ butt	64	7
 censored	64	7
 centerfold	64	7
 centrefold	64	7
-cheating	32	6
-chick	32	6
+cheating	16	5
+chick	64	7
 clit	64	7
 clitoris	64	7
 cock	64	7
@@ -178,7 +178,7 @@ x-rate	64	7
 xx	64	7
 film	16	5
 friend	16	5
-actress	8	4
+actress	32	6
 desnudas	64	7
 action	8	4
 naturism	64	7
@@ -189,10 +189,10 @@ toys	2	2
 cards	2	2
 buffet	2	2
 store	2	2
-animation	2	2
+animation	8	4
 cam	16	5
-cartoon	2	2
-comic	8	4
+cartoon	4	3
+comic	4	3
 hand job	64	7
 handjob	64	7
 intercourse	64	7
@@ -234,7 +234,7 @@ phat	16	5
 fat	16	5
 puss	64	7
 twat	64	7
-blonde	16	5
+blonde	8	4
 tampon	64	7
 busty	64	7
 deep	16	5
@@ -273,3 +273,5 @@ sodomies	64	7
 squirt	16	5
 blouse	32	6
 nice	8	4
+licking	64	7
+suck	64	7
