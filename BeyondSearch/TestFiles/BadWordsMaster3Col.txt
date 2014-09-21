@@ -185,7 +185,7 @@ naturism	64	7
 asian	2	2
 auction	2	2
 baby	2	2
-toys	2	2
+toys	8	4
 cards	2	2
 buffet	2	2
 store	2	2
