@@ -185,7 +185,7 @@ naturism	64	7
 asian	2	2
 auction	2	2
 baby	2	2
-toys	8	4
+toys	4	3
 cards	2	2
 buffet	2	2
 store	2	2
@@ -281,3 +281,7 @@ her	32	6
 him	32	6
 between	4	3
 legs	8	4
+bedroom	8	4
+advertising	8	4
+labia	64	7
+domination	64	7

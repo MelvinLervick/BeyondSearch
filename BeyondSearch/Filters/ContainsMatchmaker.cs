@@ -62,23 +62,8 @@ namespace BeyondSearch.Filters
                         }
                         if ((badSuspect != null) && (badSuspect.CategoryBit > Threshhold)) break;
                     }
-                    if ((badSuspect == null) ||
-                        (badSuspect.CategoryBit <= Threshhold) 
-                        // || 
-                        //(badSuspect.CategoryBit == 32 && 
-                        //    (suspect.Key.Split(' ').Count() > 1) && 
-                        //    (suspect.Key.Length > badSuspect.Keyword.Length * 2)) ||
-                        //(badSuspect.CategoryBit == 16 &&
-                        //    (suspect.Key.Split(' ').Count() > 2) &&
-                        //    (suspect.Key.Length > badSuspect.Keyword.Length * 2))
-                       )
-                    {
-                        matchedFilters[suspect.Key] = null;
-                    }
-                    else
-                    {
-                        matchedFilters[suspect.Key] = badSuspect;
-                    }
+                    //matchedFilters[suspect.Key] = BadSuspectSingleThreshhold(badSuspect);
+                    matchedFilters[suspect.Key] = BadSuspectMultipleThreshholds(badSuspect, suspect.Key);
                 }
                 else
                 {
@@ -87,6 +72,32 @@ namespace BeyondSearch.Filters
             }
 
             return matchedFilters;
+        }
+
+        private static FilteredKeyword BadSuspectSingleThreshhold(FilteredKeyword badSuspect)
+        {
+            if ((badSuspect == null) || (badSuspect.CategoryBit <= Threshhold))
+            {
+                return null;
+            }
+
+            return badSuspect;
+        }
+
+        private static FilteredKeyword BadSuspectMultipleThreshholds(FilteredKeyword badSuspect, string suspectKey)
+        {
+            if (badSuspect == null) return null;
+
+            int suspectWordCount = suspectKey.Split( ' ' ).Count();
+            if ((suspectWordCount > 3 && badSuspect.CategoryBit < 24) ||
+                (suspectWordCount == 2 && badSuspect.CategoryBit < 32) ||
+                (suspectWordCount == 1 && badSuspect.CategoryBit < 64)
+               )
+            {
+                return null;
+            }
+
+            return badSuspect;
         }
     }
 }
