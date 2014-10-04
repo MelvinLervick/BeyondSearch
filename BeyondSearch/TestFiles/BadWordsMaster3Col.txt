@@ -8,7 +8,6 @@ Term	CategoryBit	Category
 6	16	5
 7	16	5
 8	16	5
-9	16	5
 abduction	64	7
 abductor	64	7
 abnormal	8	4
@@ -18,8 +17,8 @@ adam and eve	64	7
 addicted	64	7
 adolescent	16	5
 adult	32	6
-amateur	32	6
-amatuer	32	6
+amateur	16	5
+amatuer	16	5
 amoral	64	7
 anal	64	7
 animal	16	5
@@ -183,13 +182,11 @@ desnudas	64	7
 action	8	4
 naturism	64	7
 asian	2	2
-auction	2	2
-baby	2	2
-toys	4	3
-cards	2	2
-buffet	2	2
-store	2	2
-animation	8	4
+auction	16	5
+baby	16	5
+buffet	16	5
+store	16	5
+animation	16	5
 cam	16	5
 cartoon	16	5
 comic	16	5
@@ -280,9 +277,8 @@ jailbait	64	7
 her	32	6
 him	32	6
 between	4	3
-legs	8	4
 bedroom	8	4
-advertising	8	4
+advertising	16	5
 labia	64	7
 domination	64	7
 jack off	64	7
@@ -293,7 +289,7 @@ naturals	32	6
 vibrators	32	6
 pubes	64	7
 wives	32	6
-dirty	16	5
+dirty	64	7
 femme	32	6
 mature	16	5
 gang bang	64	7
@@ -302,3 +298,30 @@ glory holes	64	7
 novelty	16	5
 pic	16	5
 toy	16	5
+birthday	2	2
+bookstore	16	5
+card	16	5
+check	16	5
+domain	8	4
+name	2	2
+directory	16	5
+entertain	16	5
+galler	16	5
+greeting	16	5
+letter	16	5
+spank	16	5
+pay	8	4
+view	2	2
+site	16	5
+pal	2	2
+pix	16	5
+search	8	4
+engine	2	2
+gambling	16	5
+leg	8	4
+9	16	5
+joke	16	5
+couple	16	5
+bad	16	5
+call	16	5
+jacking off	64	7

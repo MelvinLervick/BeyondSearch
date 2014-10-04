@@ -90,7 +90,7 @@ namespace BeyondSearch.Filters
 
             int suspectWordCount = suspectKey.Split( ' ' ).Count();
             if ((suspectWordCount > 3 && badSuspect.CategoryBit < 24) ||
-                (suspectWordCount == 2 && badSuspect.CategoryBit < 32) ||
+                (suspectWordCount == 2 && badSuspect.CategoryBit < 40) ||
                 (suspectWordCount == 1 && badSuspect.CategoryBit < 64)
                )
             {

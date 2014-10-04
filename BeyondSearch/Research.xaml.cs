@@ -739,5 +739,23 @@ namespace BeyondSearch
         }
 
         #endregion
+
+        private void KeywordsListMenuItem_OnClick( object sender, RoutedEventArgs e )
+        {
+            var contextMenuItem = (MenuItem)sender;
+            var item = ((ContextMenu)contextMenuItem.Parent).PlacementTarget as ListBox;
+            var filteredKeyword = item.SelectedItem as FilteredKeyword;
+
+            Keywords.Remove( filteredKeyword );
+        }
+
+        private void FiltersListMenuItem_OnClicksListMenuItem_OnClick( object sender, RoutedEventArgs e )
+        {
+            var contextMenuItem = (MenuItem)sender;
+            var item = ((ContextMenu)contextMenuItem.Parent).PlacementTarget as ListBox;
+            var filteredKeyword = item.SelectedItem as FilteredKeyword;
+
+            Filters.Remove(filteredKeyword);
+        }
     }
 }

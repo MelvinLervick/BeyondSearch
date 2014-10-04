@@ -78,6 +78,11 @@
                             <TextBlock Name="KeywordTextBlock"  Foreground="DarkBlue" Text="{Binding Keyword}"></TextBlock>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Name="KeywordsListMenuItem" Header="Delete" Click="KeywordsListMenuItem_OnClick" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
                 </ListBox>
                 <ListBox Grid.Row="0" Grid.Column="1" Name="ListBoxFilters" MouseEnter="ListBoxFilters_OnMouseEnter" Margin="3,3,3,3" Background="Aquamarine" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top" Grid.IsSharedSizeScope="True">
                     <ListBox.ItemContainerStyle>
@@ -96,6 +101,11 @@
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Name="FiltersListMenuItem" Header="Delete" Click="FiltersListMenuItem_OnClicksListMenuItem_OnClick" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
                 </ListBox>
                 <ListBox Grid.Row="0" Grid.Column="2" Name="ListBoxUnFilteredKeywords" MouseEnter="ListBoxUnFilteredKeywords_OnMouseEnter" Margin="3,3,3,3" Background="SkyBlue" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top">
                     <ListBox.ItemTemplate>
