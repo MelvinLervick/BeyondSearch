@@ -176,7 +176,7 @@ x rate	64	7
 xrate	64	7
 x-rate	64	7
 xx	64	7
-film	32	6
+film	16	5
 friend	16	5
 actress	32	6
 desnudas	64	7
@@ -191,8 +191,8 @@ buffet	2	2
 store	2	2
 animation	8	4
 cam	16	5
-cartoon	32	6
-comic	32	6
+cartoon	16	5
+comic	16	5
 hand job	64	7
 handjob	64	7
 intercourse	64	7
@@ -297,3 +297,8 @@ dirty	16	5
 femme	32	6
 mature	16	5
 gang bang	64	7
+doll	16	5
+glory holes	64	7
+novelty	16	5
+pic	16	5
+toy	16	5
