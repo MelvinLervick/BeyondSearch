@@ -79,7 +79,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                     <ListBox.ContextMenu>
-                        <ContextMenu>
+                        <ContextMenu Name="KeywordsListContextMenu" Opened="KeywordsListContextMenu_OnOpened">
                             <MenuItem Name="KeywordsListMenuItem" Header="Delete" Click="KeywordsListMenuItem_OnClick" />
                         </ContextMenu>
                     </ListBox.ContextMenu>
@@ -94,18 +94,18 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate >
                             <StackPanel Orientation="Vertical">
-                                <DockPanel>
+                                <DockPanel Name="FilterDockPanel">
                                     <TextBox DockPanel.Dock="Left" Name="FilterNameTextBox" IsReadOnly="True" BorderThickness="0" Background="Aquamarine" Foreground="DarkBlue" Text="{Binding Keyword}" HorizontalAlignment="Left"></TextBox>
                                     <ComboBox DockPanel.Dock="Right" Name="ComboBoxCategory" Width="50" TabIndex="2" Loaded="ComboBoxCategory_OnLoaded" SelectedValue="{Binding Category}" HorizontalContentAlignment="Center" HorizontalAlignment="Right"></ComboBox>
                                 </DockPanel>
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu Name="FiltersListContextMenu" Opened="FiltersListContextMenu_OnOpened">
+                                        <MenuItem Name="FiltersListMenuItem" Header="Delete" Click="FiltersListMenuItem_OnClicksListMenuItem_OnClick" />
+                                    </ContextMenu>
+                                </StackPanel.ContextMenu>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-                    <ListBox.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Name="FiltersListMenuItem" Header="Delete" Click="FiltersListMenuItem_OnClicksListMenuItem_OnClick" />
-                        </ContextMenu>
-                    </ListBox.ContextMenu>
                 </ListBox>
                 <ListBox Grid.Row="0" Grid.Column="2" Name="ListBoxUnFilteredKeywords" MouseEnter="ListBoxUnFilteredKeywords_OnMouseEnter" Margin="3,3,3,3" Background="SkyBlue" FontSize="10" VerticalAlignment="Stretch" VerticalContentAlignment="Top">
                     <ListBox.ItemTemplate>

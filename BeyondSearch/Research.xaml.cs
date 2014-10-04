@@ -740,22 +740,36 @@ namespace BeyondSearch
 
         #endregion
 
+        private FilteredKeyword filteredKeyword;
+        private void KeywordsListContextMenu_OnOpened(object sender, RoutedEventArgs e)
+        {
+            var contextMenu = (ContextMenu) sender;
+            var item = contextMenu.PlacementTarget as ListBox;
+            filteredKeyword = item.SelectedItem as FilteredKeyword;
+        }
+
         private void KeywordsListMenuItem_OnClick( object sender, RoutedEventArgs e )
         {
-            var contextMenuItem = (MenuItem)sender;
-            var item = ((ContextMenu)contextMenuItem.Parent).PlacementTarget as ListBox;
-            var filteredKeyword = item.SelectedItem as FilteredKeyword;
+            if(filteredKeyword != null) Keywords.Remove( filteredKeyword );
+        }
 
-            Keywords.Remove( filteredKeyword );
+        private string filterText;
+        private void FiltersListContextMenu_OnOpened(object sender, RoutedEventArgs e)
+        {
+            var contextMenu = (ContextMenu)sender;
+            var panel = contextMenu.PlacementTarget as StackPanel;
+            var dock = panel.Children[0] as DockPanel;
+            var val = dock.Children[0] as TextBox;
+            filterText = val.Text;
         }
 
         private void FiltersListMenuItem_OnClicksListMenuItem_OnClick( object sender, RoutedEventArgs e )
         {
-            var contextMenuItem = (MenuItem)sender;
-            var item = ((ContextMenu)contextMenuItem.Parent).PlacementTarget as ListBox;
-            var filteredKeyword = item.SelectedItem as FilteredKeyword;
-
-            Filters.Remove(filteredKeyword);
+            if ( !string.IsNullOrWhiteSpace( filterText ) )
+            {
+                var myFilteredKeyword = Filters.First( f => f.Keyword == filterText );
+                Filters.Remove(myFilteredKeyword);
+            }
         }
     }
 }
