@@ -88,7 +88,7 @@ hand	16	5
 hardcore	64	7
 hentai	64	7
 horny	64	7
-illegal	16	5
+illegal	64	7
 incest	64	7
 inch	16	5
 job	16	5
@@ -116,7 +116,7 @@ orgasm	64	7
 orgies	64	7
 orgy	64	7
 pedo	64	7
-pee	16	5
+pee	32	6
 peeing	64	7
 penetrat	64	7
 penis	64	7
@@ -325,3 +325,25 @@ couple	16	5
 bad	16	5
 call	16	5
 jacking off	64	7
+web	16	5
+eros	64	7
+genital	64	7
+kiss	16	5
+hooker	64	7
+drugs	32	6
+make	16	5
+jerk off	64	7
+jerking off	64	7
+knockers	64	7
+little tit	64	7
+naturist	64	7
+nymphet	64	7
+pervert	64	7
+playgirl	64	7
+poop	64	7
+flashers	16	5
+she male	64	7
+suicide	64	7
+swap	16	5
+sharing	16	5
+blue	32	6
