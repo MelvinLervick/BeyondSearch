@@ -93,7 +93,7 @@
     <Compile Include="Filters\FilteredKeywordPair.cs" />
     <Compile Include="Filters\FuzzyContainsKeywordMatchmaker.cs" />
     <Compile Include="Filters\IKeywordMatchmaker.cs" />
-    <Compile Include="Filters\KeywordFilterer.cs" />
+    <Compile Include="KeywordFilterer.cs" />
     <Compile Include="Filters\KeywordMatchmaker.cs" />
     <Compile Include="Filters\LucenePorterStemMatchmaker.cs" />
     <Compile Include="Filters\SingularPluralKeyword.cs" />
