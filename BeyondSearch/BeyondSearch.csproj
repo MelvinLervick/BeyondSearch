@@ -135,6 +135,9 @@
     <Compile Include="Research.xaml.cs">
       <DependentUpon>Research.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Widget.xaml.cs">
+      <DependentUpon>Widget.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -150,6 +153,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Research.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Widget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

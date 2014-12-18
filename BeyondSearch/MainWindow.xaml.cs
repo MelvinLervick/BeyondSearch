@@ -146,5 +146,11 @@ namespace BeyondSearch
                 this.SelectedFolderDirectoryNamesAndFileNames.Add(new FolderItem(directory.Name));
             }
         }
+
+        private void Menu_WidgetClick(object sender, RoutedEventArgs e)
+        {
+            var widgetPage = new Widget();
+            widgetPage.Show();
+        }
     }
 }
