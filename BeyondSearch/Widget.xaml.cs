@@ -28,5 +28,39 @@ namespace BeyondSearch
         {
             this.Close();
         }
+
+        private void Menu_FileNewOnClick(object sender, RoutedEventArgs e)
+        {
+            TextBoxWidgetName.IsReadOnly = false;
+            TextBoxWidgetName.Focus();
+        }
+
+        private void Menu_FileOpenOnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Menu_FileSaveOnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Menu_FileCloseOnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Create_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonCreate.IsEnabled = false;
+        }
+
+        private void TextBoxWidgetName_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            // Check to see if widget with specified name already exists
+            // If not
+            ButtonCreate.IsEnabled = true;
+            // Else Display message "Widget with the specified name already exists."
+        }
     }
 }
