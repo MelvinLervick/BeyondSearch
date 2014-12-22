@@ -48,7 +48,32 @@
                     <ColumnDefinition Width="*" MinWidth="500" />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="Blue" BorderThickness="0 0 0 2" />
-                <WebBrowser Grid.Column="1" Name="ExampleBrowser" HorizontalAlignment="Stretch" Margin="5,5,5,5" Grid.Row="1" VerticalAlignment="Stretch"  />
+
+                <Grid Grid.Row="0" Grid.Column="0" Background="Beige" Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" MinHeight="20" />
+                        <RowDefinition Height="*" MinHeight="410" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Width="100" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Center">Snippet</Label>
+                </Grid>
+
+                <Grid Grid.Row="0" Grid.Column="1" Background="Beige" Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" MinHeight="20" />
+                        <RowDefinition Height="*" MinHeight="410" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Width="100" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Center">Placeholders</Label>
+                </Grid>
+
+                <Grid Grid.Row="1" Grid.Column="0" Background="Beige" Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" MinHeight="20" />
+                        <RowDefinition Height="*" MinHeight="410" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Width="100" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Center">Styling</Label>
+                </Grid>
+
+                <WebBrowser Grid.Column="1" Name="ExampleBrowser" HorizontalAlignment="Stretch" Margin="5" Grid.Row="1" VerticalAlignment="Stretch"  />
 
             </Grid>
         </Grid>
