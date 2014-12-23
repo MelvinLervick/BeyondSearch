@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeyondSearch", "BeyondSearch\BeyondSearch.csproj", "{7BEB1F54-B56B-46CA-B642-3B6E68F005A9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeywordFilter", "KeywordFilter\KeywordFilter.csproj", "{53F40D50-7738-499A-8364-0B8E1C8CD352}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPageWidget", "Widget\WebPageWidget.csproj", "{6FB3AF07-C81F-4470-86B8-FD65C2328B44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{53F40D50-7738-499A-8364-0B8E1C8CD352}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53F40D50-7738-499A-8364-0B8E1C8CD352}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53F40D50-7738-499A-8364-0B8E1C8CD352}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FB3AF07-C81F-4470-86B8-FD65C2328B44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FB3AF07-C81F-4470-86B8-FD65C2328B44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FB3AF07-C81F-4470-86B8-FD65C2328B44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FB3AF07-C81F-4470-86B8-FD65C2328B44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
