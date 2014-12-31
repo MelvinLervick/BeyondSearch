@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WebPageWidget
 {
@@ -6,7 +7,10 @@ namespace WebPageWidget
     public class WidgetContent
     {
         public WidgetParameters Parameters;
-        public string CssContent;
+        public Dictionary<string, string> Placeholders; 
+        public string StyleContent;
         public string HtmlContent;
+        public string ScriptContent;
+        public string ConfigContent;
     }
 }

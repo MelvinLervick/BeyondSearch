@@ -43,8 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IWidget.cs" />
-    <Compile Include="Widget.cs" />
+    <Compile Include="Common\WidgetType.cs" />
+    <Compile Include="IWebWidget.cs" />
+    <Compile Include="WebWidget.cs" />
     <Compile Include="WidgetContent.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

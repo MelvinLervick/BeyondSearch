@@ -38,7 +38,7 @@
             <Label Grid.Row="0" Grid.Column="0" Width="100" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Widget Name</Label>
             <TextBox Name="TextBoxWidgetName" Grid.Row="0" Grid.Column="1" Height="25" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" TextChanged="TextBoxWidgetName_OnTextChanged"></TextBox>
             <Button Name="ButtonCreate" Grid.Row="0" Grid.Column="2" Height="30" VerticalAlignment="Center" Margin="2,2,2,3" Background="LightGreen" Click="Create_Click" IsEnabled="False">Create</Button>
-            <Grid Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" Background="Beige">
+            <Grid Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" Background="LightGray">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" MinHeight="430" />
                     <RowDefinition Height="*" MinHeight="430" />
@@ -49,44 +49,117 @@
                 </Grid.ColumnDefinitions>
                 <Border Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="Blue" BorderThickness="0 0 0 2" />
 
-                <Grid Grid.Row="0" Grid.Column="0" Background="Beige" Margin="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" MinHeight="20" />
-                        <RowDefinition Height="*" MinHeight="410" />
-                    </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Width="100" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Center">Snippet</Label>
-                </Grid>
-
-                <Grid Grid.Row="0" Grid.Column="1" Background="Beige" Margin="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" MinHeight="20" />
-                        <RowDefinition Height="*" MinHeight="410" />
-                    </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Width="100" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Center">Placeholders</Label>
-                </Grid>
+                <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="LightGray">
+                    <TabItem Header="Code Snippet" Margin="0 0 5 0" Width="175">
+                        <Grid Background="LightGray" Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="385" MinHeight="385" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" MinWidth="600" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Name="TextBoxCodeSnippet" 
+                                     Grid.Row="0" Grid.Column="0" 
+                                     FontSize="12" 
+                                     VerticalAlignment="Top" VerticalContentAlignment="Top" 
+                                     TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" />
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Widget Parameters" Margin="0 0 5 0" Width="175">
+                        <Grid Grid.Row="0" Grid.Column="0" Background="LightGray" Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" MinHeight="10" />
+                                <RowDefinition Height="*" MinHeight="420" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" MinWidth="500" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Row="1" Grid.Column="0" Background="LightGray" Margin="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="28" MinHeight="28" />
+                                    <RowDefinition Height="28" MinHeight="28" />
+                                    <RowDefinition Height="28" MinHeight="28" />
+                                    <RowDefinition Height="28" MinHeight="28" />
+                                    <RowDefinition Height="28" MinHeight="28" />
+                                    <RowDefinition Height="28" MinHeight="28" />
+                                    <RowDefinition Height="28" MinHeight="28" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" MinWidth="80" />
+                                    <ColumnDefinition Width="*" MinWidth="150" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Left">Name</Label>
+                                <TextBox Name="TextBoxParameterName" Grid.Row="0" Grid.Column="1" Height="24" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                                <Label Grid.Row="1" Grid.Column="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Left">Author</Label>
+                                <TextBox Name="TextBoxParameterAuthor" Grid.Row="1" Grid.Column="1" Height="24" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                                <Label Grid.Row="2" Grid.Column="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Left">Version</Label>
+                                <TextBox Name="TextBoxParameterVersion" Grid.Row="2" Grid.Column="1" Height="24" Width="100" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" />
+                                <Label Grid.Row="3" Grid.Column="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Left">Type</Label>
+                                <TextBox Name="TextBoxParameterType" Grid.Row="3" Grid.Column="1" Height="24" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                                <Label Grid.Row="4" Grid.Column="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Left">Lock</Label>
+                                <CheckBox Name="CheckBoxParameterLocked" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" />
+                                <Label Grid.Row="5" Grid.Column="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Left">Encrypt</Label>
+                                <CheckBox Name="CheckBoxParameterEncrypted" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" />
+                                <Label Grid.Row="6" Grid.Column="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Left">Key</Label>
+                                <TextBox Name="TextBoxParameterKey" Grid.Row="6" Grid.Column="1" Height="24" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Placeholders" Margin="0 0 5 0" Width="175" Background="LightGray">
+                        <Grid Grid.Row="0" Grid.Column="1" Background="LightGray" Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="28" MinHeight="28" />
+                                <RowDefinition Height="24" MinHeight="24" />
+                                <RowDefinition Height="24" MinHeight="24" />
+                                <RowDefinition Height="24" MinHeight="24" />
+                                <RowDefinition Height="*" MinHeight="410" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" MinWidth="200" />
+                                <ColumnDefinition Width="*" MinWidth="600" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Center">Placeholder Name</Label>
+                            <Label Grid.Row="0" Grid.Column="1" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Center">Placeholder Value</Label>
+                            <TextBox Name="TextBoxPlaceholderName1" Grid.Row="1" Grid.Column="0" Height="24" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                            <TextBox Name="TextBoxPlaceholderValue1" Grid.Row="1" Grid.Column="1" Height="24" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10 0 10 0" />
+                        </Grid>
+                    </TabItem>
+                </TabControl>
 
                 <Grid Grid.Row="1" Grid.Column="0" Background="Beige" Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" MinHeight="20" />
-                        <RowDefinition Height="*" MinHeight="410" />
+                        <RowDefinition Height="*" MinHeight="400" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Width="100" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Center">Styling</Label>
+                    <TextBox Name="TextBoxStyling" 
+                                     Grid.Row="1" Grid.Column="0" 
+                                     FontSize="12" 
+                                     VerticalAlignment="Top" VerticalContentAlignment="Top" 
+                                     TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" />
                 </Grid>
 
-                <WebBrowser Grid.Column="1" Name="ExampleBrowser" HorizontalAlignment="Stretch" Margin="5" Grid.Row="1" VerticalAlignment="Stretch"  />
+                <WebBrowser Grid.Row="1" Grid.Column="1" Name="ExampleBrowser" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch"  />
 
             </Grid>
         </Grid>
         <Grid Grid.Row="2" Margin="10, 0, 10, 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45" MinHeight="45" />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="400" />
+                <ColumnDefinition Width="90" />
                 <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="60" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="30" />
-                <ColumnDefinition Width="30" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Width="70" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Folder</Label>
+            <TextBox Name="TextBoxWidgetFolder" Grid.Row="0" Grid.Column="1" Height="25" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" TextChanged="TextBoxWidgetName_OnTextChanged"></TextBox>
+            <Label Grid.Row="0" Grid.Column="2" Width="120" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" Margin="10">File Name</Label>
+            <TextBox Name="TextBoxWidgetFile" Grid.Row="0" Grid.Column="3" Height="25" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" TextChanged="TextBoxWidgetName_OnTextChanged"></TextBox>
+            <TextBox Name="TextBoxErrorMessage" Grid.Row="0" Grid.Column="4" Height="40" FontSize="8" VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" Margin="10 0 0 0"></TextBox>
         </Grid>
     </Grid>
 </Window>
