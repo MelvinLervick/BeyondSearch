@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Microsoft.Win32;
 using WebPageWidget;
+using WebPageWidget.Common;
 
 namespace BeyondSearch
 {
@@ -29,7 +21,7 @@ namespace BeyondSearch
             InitializeComponent();
         }
 
-        private void Menu_FileExitClick(object sender, RoutedEventArgs e)
+        private void Menu_ExitClick(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
@@ -40,6 +32,9 @@ namespace BeyondSearch
             TextBoxWidgetName.Focus();
             TextBoxWidgetFolder.Text = string.Empty;
             TextBoxWidgetFile.Text = string.Empty;
+
+            workWidget = new WebWidget();
+            UpdateWidgetDisplayFields();
         }
 
         private void Menu_FileOpenOnClick(object sender, RoutedEventArgs e)
@@ -66,23 +61,13 @@ namespace BeyondSearch
                 // Read Selected File
                 // http://james.newtonking.com/json/help/index.html
                 //
-                if ( !string.IsNullOrWhiteSpace( TextBoxWidgetFolder.Text ) ||
-                     !string.IsNullOrWhiteSpace( TextBoxWidgetFile.Text ) )
+                if (!string.IsNullOrWhiteSpace(TextBoxWidgetFolder.Text) ||
+                     !string.IsNullOrWhiteSpace(TextBoxWidgetFile.Text))
                 {
-                    if ( workWidget.ReadWidgetFile( System.IO.Path.Combine( TextBoxWidgetFolder.Text,
-                            TextBoxWidgetFile.Text ) ) )
+                    if (workWidget.ReadWidgetFile(System.IO.Path.Combine(TextBoxWidgetFolder.Text,
+                            TextBoxWidgetFile.Text)))
                     {
-                        TextBoxWidgetName.Text = workWidget.Parameters.Name;
-                        TextBoxParameterName.Text = workWidget.Parameters.Name;
-                        TextBoxParameterAuthor.Text = workWidget.Parameters.Author;
-                        TextBoxParameterVersion.Text = workWidget.Parameters.Version;
-                        TextBoxParameterType.Text = workWidget.Parameters.Type.ToString();
-                        CheckBoxParameterLocked.IsChecked = workWidget.Parameters.Locked;
-                        CheckBoxParameterEncrypted.IsChecked = workWidget.Parameters.Encrypted;
-                        TextBoxParameterKey.Text = workWidget.Parameters.Key;
-
-                        TextBoxCodeSnippet.Text = workWidget.HtmlContent;
-                        TextBoxStyling.Text = workWidget.StyleContent;
+                        UpdateWidgetDisplayFields();
                     }
                     else
                     {
@@ -97,7 +82,7 @@ namespace BeyondSearch
             var saveFile = new SaveFileDialog
             {
                 InitialDirectory = TextBoxWidgetFolder.Text,
-                FileName = TextBoxWidgetFile.Text,
+                FileName = string.IsNullOrWhiteSpace(TextBoxWidgetFile.Text) ? TextBoxWidgetName.Text : TextBoxWidgetFile.Text,
                 DefaultExt = "json",
                 CheckPathExists = true,
                 Filter = "Widget Files (*.json)|*.json|All files (*.*)|*.*"
@@ -108,50 +93,25 @@ namespace BeyondSearch
                 // If the file name is not an empty string open it for saving.
                 if (saveFile.FileName != "")
                 {
-                    using (var tw = new System.IO.StreamWriter(saveFile.FileName))
+                    // http://james.newtonking.com/json/help/index.html
+                    StoreWidgetDisplayFields();
+                    if (!workWidget.WriteWidgetFile(saveFile.FileName))
                     {
-                        // http://james.newtonking.com/json/help/index.html
-
-                        //List<data> _data = new List<data>();
-                        //_data.Add(new data()
-                        //{
-                        //    Id = 1,
-                        //    SSN = 2,
-                        //    Message = "A Message"
-                        //});
-                        //string json = JsonConvert.SerializeObject(_data.ToArray());
-
-                        ////write string to file
-                        //System.IO.File.WriteAllText(@"D:\path.txt", json);
-                        
-                        
-                        //tw.WriteLine(Term);
-                        //foreach (var keyword in Keywords)
-                        //{
-                        //    if (!string.IsNullOrWhiteSpace(keyword.Keyword))
-                        //    {
-                        //        tw.WriteLine(keyword.Keyword);
-                        //    }
-                        //}
-
-                        tw.Close();
+                        TextBoxErrorMessage.Text = string.Format("Unable to save widget: {0}", workWidget.ErrorMessage);
                     }
                 }
                 else
                 {
-                    TextBoxWidgetFile.Text = "Invalid Widget File Name";
+                    TextBoxErrorMessage.Text = "Invalid Widget File Name";
                 }
             }
-        }
-
-        private void Menu_FileCloseOnClick(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         private void Create_Click(object sender, RoutedEventArgs e)
         {
             ButtonCreate.IsEnabled = false;
+            workWidget.Parameters.Name = TextBoxWidgetName.Text;
+            UpdateWidgetDisplayFields();
         }
 
         private void TextBoxWidgetName_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -161,5 +121,57 @@ namespace BeyondSearch
             ButtonCreate.IsEnabled = true;
             // Else Display message "Widget with the specified name already exists."
         }
+
+        private void Menu_DisplayWidgetOnClick(object sender, RoutedEventArgs e)
+        {
+            var testFolder = ConfigurationManager.AppSettings["WidgetTestFolder"];
+            var fileName = System.IO.Path.Combine(testFolder, TextBoxParameterName.Text + ".html");
+
+            StoreWidgetDisplayFields();
+            var testWidget = workWidget.CreateWidget();
+
+            using (var w = new StreamWriter(fileName))
+            {
+                w.Write(testWidget);
+                w.Flush();
+            }
+
+            ExampleBrowser.Navigate(string.Format("file:///{0}", fileName));
+
+        }
+
+        #region Local Methods
+
+        private void UpdateWidgetDisplayFields()
+        {
+            TextBoxWidgetName.Text = workWidget.Parameters.Name;
+            TextBoxParameterName.Text = workWidget.Parameters.Name;
+            TextBoxParameterAuthor.Text = workWidget.Parameters.Author;
+            TextBoxParameterVersion.Text = workWidget.Parameters.Version;
+            TextBoxParameterType.Text = workWidget.Parameters.Type.ToString();
+            CheckBoxParameterLocked.IsChecked = workWidget.Parameters.Locked;
+            CheckBoxParameterEncrypted.IsChecked = workWidget.Parameters.Encrypted;
+            TextBoxParameterKey.Text = workWidget.Parameters.Key;
+
+            TextBoxCodeSnippet.Text = workWidget.HtmlContent;
+            TextBoxStyling.Text = workWidget.StyleContent;
+        }
+
+        private void StoreWidgetDisplayFields()
+        {
+            workWidget.Parameters.Name = TextBoxWidgetName.Text;
+            workWidget.Parameters.Name = TextBoxParameterName.Text;
+            workWidget.Parameters.Author = TextBoxParameterAuthor.Text;
+            workWidget.Parameters.Version = TextBoxParameterVersion.Text;
+            workWidget.Parameters.Type = (WidgetType)Enum.Parse(typeof(WidgetType), TextBoxParameterType.Text, true);
+            workWidget.Parameters.Locked = CheckBoxParameterLocked.IsChecked ?? false;
+            workWidget.Parameters.Encrypted = CheckBoxParameterEncrypted.IsChecked ?? false;
+            workWidget.Parameters.Key = TextBoxParameterKey.Text;
+
+            workWidget.HtmlContent = TextBoxCodeSnippet.Text;
+            workWidget.StyleContent = TextBoxStyling.Text;
+        }
+
+        #endregion Local Methods
     }
 }

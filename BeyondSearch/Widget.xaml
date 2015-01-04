@@ -15,13 +15,14 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Menu FontSize="12pt" Grid.Row="0" IsMainMenu="True">
-            <MenuItem Header="_Exit" Click="Menu_FileExitClick" />
+            <MenuItem Header="_Exit" Click="Menu_ExitClick" />
             <MenuItem Header="_Files">
                 <MenuItem Header="_New Widget" Click="Menu_FileNewOnClick" />
                 <MenuItem Header="_Open Widget" Click="Menu_FileOpenOnClick" />
+                <Separator />
                 <MenuItem Header="_Save Widget Changes" Click="Menu_FileSaveOnClick" />
-                <MenuItem Header="_Close Widget" Click="Menu_FileCloseOnClick" />
             </MenuItem>
+            <MenuItem Header="_Display Widget" Click="Menu_DisplayWidgetOnClick" />
             <MenuItem Header="_Help" />
         </Menu>
         <Grid Grid.Row="1" Margin="0 3 0 3">
@@ -159,7 +160,7 @@
             <TextBox Name="TextBoxWidgetFolder" Grid.Row="0" Grid.Column="1" Height="25" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" TextChanged="TextBoxWidgetName_OnTextChanged"></TextBox>
             <Label Grid.Row="0" Grid.Column="2" Width="120" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" Margin="10">File Name</Label>
             <TextBox Name="TextBoxWidgetFile" Grid.Row="0" Grid.Column="3" Height="25" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" TextChanged="TextBoxWidgetName_OnTextChanged"></TextBox>
-            <TextBox Name="TextBoxErrorMessage" Grid.Row="0" Grid.Column="4" Height="40" FontSize="8" VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" Margin="10 0 0 0"></TextBox>
+            <TextBox Name="TextBoxErrorMessage" Grid.Row="0" Grid.Column="4" Height="40" FontSize="10" VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" Margin="10 0 0 0"></TextBox>
         </Grid>
     </Grid>
 </Window>

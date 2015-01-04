@@ -68,7 +68,37 @@ namespace WebPageWidget
 
         public bool WriteWidgetFile( string fileName )
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var widget = new WidgetContent
+                {
+                    Parameters = Parameters,
+                    Placeholders = Placeholders,
+                    ConfigContent = ConfigContent,
+                    HtmlContent = HtmlContent,
+                    ScriptContent = ScriptContent,
+                    StyleContent = StyleContent
+                };
+                var ser = JsonConvert.SerializeObject(widget);
+
+                using (var w = new StreamWriter(fileName))
+                {
+                    w.Write(ser);
+                    w.Flush();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+                return false;
+            }
+
+            return true;
+        }
+
+        public string CreateWidget()
+        {
+            return StyleContent + HtmlContent;
         }
 
         private void InitializeWidget()
