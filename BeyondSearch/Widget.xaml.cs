@@ -81,7 +81,7 @@ namespace BeyondSearch
         {
             var saveFile = new SaveFileDialog
             {
-                InitialDirectory = TextBoxWidgetFolder.Text,
+                InitialDirectory = string.IsNullOrWhiteSpace(TextBoxWidgetFolder.Text) ? ConfigurationManager.AppSettings["WidgetTestFolder"] : TextBoxWidgetFolder.Text,
                 FileName = string.IsNullOrWhiteSpace(TextBoxWidgetFile.Text) ? TextBoxWidgetName.Text : TextBoxWidgetFile.Text,
                 DefaultExt = "json",
                 CheckPathExists = true,
@@ -130,9 +130,29 @@ namespace BeyondSearch
             StoreWidgetDisplayFields();
             var testWidget = workWidget.CreateWidget();
 
+            string html = testWidget;
+
+            while (html.Contains("<widget"))
+            {
+                var poss = html.IndexOf("<widget", 0, System.StringComparison.Ordinal);
+                var pose = html.IndexOf(">", poss, System.StringComparison.Ordinal);
+                var widget = html.Substring(poss, pose - poss + 1);
+                var posNs = widget.IndexOf("name=\"", 0, System.StringComparison.Ordinal) + 6;
+                var posNe = widget.IndexOf("\"", posNs, System.StringComparison.Ordinal);
+                var widgetName = widget.Substring(posNs, posNe - posNs);
+
+                var widgetFileName = System.IO.Path.Combine(testFolder, widgetName + ".json");
+                var dWidget = new WebWidget();
+                if (dWidget.ReadWidgetFile(widgetFileName))
+                {
+                    var wHtml = dWidget.CreateWidget();
+                    html = html.Replace(widget, wHtml);
+                }
+            }
+
             using (var w = new StreamWriter(fileName))
             {
-                w.Write(testWidget);
+                w.Write(html);
                 w.Flush();
             }
 
