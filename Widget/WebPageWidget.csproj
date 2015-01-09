@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Common\HtmlParser.cs" />
     <Compile Include="Common\HtmlTag.cs" />
+    <Compile Include="Common\TextParser.cs" />
     <Compile Include="Common\WidgetType.cs" />
     <Compile Include="IWebWidget.cs" />
     <Compile Include="WebWidget.cs" />
