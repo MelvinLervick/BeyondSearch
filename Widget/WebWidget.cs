@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Text;
 using Newtonsoft.Json;
+using WebPageWidget.Common;
 
 namespace WebPageWidget
 {
@@ -99,6 +102,30 @@ namespace WebPageWidget
         public string CreateWidget()
         {
             return StyleContent + HtmlContent;
+        }
+
+        public string ScanLinks(string url)
+        {
+            // Download page
+            var client = new WebClient();
+            var html = client.DownloadString(url);
+            var links = new StringBuilder();
+
+            // Scan links on this page
+            HtmlTag tag;
+            var parse = new HtmlParser(html);
+            while (parse.ParseNext("a", out tag))
+            {
+                // See if this anchor links to us
+                string value;
+                if (tag.Attributes.TryGetValue("href", out value))
+                {
+                    // value contains URL referenced by this link
+                    links.AppendLine(value);
+                }
+            }
+
+            return links.ToString();
         }
 
         private void InitializeWidget()
