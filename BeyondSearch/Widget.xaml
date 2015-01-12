@@ -126,6 +126,26 @@
                             <TextBox Name="TextBoxPlaceholderValue1" Grid.Row="1" Grid.Column="1" Height="24" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10 0 10 0" />
                         </Grid>
                     </TabItem>
+                    <TabItem Header="Url Links" Margin="0 0 5 0" Width="175" Background="LightGray">
+                        <Grid Grid.Row="0" Grid.Column="1" Background="LightGray" Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="28" MinHeight="28" />
+                                <RowDefinition Height="*" MinHeight="410" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" MinWidth="200" />
+                                <ColumnDefinition Width="*" MinWidth="600" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Center">URL</Label>
+                            <TextBox Name="TextBoxUrl" Grid.Row="0" Grid.Column="1" Height="24" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10 0 10 0" />
+                            <Button Name="ButtonGetSource" Grid.Row="1" Grid.Column="0" Height="30" VerticalAlignment="Top" Margin="2,2,2,3" Background="LightGray" Click="GetSource_Click" IsEnabled="True">Get Source</Button>
+                            <TextBox Name="TextBoxLinks" 
+                                     Grid.Row="1" Grid.Column="1" 
+                                     FontSize="12" Margin="10 0 10 0"
+                                     VerticalAlignment="Top" VerticalContentAlignment="Top" 
+                                     TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" />
+                        </Grid>
+                    </TabItem>
                 </TabControl>
 
                 <Grid Grid.Row="1" Grid.Column="0" Background="Beige" Margin="5">

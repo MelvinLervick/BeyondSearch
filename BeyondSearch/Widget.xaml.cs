@@ -160,6 +160,11 @@ namespace BeyondSearch
 
         }
 
+        private void GetSource_Click(object sender, RoutedEventArgs e)
+        {
+            TextBoxLinks.Text = workWidget.ScanLinks(TextBoxUrl.Text);
+        }
+
         #region Local Methods
 
         private void UpdateWidgetDisplayFields()
