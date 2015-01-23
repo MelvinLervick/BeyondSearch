@@ -3,7 +3,10 @@ using System.Configuration;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
+using HtmlAgilityPack;
 using Microsoft.Win32;
+using mshtml;
 using WebPageWidget;
 using WebPageWidget.Common;
 
@@ -160,9 +163,25 @@ namespace BeyondSearch
 
         }
 
+        internal bool GetSource = false;
         private void GetSource_Click(object sender, RoutedEventArgs e)
         {
-            TextBoxLinks.Text = workWidget.ScanLinks(TextBoxUrl.Text);
+            GetSource = true;
+            ExampleBrowser.Navigate(new Uri(TextBoxUrl.Text));
+
+            //TextBoxLinks.Text = string.IsNullOrWhiteSpace(TextBoxTag.Text)
+            //        ? workWidget.ScanForLinks(ExampleBrowser.Document.ToString())
+            //        : workWidget.ScanForTags(ExampleBrowser.Document.ToString(), TextBoxTag.Text);
+
+            //if (!string.IsNullOrWhiteSpace(workWidget.ErrorMessage))
+            //{
+            //    TextBoxErrorMessage.Text = workWidget.ErrorMessage;
+            //    workWidget.ErrorMessage = string.Empty;
+            //}
+            //else
+            //{
+            //    TextBoxErrorMessage.Text = string.Empty;
+            //}
         }
 
         #region Local Methods
@@ -198,5 +217,28 @@ namespace BeyondSearch
         }
 
         #endregion Local Methods
+
+        private void ExampleBrowser_OnLoadCompleted(object sender, NavigationEventArgs e)
+        {
+            if (GetSource)
+            {
+                GetSource = false;
+                var doc = ExampleBrowser.Document as mshtml.HTMLDocument;
+
+                TextBoxLinks.Text = string.IsNullOrWhiteSpace(TextBoxTag.Text)
+                        ? workWidget.ScanForLinks(doc.documentElement.outerHTML)
+                        : workWidget.ScanForTags(doc.documentElement.outerHTML, TextBoxTag.Text);
+
+                if (!string.IsNullOrWhiteSpace(workWidget.ErrorMessage))
+                {
+                    TextBoxErrorMessage.Text = workWidget.ErrorMessage;
+                    workWidget.ErrorMessage = string.Empty;
+                }
+                else
+                {
+                    TextBoxErrorMessage.Text = string.Empty;
+                }
+            }
+        }
     }
 }

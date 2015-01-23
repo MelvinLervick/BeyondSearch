@@ -50,8 +50,8 @@
                 </Grid.ColumnDefinitions>
                 <Border Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="Blue" BorderThickness="0 0 0 2" />
 
-                <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="LightGray">
-                    <TabItem Header="Code Snippet" Margin="0 0 5 0" Width="175">
+                <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="LightBlue">
+                    <TabItem Header="Code Snippet" Margin="0 0 5 0" Width="175" Background="LightGray">
                         <Grid Background="LightGray" Margin="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="385" MinHeight="385" />
@@ -66,8 +66,8 @@
                                      TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" />
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Widget Parameters" Margin="0 0 5 0" Width="175">
-                        <Grid Grid.Row="0" Grid.Column="0" Background="LightGray" Margin="5">
+                    <TabItem Header="Widget Parameters" Margin="0 0 5 0" Width="175" Background="LightBlue">
+                        <Grid Grid.Row="0" Grid.Column="0" Background="LightBlue"  Margin="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" MinHeight="10" />
                                 <RowDefinition Height="*" MinHeight="420" />
@@ -75,7 +75,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50" MinWidth="500" />
                             </Grid.ColumnDefinitions>
-                            <Grid Grid.Row="1" Grid.Column="0" Background="LightGray" Margin="2">
+                            <Grid Grid.Row="1" Grid.Column="0" Margin="2">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="28" MinHeight="28" />
                                     <RowDefinition Height="28" MinHeight="28" />
@@ -107,8 +107,8 @@
                             </Grid>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Placeholders" Margin="0 0 5 0" Width="175" Background="LightGray">
-                        <Grid Grid.Row="0" Grid.Column="1" Background="LightGray" Margin="5">
+                    <TabItem Header="Placeholders" Margin="0 0 5 0" Width="175" Background="LightCyan">
+                        <Grid Grid.Row="0" Grid.Column="1" Background="LightCyan" Margin="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="28" MinHeight="28" />
                                 <RowDefinition Height="24" MinHeight="24" />
@@ -126,18 +126,20 @@
                             <TextBox Name="TextBoxPlaceholderValue1" Grid.Row="1" Grid.Column="1" Height="24" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10 0 10 0" />
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Url Links" Margin="0 0 5 0" Width="175" Background="LightGray">
-                        <Grid Grid.Row="0" Grid.Column="1" Background="LightGray" Margin="5">
+                    <TabItem Header="Url Links" Margin="0 0 5 0" Width="175" Background="SkyBlue">
+                        <Grid Grid.Row="0" Grid.Column="1" Background="SkyBlue" Margin="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="28" MinHeight="28" />
-                                <RowDefinition Height="*" MinHeight="410" />
+                                <RowDefinition Height="*" MinHeight="350" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200" MinWidth="200" />
+                                <ColumnDefinition Width="150" MinWidth="150" />
                                 <ColumnDefinition Width="*" MinWidth="600" />
+                                <ColumnDefinition Width="150" MinWidth="150" />
                             </Grid.ColumnDefinitions>
                             <Label Grid.Row="0" Grid.Column="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Center">URL</Label>
                             <TextBox Name="TextBoxUrl" Grid.Row="0" Grid.Column="1" Height="24" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10 0 10 0" />
+                            <TextBox Name="TextBoxTag" Grid.Row="0" Grid.Column="2" Height="24" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="0 0 10 0" />
                             <Button Name="ButtonGetSource" Grid.Row="1" Grid.Column="0" Height="30" VerticalAlignment="Top" Margin="2,2,2,3" Background="LightGray" Click="GetSource_Click" IsEnabled="True">Get Source</Button>
                             <TextBox Name="TextBoxLinks" 
                                      Grid.Row="1" Grid.Column="1" 
@@ -161,7 +163,7 @@
                                      TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" />
                 </Grid>
 
-                <WebBrowser Grid.Row="1" Grid.Column="1" Name="ExampleBrowser" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch"  />
+                <WebBrowser Grid.Row="1" Grid.Column="1" Name="ExampleBrowser" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" LoadCompleted="ExampleBrowser_OnLoadCompleted" />
 
             </Grid>
         </Grid>
