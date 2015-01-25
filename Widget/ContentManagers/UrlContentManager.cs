@@ -7,10 +7,10 @@ using WebPageWidget.Common;
 
 namespace WebPageWidget.ContentManagers
 {
-    class UrlContentManager
+    class UrlContentManager : WebClient
     {
         private static string returnValue;
-        private static HttpClient client;
+        //private static HttpClient client;
         private static bool complete;
         private static string endpointUrl;
         private static string errorMessage;
@@ -21,7 +21,7 @@ namespace WebPageWidget.ContentManagers
 
         public UrlContentManager(string url)
         {
-            client = new HttpClient();
+            //client = new HttpClient();
             endpointUrl = url;
         }
         public void GetContentAsync()
@@ -29,13 +29,13 @@ namespace WebPageWidget.ContentManagers
             complete = false;
             errorMessage = string.Empty;
 
-            client.DefaultRequestHeaders.Accept.Clear();
+            base.DefaultRequestHeaders.Accept.Clear();
             //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/html"));
 
             RunAsync();
         }
 
-        private static async void RunAsync()
+        private async void RunAsync()
         {
             try
             {
@@ -48,14 +48,14 @@ namespace WebPageWidget.ContentManagers
             complete = true;
         }
 
-        private static async Task<string> GetUrlResponseData()
+        private async Task<string> GetUrlResponseData()
         {
             var url = new UrlBuilder(endpointUrl);
 
             returnValue = string.Empty;
 
             //var cancellationTokenSource = new CancellationTokenSource(1000); //timeout
-            var response = await client.GetAsync(url.ToString());
+            var response = await base.GetAsync(url.ToString());
 
             // Check that response was successful or throw exception
             response.EnsureSuccessStatusCode();

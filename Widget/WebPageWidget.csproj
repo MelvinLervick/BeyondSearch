@@ -57,6 +57,7 @@
     <Compile Include="Common\UrlValueSet.cs" />
     <Compile Include="Common\WidgetType.cs" />
     <Compile Include="ContentManagers\UrlContentManager.cs" />
+    <Compile Include="ContentManagers\WebClient.cs" />
     <Compile Include="IWebWidget.cs" />
     <Compile Include="WebWidget.cs" />
     <Compile Include="WidgetContent.cs" />
