@@ -152,10 +152,10 @@
 
                 <Grid Grid.Row="1" Grid.Column="0" Background="Beige" Margin="5">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" MinHeight="20" />
+                        <RowDefinition Height="30" MinHeight="30" />
                         <RowDefinition Height="*" MinHeight="400" />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Width="100" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Center">Styling</Label>
+                    <Label Grid.Row="0" Grid.Column="0" Width="100" Height="30" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" HorizontalContentAlignment="Center">Styling</Label>
                     <TextBox Name="TextBoxStyling" 
                                      Grid.Row="1" Grid.Column="0" 
                                      FontSize="12" 
