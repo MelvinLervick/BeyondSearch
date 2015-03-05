@@ -149,7 +149,8 @@
                         </Grid>
                     </TabItem>
                 </TabControl>
-
+                
+                <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="3" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
                 <Grid Grid.Row="1" Grid.Column="0" Background="Beige" Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30" MinHeight="30" />
@@ -162,6 +163,7 @@
                                      VerticalAlignment="Top" VerticalContentAlignment="Top" 
                                      TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" />
                 </Grid>
+                <GridSplitter Grid.Row="1" Grid.Column="0" Width="3" HorizontalAlignment="Right" />
 
                 <WebBrowser Grid.Row="1" Grid.Column="1" Name="ExampleBrowser" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" LoadCompleted="ExampleBrowser_OnLoadCompleted" />
 
