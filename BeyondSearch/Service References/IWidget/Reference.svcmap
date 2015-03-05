@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="14af6643-72c2-4737-a492-1d5dc1ece0f9" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:62944/WidgetService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="WidgetService.wsdl" MetadataType="Wsdl" ID="68c2832d-bdcc-4c4e-8be0-f66fae8e0861" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?wsdl" />
+    <MetadataFile FileName="WidgetService.xsd" MetadataType="Schema" ID="31483719-9267-4c66-8c46-a766a614d4f5" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?xsd=xsd0" />
+    <MetadataFile FileName="WidgetService.disco" MetadataType="Disco" ID="b1ef5ae8-22ef-4344-adce-b679a90f5736" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?disco" />
+    <MetadataFile FileName="WidgetService1.xsd" MetadataType="Schema" ID="ff8a673f-b015-4314-842b-13fb24a82c8c" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?xsd=xsd1" />
+    <MetadataFile FileName="WidgetService2.xsd" MetadataType="Schema" ID="a64b0ee9-0368-41cd-9521-983f83db0809" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using BeyondSearch.IWidget;
 using HtmlAgilityPack;
 using Microsoft.Win32;
 using mshtml;
@@ -168,6 +169,9 @@ namespace BeyondSearch
         {
             GetSource = true;
             ExampleBrowser.Navigate(new Uri(TextBoxUrl.Text));
+
+            var testWidget = new WidgetServiceClient();
+            TextBoxErrorMessage.Text = testWidget.GetData("Calling Test WidgetService");
 
             //TextBoxLinks.Text = string.IsNullOrWhiteSpace(TextBoxTag.Text)
             //        ? workWidget.ScanForLinks(ExampleBrowser.Document.ToString())

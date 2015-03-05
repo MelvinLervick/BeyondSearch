@@ -93,6 +93,8 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -141,6 +143,11 @@
     <Compile Include="KeywordFilter.cs" />
     <Compile Include="Research.xaml.cs">
       <DependentUpon>Research.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\IWidget\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Widget.xaml.cs">
       <DependentUpon>Widget.xaml</DependentUpon>
@@ -192,6 +199,19 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\IWidget\BeyondSearch.IWidget.CompositeType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\IWidget\WidgetService.wsdl" />
+    <None Include="Service References\IWidget\WidgetService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IWidget\WidgetService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IWidget\WidgetService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="TestFiles\AdultKeyword.tsv" />
   </ItemGroup>
   <ItemGroup>
@@ -230,9 +250,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\IWidget\WidgetService.disco" />
+    <None Include="Service References\IWidget\configuration91.svcinfo" />
+    <None Include="Service References\IWidget\configuration.svcinfo" />
+    <None Include="Service References\IWidget\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="TestFiles\HTMLTestPage.html" />
     <Resource Include="TestFiles\TestPlayList2.xml" />
     <Resource Include="TestFiles\TestPlaylist.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\IWidget\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
