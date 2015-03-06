@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using WebPageWidget;
 
 namespace IWidget
 {
@@ -19,7 +20,8 @@ namespace IWidget
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
-        // TODO: Add your service operations here
+        [OperationContract]
+        string GetWidget(Parameters parameters);
     }
 
 
@@ -42,6 +44,35 @@ namespace IWidget
         {
             get { return stringValue; }
             set { stringValue = value; }
+        }
+    }
+
+    [DataContract]
+    public class Parameters
+    {
+        string folder = @"c:\temp\";
+        string fileName = "Test";
+        WebWidget widget = new WebWidget();
+
+        [DataMember]
+        public string Folder
+        {
+            get { return folder; }
+            set { folder = value; }
+        }
+
+        [DataMember]
+        public string FileName
+        {
+            get { return fileName; }
+            set { fileName = value; }
+        }
+
+        [DataMember]
+        public WebWidget Widget
+        {
+            get { return widget; }
+            set { widget = value; }
         }
     }
 }

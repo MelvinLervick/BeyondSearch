@@ -22,11 +22,14 @@
     <MetadataSource Address="http://localhost:62944/WidgetService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="WidgetService.wsdl" MetadataType="Wsdl" ID="68c2832d-bdcc-4c4e-8be0-f66fae8e0861" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?wsdl" />
-    <MetadataFile FileName="WidgetService.xsd" MetadataType="Schema" ID="31483719-9267-4c66-8c46-a766a614d4f5" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?xsd=xsd0" />
     <MetadataFile FileName="WidgetService.disco" MetadataType="Disco" ID="b1ef5ae8-22ef-4344-adce-b679a90f5736" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?disco" />
-    <MetadataFile FileName="WidgetService1.xsd" MetadataType="Schema" ID="ff8a673f-b015-4314-842b-13fb24a82c8c" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?xsd=xsd1" />
+    <MetadataFile FileName="WidgetService.wsdl" MetadataType="Wsdl" ID="68c2832d-bdcc-4c4e-8be0-f66fae8e0861" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?wsdl" />
+    <MetadataFile FileName="WidgetService3.xsd" MetadataType="Schema" ID="dea7d7b0-a9d0-40f7-abed-229262b6130d" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?xsd=xsd3" />
     <MetadataFile FileName="WidgetService2.xsd" MetadataType="Schema" ID="a64b0ee9-0368-41cd-9521-983f83db0809" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?xsd=xsd2" />
+    <MetadataFile FileName="WidgetService1.xsd" MetadataType="Schema" ID="ff8a673f-b015-4314-842b-13fb24a82c8c" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?xsd=xsd1" />
+    <MetadataFile FileName="WidgetService.xsd" MetadataType="Schema" ID="31483719-9267-4c66-8c46-a766a614d4f5" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?xsd=xsd0" />
+    <MetadataFile FileName="WidgetService31.xsd" MetadataType="Schema" ID="9684229b-dcc6-465c-9e51-28ce70dcb93b" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?xsd=xsd5" />
+    <MetadataFile FileName="WidgetService32.xsd" MetadataType="Schema" ID="4ef2c3ed-dd57-4be4-a5d2-7d19a3144b0d" SourceId="1" SourceUrl="http://localhost:62944/WidgetService.svc?xsd=xsd4" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

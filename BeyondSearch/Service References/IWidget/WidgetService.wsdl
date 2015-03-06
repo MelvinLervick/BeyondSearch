@@ -5,6 +5,9 @@
       <xsd:import schemaLocation="http://localhost:62944/WidgetService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:62944/WidgetService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:62944/WidgetService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/IWidget" />
+      <xsd:import schemaLocation="http://localhost:62944/WidgetService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/WebPageWidget" />
+      <xsd:import schemaLocation="http://localhost:62944/WidgetService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/WebPageWidget.Common" />
+      <xsd:import schemaLocation="http://localhost:62944/WidgetService.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IWidgetService_GetData_InputMessage">
@@ -19,6 +22,12 @@
   <wsdl:message name="IWidgetService_GetDataUsingDataContract_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetDataUsingDataContractResponse" />
   </wsdl:message>
+  <wsdl:message name="IWidgetService_GetWidget_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetWidget" />
+  </wsdl:message>
+  <wsdl:message name="IWidgetService_GetWidget_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetWidgetResponse" />
+  </wsdl:message>
   <wsdl:portType name="IWidgetService">
     <wsdl:operation name="GetData">
       <wsdl:input wsaw:Action="http://tempuri.org/IWidgetService/GetData" message="tns:IWidgetService_GetData_InputMessage" />
@@ -27,6 +36,10 @@
     <wsdl:operation name="GetDataUsingDataContract">
       <wsdl:input wsaw:Action="http://tempuri.org/IWidgetService/GetDataUsingDataContract" message="tns:IWidgetService_GetDataUsingDataContract_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IWidgetService/GetDataUsingDataContractResponse" message="tns:IWidgetService_GetDataUsingDataContract_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetWidget">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWidgetService/GetWidget" message="tns:IWidgetService_GetWidget_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWidgetService/GetWidgetResponse" message="tns:IWidgetService_GetWidget_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IWidgetService" type="tns:IWidgetService">
@@ -42,6 +55,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetDataUsingDataContract">
       <soap:operation soapAction="http://tempuri.org/IWidgetService/GetDataUsingDataContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWidget">
+      <soap:operation soapAction="http://tempuri.org/IWidgetService/GetWidget" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

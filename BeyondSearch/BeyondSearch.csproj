@@ -212,6 +212,15 @@
     <None Include="Service References\IWidget\WidgetService2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\IWidget\WidgetService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IWidget\WidgetService31.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\IWidget\WidgetService32.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="TestFiles\AdultKeyword.tsv" />
   </ItemGroup>
   <ItemGroup>

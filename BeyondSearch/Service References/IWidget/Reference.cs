@@ -74,6 +74,83 @@ namespace BeyondSearch.IWidget {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Parameters", Namespace="http://schemas.datacontract.org/2004/07/IWidget")]
+    [System.SerializableAttribute()]
+    public partial class Parameters : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FileNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FolderField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private WebPageWidget.WebWidget WidgetField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FileName {
+            get {
+                return this.FileNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FileNameField, value) != true)) {
+                    this.FileNameField = value;
+                    this.RaisePropertyChanged("FileName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Folder {
+            get {
+                return this.FolderField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FolderField, value) != true)) {
+                    this.FolderField = value;
+                    this.RaisePropertyChanged("Folder");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public WebPageWidget.WebWidget Widget {
+            get {
+                return this.WidgetField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.WidgetField, value) != true)) {
+                    this.WidgetField = value;
+                    this.RaisePropertyChanged("Widget");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="IWidget.IWidgetService")]
     public interface IWidgetService {
@@ -89,6 +166,12 @@ namespace BeyondSearch.IWidget {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWidgetService/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IWidgetService/GetDataUsingDataContractResponse")]
         System.Threading.Tasks.Task<BeyondSearch.IWidget.CompositeType> GetDataUsingDataContractAsync(BeyondSearch.IWidget.CompositeType composite);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWidgetService/GetWidget", ReplyAction="http://tempuri.org/IWidgetService/GetWidgetResponse")]
+        string GetWidget(BeyondSearch.IWidget.Parameters parameters);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWidgetService/GetWidget", ReplyAction="http://tempuri.org/IWidgetService/GetWidgetResponse")]
+        System.Threading.Tasks.Task<string> GetWidgetAsync(BeyondSearch.IWidget.Parameters parameters);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -132,6 +215,14 @@ namespace BeyondSearch.IWidget {
         
         public System.Threading.Tasks.Task<BeyondSearch.IWidget.CompositeType> GetDataUsingDataContractAsync(BeyondSearch.IWidget.CompositeType composite) {
             return base.Channel.GetDataUsingDataContractAsync(composite);
+        }
+        
+        public string GetWidget(BeyondSearch.IWidget.Parameters parameters) {
+            return base.Channel.GetWidget(parameters);
+        }
+        
+        public System.Threading.Tasks.Task<string> GetWidgetAsync(BeyondSearch.IWidget.Parameters parameters) {
+            return base.Channel.GetWidgetAsync(parameters);
         }
     }
 }
