@@ -30,8 +30,10 @@
             <MenuItem Header="_Window" />
             <MenuItem Header="_Filter Research" Click="Menu_ResearchClick" Name="MenuResearch" />
             <MenuItem Header="Wid_get" Click="Menu_WidgetClick" Name="MenuWidget" />
+            <MenuItem Header="_Predictive Text" Click="Menu_PredictiveTextClick" Name="MenuPredictiveText" />
             <MenuItem Header="_Tools">
                 <MenuItem Header="_Options" />
+                <MenuItem Header="_Trie" />
             </MenuItem>
             <MenuItem Header="_Help" />
         </Menu>

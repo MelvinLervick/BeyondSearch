@@ -152,5 +152,11 @@ namespace BeyondSearch
             var widgetPage = new Widget();
             widgetPage.Show();
         }
+
+        private void Menu_PredictiveTextClick(object sender, RoutedEventArgs e)
+        {
+            var widgetPage = new PredictiveText();
+            widgetPage.Show();
+        }
     }
 }
