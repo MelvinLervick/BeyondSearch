@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BeyondSearch</RootNamespace>
     <AssemblyName>BeyondSearch</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -17,6 +17,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -114,31 +115,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Common\CategorizedFilterReader\CategorizedFilterTerm.cs" />
-    <Compile Include="Common\CategorizedFilterReader\CategorizedFilterTermFileReader.cs" />
-    <Compile Include="Common\Enums.cs" />
-    <Compile Include="Common\GoodOrBadKeywords.cs" />
-    <Compile Include="Common\KeywordCategory.cs" />
-    <Compile Include="Common\BeyondSearchFileReader\BeyondSearchFileReader.cs" />
-    <Compile Include="Common\ICategorizedFilterTermFileReader.cs" />
-    <Compile Include="Common\IBeyondSearchFileReader.cs" />
-    <Compile Include="Common\IProhibitedKeywordFileReader.cs" />
-    <Compile Include="Common\Extensions.cs" />
-    <Compile Include="Filters\ContainsMatchmaker.cs" />
-    <Compile Include="Filters\DictionaryMatchmaker.cs" />
-    <Compile Include="Filters\LucenePorterStemMatchmaker.cs" />
-    <Compile Include="Filters\KeywordMatchmaker.cs" />
-    <Compile Include="Filters\ContainsSansSpaceAndNumberKeywordMatchmaker.cs" />
-    <Compile Include="Filters\ExactMatchKeywordMatchmaker.cs" />
-    <Compile Include="Filters\FilteredKeyword.cs" />
-    <Compile Include="Filters\FilteredKeywordPair.cs" />
-    <Compile Include="Filters\FuzzyContainsKeywordMatchmaker.cs" />
-    <Compile Include="Filters\IKeywordMatchmaker.cs" />
-    <Compile Include="Filters\KeywordFilterer.cs" />
-    <Compile Include="Filters\SingularPluralKeyword.cs" />
-    <Compile Include="Filters\StrictContainsKeywordMatchmaker.cs" />
-    <Compile Include="Common\TsvFileReader\TsvProhibitedKeyword.cs" />
-    <Compile Include="Common\TsvFileReader\TsvProhibitedKeywordFileReader.cs" />
+    <Compile Include="Common\OLD\CategorizedFilterReader\CategorizedFilterTerm.cs" />
+    <Compile Include="Common\OLD\CategorizedFilterReader\CategorizedFilterTermFileReader.cs" />
+    <Compile Include="Common\OLD\Enums.cs" />
+    <Compile Include="Common\OLD\GoodOrBadKeywords.cs" />
+    <Compile Include="Common\OLD\KeywordCategory.cs" />
+    <Compile Include="Common\OLD\BeyondSearchFileReader\BeyondSearchFileReader.cs" />
+    <Compile Include="Common\OLD\ICategorizedFilterTermFileReader.cs" />
+    <Compile Include="Common\OLD\IBeyondSearchFileReader.cs" />
+    <Compile Include="Common\OLD\IProhibitedKeywordFileReader.cs" />
+    <Compile Include="Common\OLD\Extensions.cs" />
+    <Compile Include="FiltersOLD\ContainsMatchmaker.cs" />
+    <Compile Include="FiltersOLD\DictionaryMatchmaker.cs" />
+    <Compile Include="FiltersOLD\LucenePorterStemMatchmaker.cs" />
+    <Compile Include="FiltersOLD\KeywordMatchmaker.cs" />
+    <Compile Include="FiltersOLD\ContainsSansSpaceAndNumberKeywordMatchmaker.cs" />
+    <Compile Include="FiltersOLD\ExactMatchKeywordMatchmaker.cs" />
+    <Compile Include="FiltersOLD\FilteredKeyword.cs" />
+    <Compile Include="FiltersOLD\FilteredKeywordPair.cs" />
+    <Compile Include="FiltersOLD\FuzzyContainsKeywordMatchmaker.cs" />
+    <Compile Include="FiltersOLD\IKeywordMatchmaker.cs" />
+    <Compile Include="FiltersOLD\KeywordFilterer.cs" />
+    <Compile Include="FiltersOLD\SingularPluralKeyword.cs" />
+    <Compile Include="FiltersOLD\StrictContainsKeywordMatchmaker.cs" />
+    <Compile Include="Common\OLD\TsvFileReader\TsvProhibitedKeyword.cs" />
+    <Compile Include="Common\OLD\TsvFileReader\TsvProhibitedKeywordFileReader.cs" />
     <Compile Include="IKeywordFilter.cs" />
     <Compile Include="KeywordFilter.cs" />
     <Compile Include="PredictiveText.xaml.cs">

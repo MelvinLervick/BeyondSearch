@@ -44,8 +44,8 @@ namespace BeyondSearch
             // Create OpenFileDialog 
             var dlg = new Microsoft.Win32.OpenFileDialog
             {
-                DefaultExt = ".tsv",
-                Filter = "Index documents All files (*.*)|*.*|(.tsv)|*.tsv",
+                DefaultExt = ".txt",
+                Filter = "Index documents All files (*.*)|*.*|(.txt)|*.txt",
                 CheckPathExists = true,
                 CheckFileExists = true
             };
@@ -63,24 +63,24 @@ namespace BeyondSearch
                 var sw = new Stopwatch();
                 sw.Start();
 
-                if (TextBoxKeywordFile.Text.Contains(".tsv"))
-                {
-                    var reader = new BeyondSearchFileReader();
-                    var terms =
-                        reader.ReadTerms(System.IO.Path.Combine(TextBoxKeywordFolder.Text, TextBoxKeywordFile.Text), RecordFormat.Tsv)
-                            .ToList();
+                //if (TextBoxKeywordFile.Text.Contains(".tsv"))
+                //{
+                //    var reader = new BeyondSearchFileReader();
+                //    var terms =
+                //        reader.ReadTerms(System.IO.Path.Combine(TextBoxKeywordFolder.Text, TextBoxKeywordFile.Text), RecordFormat.Tsv)
+                //            .ToList();
 
-                    StoreTermsReadToObservableCollection(Keywords, terms);
-                }
-                else
-                {
+                //    StoreTermsReadToObservableCollection(Keywords, terms);
+                //}
+                //else
+                //{
                     var reader = new BeyondSearchFileReader();
                     var terms =
                         reader.ReadTerms(System.IO.Path.Combine(TextBoxKeywordFolder.Text,
                             TextBoxKeywordFile.Text), RecordFormat.TermOnly).ToList();
 
-                    StoreTermsReadToObservableCollection(Keywords, terms);
-                }
+                    //StoreTermsReadToObservableCollection(Keywords, terms);
+                //}
 
                 sw.Stop();
                 TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();

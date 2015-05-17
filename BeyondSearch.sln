@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPageWidgetUnitTests", "W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IWidget", "IWidget\IWidget.csproj", "{A39259C6-2F94-486F-B652-574FB0C7BBE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PredictiveText", "PredictiveText\PredictiveText.csproj", "{01B1DEEA-454E-46F8-97EE-A23EFE3D415B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordSearch", "WordSearch\WordSearch.csproj", "{17125877-2CF0-42B2-89D3-418E40BDE5D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +46,14 @@ Global
 		{A39259C6-2F94-486F-B652-574FB0C7BBE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A39259C6-2F94-486F-B652-574FB0C7BBE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A39259C6-2F94-486F-B652-574FB0C7BBE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01B1DEEA-454E-46F8-97EE-A23EFE3D415B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01B1DEEA-454E-46F8-97EE-A23EFE3D415B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01B1DEEA-454E-46F8-97EE-A23EFE3D415B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01B1DEEA-454E-46F8-97EE-A23EFE3D415B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17125877-2CF0-42B2-89D3-418E40BDE5D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17125877-2CF0-42B2-89D3-418E40BDE5D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17125877-2CF0-42B2-89D3-418E40BDE5D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17125877-2CF0-42B2-89D3-418E40BDE5D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
