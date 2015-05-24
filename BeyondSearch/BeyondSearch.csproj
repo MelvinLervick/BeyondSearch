@@ -276,7 +276,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="PT_Files\Pt_Sample1.txt" />
+    <Resource Include="TestFiles\Pt_Sample1.txt" />
     <None Include="Service References\IWidget\WidgetService.disco" />
     <None Include="Service References\IWidget\configuration91.svcinfo" />
     <None Include="Service References\IWidget\configuration.svcinfo" />
@@ -284,6 +284,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Resource Include="PT_Files\Pt_Sample1.txt" />
     <Content Include="TestFiles\HTMLTestPage.html" />
     <Resource Include="TestFiles\TestPlayList2.xml" />
     <Resource Include="TestFiles\TestPlaylist.xml" />
