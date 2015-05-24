@@ -30,7 +30,7 @@ namespace PredictiveText
             get { return searchTrieWordCount; }
         }
 
-        public FileTrie(string folder, string file = "*.*", int textLength = 1)
+        public FileTrie(string folder, string file, int textLength = 1)
         {
             minSearchTextLength = 1;
 
@@ -54,10 +54,21 @@ namespace PredictiveText
             
             if (!Directory.Exists(searchFolder)) return;
 
-            var file = System.IO.Path.Combine(searchFolder, searchFile);
-            var fileInfo = new FileInfo(file);
+            if (searchFile == "*.*")
+            {
+                var files = Directory.GetFiles(searchFolder, "*.txt", SearchOption.AllDirectories);
 
-            LoadFile(file);
+                foreach (var file in files)
+                {
+                    LoadFile(file);
+                }
+            }
+            else
+            {
+                var file = System.IO.Path.Combine(searchFolder, searchFile);
+
+                LoadFile(file);
+            }
         }
 
         private void LoadFile(string fileName)

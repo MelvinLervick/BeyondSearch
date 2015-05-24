@@ -17,7 +17,8 @@
         <Menu FontSize="12pt" Grid.Row="0" IsMainMenu="True">
             <MenuItem Header="_Exit" Click="Menu_FileExitClick" />
             <MenuItem Header="_Files">
-                <MenuItem Header="_Load Words" Click="Menu_LoadWordsClick" />
+                <MenuItem Header="_Load Words from File" Click="Menu_LoadWordsFromFileClick" />
+                <MenuItem Header="_Load Words from Files" Click="Menu_LoadWordsFromFilesClick" />
             </MenuItem>
             <MenuItem Header="_Help" />
         </Menu>

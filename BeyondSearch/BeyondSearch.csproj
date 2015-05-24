@@ -156,7 +156,6 @@
     <Compile Include="Widget.xaml.cs">
       <DependentUpon>Widget.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WordPositionOLD.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -269,10 +268,6 @@
     <ProjectReference Include="..\Widget\WebPageWidget.csproj">
       <Project>{6fb3af07-c81f-4470-86b8-fd65c2328b44}</Project>
       <Name>WebPageWidget</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WordSearch\WordSearch.csproj">
-      <Project>{17125877-2cf0-42b2-89d3-418e40bde5d0}</Project>
-      <Name>WordSearch</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

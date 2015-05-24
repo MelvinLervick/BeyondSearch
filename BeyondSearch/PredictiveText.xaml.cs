@@ -1,26 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using BeyondSearch.Common;
-using BeyondSearch.Common.BeyondSearchFileReader;
-using BeyondSearch.Filters;
 using Microsoft.Win32;
 using PredictiveText;
-using WordSearch;
-using WordSearch.Trie;
-using Path = System.Windows.Shapes.Path;
 
 namespace BeyondSearch
 {
@@ -30,17 +16,12 @@ namespace BeyondSearch
     public partial class PredictiveText : Window
     {
         private const string Term = "Term";
-        private const int MinSearchTextLength = 1;
-
-        private readonly ITrie<WordPositionOLD> searchTrie;
-        private long searchTrieWordCount;
 
         private SearchFactory searchTree;
 
         public PredictiveText()
         {
             InitializeComponent();
-            searchTrie = new SuffixTrie<WordPositionOLD>(MinSearchTextLength);
         }
 
         private void Menu_FileExitClick(object sender, RoutedEventArgs e)
@@ -48,19 +29,10 @@ namespace BeyondSearch
             this.Close();
         }
 
-        private void Menu_LoadWordsClick(object sender, RoutedEventArgs e)
+        private void Menu_LoadWordsFromFileClick(object sender, RoutedEventArgs e)
         {
-            // Create OpenFileDialog 
-            var dlg = new Microsoft.Win32.OpenFileDialog
-            {
-                DefaultExt = ".txt",
-                Filter = "Index documents All files (*.*)|*.*|(.txt)|*.txt",
-                CheckPathExists = true,
-                CheckFileExists = true
-            };
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            var result = dlg.ShowDialog();
+            bool? result;
+            var dlg = OpenFileDialog(out result);
 
             // Get the selected file name and display in a TextBox 
             if (result == true)
@@ -72,7 +44,6 @@ namespace BeyondSearch
                 var sw = new Stopwatch();
                 sw.Start();
 
-                //LoadAllFiles();
                 searchTree = new SearchFactory(SearchAlgorythms.FileTrie, TextBoxPTFolder.Text, TextBoxPTFile.Text);
 
                 sw.Stop();
@@ -80,70 +51,26 @@ namespace BeyondSearch
             }
         }
 
-        private void LoadAllFiles()
+        private static OpenFileDialog OpenFileDialog(out bool? result)
         {
-            searchTrieWordCount = 0;
-            var path = TextBoxPTFolder.Text;
-            if (!Directory.Exists(path)) return;
-
-            var file = System.IO.Path.Combine(TextBoxPTFolder.Text, TextBoxPTFile.Text);
-            var fileInfo = new FileInfo(file);
-
-            LoadFile(file);
-        }
-
-        private void Search_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void LoadFile(string fileName)
-        {
-            var words = GetWords(fileName).ToArray();
-            foreach (var word in words)
+            var dlg = new Microsoft.Win32.OpenFileDialog
             {
-                var text = word.Item2;
-                var wordPosition = word.Item1;
-                searchTrie.Add(text, wordPosition);
-            }
-        }
+                DefaultExt = ".txt",
+                Filter = "Index documents All files (.txt)|*.txt",
+                CheckPathExists = true,
+                CheckFileExists = true
+            };
 
-        private IEnumerable<Tuple<WordPositionOLD, string>> GetWords(string file)
-        {
-            using (Stream stream = File.Open(file, FileMode.Open))
-            {
-                var word = new StringBuilder();
-                while (true)
-                {
-                    var position = stream.Position;
-                    int data = (char)stream.ReadByte();
-                    {
-                        if (data > byte.MaxValue) break;
-                        var ch = (Char)data;
-                        if (char.IsLetter(ch))
-                        {
-                            word.Append(ch);
-                        }
-                        else
-                        {
-                            if (word.Length != 0)
-                            {
-                                var wordPosition = new WordPositionOLD(position, file);
-                                yield return new Tuple<WordPositionOLD, string>(wordPosition, word.ToString().ToLower());
-                                word.Clear();
-                                searchTrieWordCount++;
-                            }
-                        }
-                    }
-                }
-            }
+            // Display OpenFileDialog by calling ShowDialog method 
+            result = dlg.ShowDialog();
+            return dlg;
         }
 
         private void TextBoxSearchFor_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             var text = TextBoxSearchFor.Text;
 
-            if (string.IsNullOrEmpty(text) || text.Length < MinSearchTextLength) return;
+            if (string.IsNullOrEmpty(text) || text.Length < searchTree.SearchTree.MinSearchTextLength) return;
 
             var result = searchTree.SearchTree.Retrieve(text).ToArray();
 
@@ -179,6 +106,27 @@ namespace BeyondSearch
                 //TextBlockSelected.Text = String..Select(index, searchText.Length);
                 //TextBlockSelected.SelectionBackColor = Color.Yellow;
                 //TextBlockSelected.DeselectAll();
+            }
+        }
+
+        private void Menu_LoadWordsFromFilesClick(object sender, RoutedEventArgs e)
+        {
+            bool? result;
+            var dlg = OpenFileDialog(out result);
+
+            if (result == true)
+            {
+                // Get the selected folder/file name and display in a TextBox 
+                TextBoxPTFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
+                TextBoxPTFile.Text = dlg.SafeFileName;
+
+                var sw = new Stopwatch();
+                sw.Start();
+
+                searchTree = new SearchFactory(SearchAlgorythms.FileTrie, TextBoxPTFolder.Text);
+
+                sw.Stop();
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
             }
         }
     }

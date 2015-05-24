@@ -11,7 +11,7 @@ namespace PredictiveText
     {
         public Algorithm SearchTree;
 
-        public SearchFactory(SearchAlgorythms id, string folder, string file)
+        public SearchFactory(SearchAlgorythms id, string folder, string file = "*.*")
         {
             switch (id)
             {
