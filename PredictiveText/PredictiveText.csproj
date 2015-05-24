@@ -42,9 +42,11 @@
   <ItemGroup>
     <Compile Include="Algorithm.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="MemoryTrie.cs" />
     <Compile Include="SearchFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileTrie.cs" />
+    <Compile Include="MemoryPosition.cs" />
     <Compile Include="WordPosition.cs" />
   </ItemGroup>
   <ItemGroup>

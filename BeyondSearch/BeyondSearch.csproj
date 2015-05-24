@@ -280,6 +280,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Resource Include="PT_Files\Pt_Sample1.txt" />
+    <Resource Include="PT_Files\Pt_Sample2.txt" />
     <Content Include="TestFiles\HTMLTestPage.html" />
     <Resource Include="TestFiles\TestPlayList2.xml" />
     <Resource Include="TestFiles\TestPlaylist.xml" />

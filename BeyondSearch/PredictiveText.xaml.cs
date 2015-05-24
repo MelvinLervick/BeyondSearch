@@ -129,5 +129,26 @@ namespace BeyondSearch
                 TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
             }
         }
+
+        private void Menu_LoadWordsIntoMemoryClick(object sender, RoutedEventArgs e)
+        {
+            bool? result;
+            var dlg = OpenFileDialog(out result);
+
+            if (result == true)
+            {
+                // Get the selected folder/file name and display in a TextBox 
+                TextBoxPTFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
+                TextBoxPTFile.Text = dlg.SafeFileName;
+
+                var sw = new Stopwatch();
+                sw.Start();
+
+                searchTree = new SearchFactory(SearchAlgorythms.MemoryTrie, TextBoxPTFolder.Text, TextBoxPTFile.Text);
+
+                sw.Stop();
+                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+            }
+        }
     }
 }

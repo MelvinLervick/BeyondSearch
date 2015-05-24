@@ -8,16 +8,16 @@ using WordSearch.Trie;
 
 namespace PredictiveText
 {
-    public class FileTrie : Algorithm
+    public class MemoryTrie : Algorithm
     {
-        private readonly ITrie<WordPosition> searchTrie;
+        private readonly ITrie<MemoryPosition> searchTrie;
 
         private readonly int minSearchTextLength;
         private long searchTrieWordCount;
 
         public override string Name
         {
-            get { return "FileTrie"; }
+            get { return "MemoryTrie"; }
         }
 
         public override int MinSearchTextLength
@@ -30,11 +30,11 @@ namespace PredictiveText
             get { return searchTrieWordCount; }
         }
 
-        public FileTrie(string folder, string file, int textLength = 1)
+        public MemoryTrie(string folder, string file, int textLength = 1)
         {
             minSearchTextLength = 1;
 
-            searchTrie = new SuffixTrie<WordPosition>(minSearchTextLength);
+            searchTrie = new SuffixTrie<MemoryPosition>(minSearchTextLength);
             
             LoadFiles(folder, file);
         }
@@ -75,37 +75,30 @@ namespace PredictiveText
             foreach (var word in words)
             {
                 var text = word.Item2;
-                var wordPosition = word.Item1;
-                searchTrie.Add(text, wordPosition);
+                var memoryPosition = word.Item1;
+                searchTrie.Add(text, memoryPosition);
             }
         }
 
-        private IEnumerable<Tuple<WordPosition, string>> GetWords(string file)
+        private IEnumerable<Tuple<MemoryPosition, string>> GetWords(string file)
         {
-            using (Stream stream = File.Open(file, FileMode.Open))
+            using (var stream = new StreamReader(file))
             {
-                var word = new StringBuilder();
+                long lineNumber = 0;
                 while (true)
                 {
-                    var position = stream.Position;
-                    int data = (char)stream.ReadByte();
+                    if (stream.EndOfStream) break;
+
+                    lineNumber++;
+                    var line = stream.ReadLine();
+                    var lineFields = line.Split('\t');
+
+                    var word = lineFields[0];
+                    if (word.Length != 0)
                     {
-                        if (data > byte.MaxValue) break;
-                        var ch = (Char)data;
-                        if (char.IsLetter(ch))
-                        {
-                            word.Append(ch);
-                        }
-                        else
-                        {
-                            if (word.Length != 0)
-                            {
-                                var wordPosition = new WordPosition(position, file);
-                                yield return new Tuple<WordPosition, string>(wordPosition, word.ToString().ToLower());
-                                word.Clear();
-                                searchTrieWordCount++;
-                            }
-                        }
+                        var memoryPosition = new MemoryPosition(lineNumber, line);
+                        yield return new Tuple<MemoryPosition, string>(memoryPosition, word.ToLower());
+                        searchTrieWordCount++;
                     }
                 }
             }

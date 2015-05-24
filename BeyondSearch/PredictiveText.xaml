@@ -19,6 +19,7 @@
             <MenuItem Header="_Files">
                 <MenuItem Header="_Load Words from File" Click="Menu_LoadWordsFromFileClick" />
                 <MenuItem Header="_Load Words from Files" Click="Menu_LoadWordsFromFilesClick" />
+                <MenuItem Header="_Load Words into Memory" Click="Menu_LoadWordsIntoMemoryClick" />
             </MenuItem>
             <MenuItem Header="_Help" />
         </Menu>
