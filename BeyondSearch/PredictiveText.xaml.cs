@@ -85,27 +85,37 @@ namespace BeyondSearch
         private void ListBoxWordsFound_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var item = ListBoxWordsFound.SelectedItem as WordPosition;
-            if (item == null) return;
-
-            using (var file = File.Open(item.FileName, FileMode.Open))
+            if (item != null)
             {
-                const int bufferSize = 200;
-                var position = Math.Max(item.CharPosition - bufferSize / 2, 0);
 
-                file.Seek(position, SeekOrigin.Begin);
-                var buffer = new byte[bufferSize];
-                file.Read(buffer, 0, bufferSize);
+                using (var file = File.Open(item.FileName, FileMode.Open))
+                {
+                    const int bufferSize = 200;
+                    var position = Math.Max(item.CharPosition - bufferSize/2, 0);
 
-                var line = Encoding.ASCII.GetString(buffer);
-                TextBlockSelected.Text = line;
+                    file.Seek(position, SeekOrigin.Begin);
+                    var buffer = new byte[bufferSize];
+                    file.Read(buffer, 0, bufferSize);
 
-                var searchText = TextBlockSelected.Text;
-                var index = TextBlockSelected.Text.IndexOf(searchText, StringComparison.InvariantCultureIgnoreCase);
-                if (index < 0) return;
+                    var line = Encoding.ASCII.GetString(buffer);
+                    TextBlockSelected.Text = line;
 
-                //TextBlockSelected.Text = String..Select(index, searchText.Length);
-                //TextBlockSelected.SelectionBackColor = Color.Yellow;
-                //TextBlockSelected.DeselectAll();
+                    var searchText = TextBlockSelected.Text;
+                    var index = TextBlockSelected.Text.IndexOf(searchText, StringComparison.InvariantCultureIgnoreCase);
+                    if (index < 0) return;
+
+                    //TextBlockSelected.Text = String..Select(index, searchText.Length);
+                    //TextBlockSelected.SelectionBackColor = Color.Yellow;
+                    //TextBlockSelected.DeselectAll();
+                }
+
+                return;
+            }
+
+            var itemMemory = ListBoxWordsFound.SelectedItem as MemoryPosition;
+            if (itemMemory != null)
+            {
+                TextBlockSelected.Text = itemMemory.FileName;
             }
         }
 
