@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,11 +13,14 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BeyondSearch.Common;
 using BeyondSearch.Common.BeyondSearchFileReader;
 using BeyondSearch.Filters;
 using Microsoft.Win32;
+using PredictiveText;
+using WordSearch;
+using WordSearch.Trie;
+using Path = System.Windows.Shapes.Path;
 
 namespace BeyondSearch
 {
@@ -26,12 +30,17 @@ namespace BeyondSearch
     public partial class PredictiveText : Window
     {
         private const string Term = "Term";
+        private const int MinSearchTextLength = 1;
 
-        public ObservableCollection<FilteredKeyword> Keywords;
+        private readonly ITrie<WordPositionOLD> searchTrie;
+        private long searchTrieWordCount;
+
+        private SearchFactory searchTree;
 
         public PredictiveText()
         {
             InitializeComponent();
+            searchTrie = new SuffixTrie<WordPositionOLD>(MinSearchTextLength);
         }
 
         private void Menu_FileExitClick(object sender, RoutedEventArgs e)
@@ -57,81 +66,119 @@ namespace BeyondSearch
             if (result == true)
             {
                 // Open document 
-                TextBoxKeywordFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
-                TextBoxKeywordFile.Text = dlg.SafeFileName;
+                TextBoxPTFolder.Text = System.IO.Path.GetDirectoryName(dlg.FileName);
+                TextBoxPTFile.Text = dlg.SafeFileName;
 
                 var sw = new Stopwatch();
                 sw.Start();
 
-                //if (TextBoxKeywordFile.Text.Contains(".tsv"))
-                //{
-                //    var reader = new BeyondSearchFileReader();
-                //    var terms =
-                //        reader.ReadTerms(System.IO.Path.Combine(TextBoxKeywordFolder.Text, TextBoxKeywordFile.Text), RecordFormat.Tsv)
-                //            .ToList();
-
-                //    StoreTermsReadToObservableCollection(Keywords, terms);
-                //}
-                //else
-                //{
-                    var reader = new BeyondSearchFileReader();
-                    var terms =
-                        reader.ReadTerms(System.IO.Path.Combine(TextBoxKeywordFolder.Text,
-                            TextBoxKeywordFile.Text), RecordFormat.TermOnly).ToList();
-
-                    //StoreTermsReadToObservableCollection(Keywords, terms);
-                //}
+                //LoadAllFiles();
+                searchTree = new SearchFactory(SearchAlgorythms.FileTrie, TextBoxPTFolder.Text, TextBoxPTFile.Text);
 
                 sw.Stop();
                 TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
             }
         }
 
-        private void StoreTermsReadToObservableCollection(
-            ObservableCollection<FilteredKeyword> collection,
-            IEnumerable<FilteredKeyword> terms)
+        private void LoadAllFiles()
         {
-            collection.Clear();
-            foreach (var filteredKeyword in terms)
+            searchTrieWordCount = 0;
+            var path = TextBoxPTFolder.Text;
+            if (!Directory.Exists(path)) return;
+
+            var file = System.IO.Path.Combine(TextBoxPTFolder.Text, TextBoxPTFile.Text);
+            var fileInfo = new FileInfo(file);
+
+            LoadFile(file);
+        }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void LoadFile(string fileName)
+        {
+            var words = GetWords(fileName).ToArray();
+            foreach (var word in words)
             {
-                collection.AddFilteredKeywordListItem(false, filteredKeyword.Keyword, category: filteredKeyword.Category,
-                    bit: filteredKeyword.CategoryBit);
+                var text = word.Item2;
+                var wordPosition = word.Item1;
+                searchTrie.Add(text, wordPosition);
             }
         }
 
-        private void Menu_SaveWordsClick(object sender, RoutedEventArgs e)
+        private IEnumerable<Tuple<WordPositionOLD, string>> GetWords(string file)
         {
-            var saveFile = new SaveFileDialog
+            using (Stream stream = File.Open(file, FileMode.Open))
             {
-                InitialDirectory = @"C:\",
-                DefaultExt = "txt",
-                CheckPathExists = true,
-                Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*"
-            };
-
-            if (saveFile.ShowDialog() ?? false)
-            {
-                // If the file name is not an empty string open it for saving.
-                if (saveFile.FileName != "")
+                var word = new StringBuilder();
+                while (true)
                 {
-                    using (var tw = new System.IO.StreamWriter(saveFile.FileName))
+                    var position = stream.Position;
+                    int data = (char)stream.ReadByte();
                     {
-                        tw.WriteLine(Term);
-                        foreach (var keyword in Keywords)
+                        if (data > byte.MaxValue) break;
+                        var ch = (Char)data;
+                        if (char.IsLetter(ch))
                         {
-                            if (!string.IsNullOrWhiteSpace(keyword.Keyword))
+                            word.Append(ch);
+                        }
+                        else
+                        {
+                            if (word.Length != 0)
                             {
-                                tw.WriteLine(keyword.Keyword);
+                                var wordPosition = new WordPositionOLD(position, file);
+                                yield return new Tuple<WordPositionOLD, string>(wordPosition, word.ToString().ToLower());
+                                word.Clear();
+                                searchTrieWordCount++;
                             }
                         }
-
-                        tw.Close();
                     }
                 }
-                else
-                {
-                    TextBoxFilterFile.Text = "Invalid filename";
-                }
+            }
+        }
+
+        private void TextBoxSearchFor_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var text = TextBoxSearchFor.Text;
+
+            if (string.IsNullOrEmpty(text) || text.Length < MinSearchTextLength) return;
+
+            var result = searchTree.SearchTree.Retrieve(text).ToArray();
+
+            ListBoxWordsFound.Items.Clear();
+            foreach (var wordPosition in result)
+            {
+                ListBoxWordsFound.Items.Add(wordPosition);
+            }
+
+        }
+
+        private void ListBoxWordsFound_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = ListBoxWordsFound.SelectedItem as WordPosition;
+            if (item == null) return;
+
+            using (var file = File.Open(item.FileName, FileMode.Open))
+            {
+                const int bufferSize = 200;
+                var position = Math.Max(item.CharPosition - bufferSize / 2, 0);
+
+                file.Seek(position, SeekOrigin.Begin);
+                var buffer = new byte[bufferSize];
+                file.Read(buffer, 0, bufferSize);
+
+                var line = Encoding.ASCII.GetString(buffer);
+                TextBlockSelected.Text = line;
+
+                var searchText = TextBlockSelected.Text;
+                var index = TextBlockSelected.Text.IndexOf(searchText, StringComparison.InvariantCultureIgnoreCase);
+                if (index < 0) return;
+
+                //TextBlockSelected.Text = String..Select(index, searchText.Length);
+                //TextBlockSelected.SelectionBackColor = Color.Yellow;
+                //TextBlockSelected.DeselectAll();
             }
         }
     }

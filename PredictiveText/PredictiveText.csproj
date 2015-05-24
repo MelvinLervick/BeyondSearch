@@ -41,9 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm.cs" />
-    <Compile Include="Factory.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="SearchFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Trie.cs" />
+    <Compile Include="FileTrie.cs" />
+    <Compile Include="WordPosition.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WordSearch\WordSearch.csproj">
+      <Project>{17125877-2cf0-42b2-89d3-418e40bde5d0}</Project>
+      <Name>WordSearch</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
