@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PredictiveText
 {
+    [Serializable]
     public abstract class Algorithm
     {
         public abstract string Name { get; }

@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace WordSearch.Trie
 {
+    [Serializable]
     public class Trie<TValue> : TrieNode<TValue>, ITrie<TValue>
     {
         public IEnumerable<TValue> Retrieve(string query)

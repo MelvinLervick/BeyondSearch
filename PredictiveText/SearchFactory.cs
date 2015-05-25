@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace PredictiveText
 {
+    [Serializable]
     public class SearchFactory
     {
         public Algorithm SearchTree;

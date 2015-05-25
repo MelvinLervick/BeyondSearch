@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace PredictiveText
 {
+    [Serializable]
     public class WordPosition
     {
         private readonly long charPosition;

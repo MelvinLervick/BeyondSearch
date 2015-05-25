@@ -8,6 +8,7 @@ using WordSearch.Trie;
 
 namespace PredictiveText
 {
+    [Serializable]
     public class FileTrie : Algorithm
     {
         private readonly ITrie<WordPosition> searchTrie;

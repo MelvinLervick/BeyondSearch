@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -48,6 +49,7 @@ namespace BeyondSearch
 
                 sw.Stop();
                 TextBoxElapsed.Text = string.Format("{0} ms", sw.ElapsedMilliseconds);
+                DisplayObjectSize(searchTree);
             }
         }
 
@@ -142,6 +144,7 @@ namespace BeyondSearch
 
                 sw.Stop();
                 TextBoxElapsed.Text = string.Format("{0} ms", sw.ElapsedMilliseconds);
+                DisplayObjectSize(searchTree);
             }
         }
 
@@ -163,6 +166,24 @@ namespace BeyondSearch
 
                 sw.Stop();
                 TextBoxElapsed.Text = string.Format("{0} ms", sw.ElapsedMilliseconds);
+                DisplayObjectSize(searchTree);
+            }
+        }
+
+        private void DisplayObjectSize(object obj)
+        {
+            try
+            {
+                var stream = new System.IO.MemoryStream();
+                var objFormatter = new BinaryFormatter();
+                objFormatter.Serialize(stream, obj);
+                var lSize = stream.Length;
+
+                TextBoxSize.Text = string.Format("{0} bytes", lSize);
+            }
+            catch (Exception excp)
+            {
+                LabelObjectSizeError.ToolTip = excp.Message;
             }
         }
     }

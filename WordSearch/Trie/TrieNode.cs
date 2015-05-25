@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace WordSearch.Trie
 {
+    [Serializable]
     public class TrieNode<TValue> : TrieNodeBase<TValue>
     {
         private readonly Dictionary<char, TrieNode<TValue>> children;

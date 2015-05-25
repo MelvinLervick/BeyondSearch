@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WordSearch.PatriciaTrie;
 
 namespace WordSearch.Trie
 {
+    [Serializable]
     public class SuffixTrie<T> : ITrie<T>
     {
         private readonly Trie<T> innerTrie;

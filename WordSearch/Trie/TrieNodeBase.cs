@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace WordSearch.Trie
 {
+    [Serializable]
     public abstract class TrieNodeBase<TValue>
     {
         protected abstract int KeyLength { get; }
