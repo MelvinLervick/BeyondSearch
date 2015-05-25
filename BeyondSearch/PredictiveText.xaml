@@ -86,15 +86,16 @@
                 <ColumnDefinition Width="120" />
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="60" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="30" />
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="80" />
                 <ColumnDefinition Width="30" />
             </Grid.ColumnDefinitions>
             <!--<Label Name="LabelSelectedFilter" Grid.Column="0" HorizontalAlignment="Stretch" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" ToolTip="SelectedFilter">Selected Filter</Label>
             <Button Grid.Column="1" Height="30" VerticalAlignment="Center" Margin="10,0,10,0" Click="Filter_Click">Apply Filter</Button>
             <Button Grid.Column="2" Height="30" VerticalAlignment="Center" Margin="10,0,10,0" Click="MoveUnFilteredKeywords_Click" Background="SkyBlue" FontSize="12" ToolTip="Move the filtered Keywords to the Keyword list.">Move Filtered KWs</Button>-->
             <Label Grid.Column="3" Width="90" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">Elapsed</Label>
-            <TextBox Name="TextBoxElapsed" Grid.Column="4" Height="25" AcceptsReturn="True" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+            <TextBox Name="TextBoxElapsed" Grid.Column="4" Height="25" AcceptsReturn="True" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="3,0,3,0"></TextBox>
+            <TextBox Name="TextBoxSearchElapsed" Grid.Column="5" Height="25" AcceptsReturn="True" FontSize="12" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="3,0,3,0"></TextBox>
         </Grid>
     </Grid>
 </Window>

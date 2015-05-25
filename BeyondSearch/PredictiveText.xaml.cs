@@ -47,7 +47,7 @@ namespace BeyondSearch
                 searchTree = new SearchFactory(SearchAlgorythms.FileTrie, TextBoxPTFolder.Text, TextBoxPTFile.Text);
 
                 sw.Stop();
-                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+                TextBoxElapsed.Text = string.Format("{0} ms", sw.ElapsedMilliseconds);
             }
         }
 
@@ -72,6 +72,9 @@ namespace BeyondSearch
 
             if (string.IsNullOrEmpty(text) || text.Length < searchTree.SearchTree.MinSearchTextLength) return;
 
+            var sw = new Stopwatch();
+            sw.Start();
+
             var result = searchTree.SearchTree.Retrieve(text).ToArray();
 
             ListBoxWordsFound.Items.Clear();
@@ -80,6 +83,8 @@ namespace BeyondSearch
                 ListBoxWordsFound.Items.Add(wordPosition);
             }
 
+            sw.Stop();
+            TextBoxSearchElapsed.Text = string.Format("{0} ms", sw.ElapsedMilliseconds);
         }
 
         private void ListBoxWordsFound_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -136,7 +141,7 @@ namespace BeyondSearch
                 searchTree = new SearchFactory(SearchAlgorythms.FileTrie, TextBoxPTFolder.Text);
 
                 sw.Stop();
-                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+                TextBoxElapsed.Text = string.Format("{0} ms", sw.ElapsedMilliseconds);
             }
         }
 
@@ -157,7 +162,7 @@ namespace BeyondSearch
                 searchTree = new SearchFactory(SearchAlgorythms.MemoryTrie, TextBoxPTFolder.Text, TextBoxPTFile.Text);
 
                 sw.Stop();
-                TextBoxElapsed.Text = sw.ElapsedMilliseconds.ToString();
+                TextBoxElapsed.Text = string.Format("{0} ms", sw.ElapsedMilliseconds);
             }
         }
     }
