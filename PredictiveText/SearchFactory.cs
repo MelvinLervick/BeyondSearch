@@ -17,7 +17,7 @@ namespace PredictiveText
             switch (id)
             {
                 case SearchAlgorythms.FileTrie:
-                    SearchTree = new FileTrie(folder, file);
+                    SearchTree = new FileTrie(folder, file, 2);
                     break;
                 case SearchAlgorythms.MemoryTrie:
                     SearchTree = new MemoryTrie(folder, file);

@@ -105,15 +105,12 @@ namespace BeyondSearch
                     file.Read(buffer, 0, bufferSize);
 
                     var line = Encoding.ASCII.GetString(buffer);
-                    TextBlockSelected.Text = line;
 
-                    var searchText = TextBlockSelected.Text;
-                    var index = TextBlockSelected.Text.IndexOf(searchText, StringComparison.InvariantCultureIgnoreCase);
-                    if (index < 0) return;
+                    var x = line.Substring(0, 100).LastIndexOf("\r\n");
+                    var y = line.Substring(x + 2, line.Length - (x + 2) - 1);
+                    var z = y.IndexOf("\r\n");
 
-                    //TextBlockSelected.Text = String..Select(index, searchText.Length);
-                    //TextBlockSelected.SelectionBackColor = Color.Yellow;
-                    //TextBlockSelected.DeselectAll();
+                    TextBlockSelected.Text = y.Substring(0,z);
                 }
 
                 return;
@@ -172,6 +169,7 @@ namespace BeyondSearch
 
         private void DisplayObjectSize(object obj)
         {
+            return;
             try
             {
                 var stream = new System.IO.MemoryStream();
